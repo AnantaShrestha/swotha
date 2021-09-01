@@ -1,0 +1,1453 @@
+@extends('layouts.master')
+@section('title')
+    <title>{{Auth::user()->name}}</title>
+@endsection
+@section('metatags')
+    <link rel="shortcut icon" href="{{{ asset('images/favicon.ico') }}}">
+@endsection
+@section('styles')
+    <link rel="stylesheet" type="text/css" href="{{url('css/frontend/profile.css')}}">
+    <style>
+
+        @media screen and (max-width: 490px){
+            .titleHeadtwo.withsidecard{
+                text-align: left;
+                margin-left:22%;
+            }
+        }
+
+        @media screen and (max-width: 465px){
+            .titleHeadtwo.withsidecard{
+                text-align: left;
+                margin-left:15%;
+            }
+        }
+        @media screen and (max-width: 430px){
+            .titleHeadtwo.withsidecard{
+                text-align: left;
+                margin-left:10%;
+            }
+        }
+
+        @media screen and (max-width: 405px){
+            .titleHeadtwo.withsidecard{
+                text-align: left;
+                margin-left: 0%;
+            }
+        }
+
+        .titleHeadtwo .addnewcard{
+            position: absolute;
+            right: 10px;
+            border:0px;
+        }
+        @media screen and (max-width: 367px){
+            .titleHeadtwo.withsidecard{
+                text-align: center;
+            }
+            .titleHeadtwo .addnewcard{
+                position: relative;
+                top: 5px;
+                right: initial;
+            }
+
+            .titleHeadtwo .addnewcard .btn{
+                padding: 0px 30px !important;
+            }
+        }
+
+        #bucket [type="checkbox"]:not(:checked), #bucket [type="checkbox"]:checked {
+            position: relative;
+            left: 0px;
+            opacity: 1;
+            font-size: 20px;
+            top: 3px;
+            height: 18px;
+        }
+
+        .profileSection .material-icons{
+            color: black;
+        }
+
+        .paymentdetailsList table tr, .paymentdetailsList table td{
+            padding: 8px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .paymentdetailsList{
+            border:1px solid white;
+        }
+
+        .userProfileMenu .table-of-contents a.active,
+        .userProfileMenu .table-of-contents a:hover{
+            background: #00253c;
+        }
+
+        @media screen and (max-width:600px){
+            .logout .material-icons{
+                display: none;
+            }
+
+            .logout{
+                padding: 0px 5px;
+                font-size: 12px;
+            }
+        }
+        
+        .TrekkingpartnerInput{
+            border: 1px solid teal!important;
+            border-radius:  2px!important; 
+            padding:  0px!important;
+            height: 30px!important;
+        }
+        .TrekkingpartnerTextarea{
+            border: 1px solid teal!important;
+            border-radius:  2px!important; 
+            padding:  0px!important;
+        }
+    </style>
+@endsection
+@section('content')
+    <?php
+    $id = Auth::user()->id;
+    ?>
+    @include('layouts.navbar2')
+        <a href="#" data-activates="nav-mobile"
+           class="button-collapse top-nav waves-effect waves-light circle hide-on-large-only respmenu">
+            <i class="material-icons icosmall">menu</i>
+        </a>
+
+        <div id="nav-mobile" class="side-nav fixed">
+            <div class="row center-align profimg col s12 m4 l4">
+                @if(Auth::user()->photo)
+                    <div id="displayPhoto">
+                        <img src="{{url('images/profile/'.Auth::user()->photo)}}" alt="" class="responsive-img"
+                             style="height: 132px; width: 132px;">
+                    </div>
+                    <div class="" style="position: fixed;top: 102px;right: 53px;">
+                        <a class="btn-floating btn-tiny hbb tooltipped hide-on-med-and-down modal-trigger" data-tooltip="Upload New Photo" href="#upload">
+                            <i class="material-icons">file_upload</i><input type="file">
+                        </a>
+                        <a class="btn-floating btn-tiny hbb tooltipped hide-on-large-only modal-trigger" data-tooltip="Upload New Photo" href="#upload">
+                            <i class="material-icons" style="margin-left: -16px;">file_upload</i><input type="file">
+                        </a>
+                    </div>
+                @else
+                    <img src="{{url('images/default.jpg')}}" alt="" class="responsive-img"
+                         style="height: 132px; width: 132px;position:relative">
+                    <div class="" style="position: fixed;top: 102px;right: 53px;">
+                        <a class="btn-floating btn-tiny hbb tooltipped hide-on-med-and-down modal-trigger" data-tooltip="Upload New Photo" href="#upload">
+                            <i class="material-icons">file_upload</i><input type="file">
+                        </a>
+                        <a class="btn-floating btn-tiny hbb tooltipped hide-on-large-only modal-trigger" data-tooltip="Upload New Photo" href="#upload">
+                            <i class="material-icons" style="margin-left: -16px;">file_upload</i><input type="file">
+                        </a>
+                        {{--<ul style="right: 45px;">--}}
+                        {{--<a class="btn-floating btn-tiny teal tooltipped" data-tooltip="Settings"><i class="material-icons">settings</i></a>--}}
+                        {{----}}
+                        {{--</ul>--}}
+
+                    </div>
+
+                @endif
+
+            </div>
+            <div class="row">
+                <div class="tabs-vertical marg userProfileMenu">
+                    <div class="col s12 m12 l12">
+                        <ul class="section table-of-contents">
+                            <li><a href="#details">{{Auth::user()->name}}</a></li>
+                            <li><a href="#booked">Booked Trips</a></li>
+                            <li><a href="#pending">Pending Trips</a></li>
+                            <li><a href="#blog">Blogs</a></li>
+                            <li><a href="#bucket">Bucket List</a></li>
+                            <li><a href="#hold">Trips On Hold</a></li>
+                            <li><a href="#paymentdetails">Payment Details</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    <main style="margin-top: 20px;">
+
+        {{-------------------------------------------------------------}}
+        <div class="col s12 m10 l10 profileSection ">
+
+            @if($errors->has('document'))
+                <div class="card" style="margin-top: 50px;margin-bottom:-30px;padding: 10px;">
+                    <div class="error-text" style="font-size: 18px;text-align: center;">
+                       <span>
+                           <b>  File upload error message: </b>
+                       </span>
+
+                       <span style="color: red;">
+                           <i>  {{$errors->first('document')}} </i>
+                       </span>
+                    </div>
+                </div>
+            @endif
+
+            <div id="details" class="section scrollspy" style="">
+                <div class=" card">
+
+                    <h2  class="titleHeadtwo">
+                        <span class="reviewTitle"> Profile Details </span>
+                       
+
+                        <span class="right-align" style="position: absolute;right: 10px;border:0px;">
+                            <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();" class="waves-effect waves-light btn right logout" style="">
+                                <i class="material-icons left" style="color: white;">power_settings_new</i>Logout
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
+                        </span>
+                    </h2>
+                    <div class="bio" style="">
+                        <h5>Bio</h5>
+                        <div class="row">
+                            <ul class="collapsible" data-collapsible="accordion">
+                                <li class="col l6 m12 s12">
+                                    <div id="nameMessage" class="center-align"></div>
+                                    <div class="collapsible-header"  style="border-right: 2px solid;">
+                                        <i class="material-icons" alt="person" >person</i><b>Name:</b> <span id="displayName">{{ucfirst(Auth::user()->name)}}</span>
+                                        <span><i class="material-icons right" alt="more">more_horiz</i></span>
+                                    </div>
+                                    <div class="collapsible-body center-align">
+                                        <input type="hidden" name="table" value="user" id="table">
+                                        <input placeholder="EDIT" id="name" type="text" class="validate" name="name">
+                                        <button class="btn" id="nameSubmit">Save Changes</button>
+                                    </div>
+                                </li>
+                                <li class="col l6 m12 s12">
+                                    <div id="dateMessage" class="center-align"></div>
+                                    <div class="collapsible-header">
+                                        <?php
+                                        $dob = isset(Auth::user()->details->birthday)?(Auth::user()->details->birthday):null;
+                                        $dob = ($dob == null)?'Enter your Date of Birth':Auth::user()->details->birthday;
+                                        ?>
+                                        <i class="material-icons"  style="color:white;">date_range</i> <b> Date Of Birth: </b> <span id="displayDate"> {{$dob}}</span>
+                                        &nbsp;
+                                        <span><i class="material-icons right" alt="more">more_horiz</i></span>
+                                    </div>
+                                    <div class="collapsible-body center-align">
+                                        <input type="hidden" name="table" value="details" id="dobtable">
+                                        <div class="input-field col l4 m4 s12">
+                                            <select class="validate" name = "day" required id="day">
+                                                <option value="" disabled selected><b>Date</b></option>
+                                                @for($d = 1; $d <= 31; $d++)
+                                                    <option value="{{$d}}">{{$d}}</option>
+                                                @endfor
+                                            </select>
+                                        </div>
+                                        <div class="input-field col l4 m4 s12">
+                                            <select class="validate" name = "month" required id="month">
+                                                <option value="" disabled selected><b>Month</b></option>
+                                                <option value="1">Jan</option>
+                                                <option value="2">Feb</option>
+                                                <option value="3">Mar</option>
+                                                <option value="4">Apr</option>
+                                                <option value="5">May</option>
+                                                <option value="6">Jun</option>
+                                                <option value="7">Jul</option>
+                                                <option value="8">Aug</option>
+                                                <option value="9">Sep</option>
+                                                <option value="10">Oct</option>
+                                                <option value="11">Nov</option>
+                                                <option value="12">Dec</option>
+                                            </select>
+                                        </div>
+                                        <div class="input-field col l4 m4 s12">
+                                            <select class="validate" name = "year" required id="year">
+                                                <option value="" disabled selected><b>Year</b></option>
+                                                @for($d = date('Y'); $d >= 1930; $d--)
+                                                    <option value="{{$d}}">{{$d}}</option>
+                                                @endfor
+                                            </select>
+                                        </div>
+                                        <button class="btn" id="dateSubmit">Save Changes</button>
+                                    </div>
+                                </li>
+
+                                <li class="col l6 m12 s12">
+                                    <div id="countryMessage" class="center-align"></div>
+                                    <?php
+                                    $nationality = isset(Auth::user()->details->nationality)?(Auth::user()->details->nationality):null;
+                                    $nationality = ($nationality == null)?'Add Your Nationality':$nationality;
+                                    ?>
+                                    <div class="collapsible-header" style="border-right: 2px solid">
+                                        <i class="material-icons" alt="flag">flag</i> <b> Nationality: </b> <span id="displayCountry"> {{$nationality}}</span>
+                                        &nbsp;
+                                        <span><i class="material-icons right" alt="more">more_horiz</i></span>
+                                    </div>
+                                    <div class="collapsible-body center-align">
+                                        <input type="hidden" id="countryTable" value="details">
+                                        <select class="validate" name="country" id="country" required>
+                                            <option value="" disabled selected>Spelect your nationality</option>
+                                            @foreach($countries as $country)
+                                                <option value="{{$country['name']}}">{{$country['name']}}</option>
+                                            @endforeach
+                                        </select>
+                                        <button class="btn" id="countrySubmit">Save Changes</button>
+                                    </div>
+                                </li>
+                                <li class="col l6 m12 s12">
+                                    <div id="addressMessage" class="center-align"></div>
+                                    <?php
+                                    $address = isset(Auth::user()->details->address)?(Auth::user()->details->address):null;
+                                    $address = ($address == null)?'Add Your Address':$address;
+                                    ?>
+                                    <div class="collapsible-header">
+                                        <i class="material-icons">location_on</i> <b> Address: </b> <span id="displayAddress">{{$address}}</span>
+                                        <span><i class="material-icons right">more_horiz</i></span>
+                                    </div>
+                                    <div class="collapsible-body center-align">
+                                        <input type="hidden" id="addressTable" value="details">
+                                        <input placeholder="Address" name="address" id="address" type="text" class="validate" value="@if($address != null)
+                                        {{$address}} @else Enter your address @endif" required>
+                                        <button class="btn" id="addressSubmit">Save Changes</button>
+                                    </div>
+                                </li>
+
+                                <li class="col l6 m12 s12">
+                                    <div id="languageMessage" class="center-align"></div>
+
+                                    <div class="collapsible-header" style="border-right: 2px solid">
+                                        <?php
+                                        $languages = null;
+
+                                        if(isset($user->details) && ($user->details->languages != null)){
+                                            $languages = $user->details->languages;
+                                        }
+                                        ?>
+                                        <i class="material-icons"> language</i> <b>Languages Known: </b> <span id="displayLanguage"> <?php echo ($languages == null)?'Add languages you can speak.':$languages ?></span>
+                                        <span><i class="material-icons right">more_horiz</i></span>
+                                    </div>
+                                    <div class="collapsible-body center-align">
+                                        <input type="hidden" id="languageTable" value="details">
+                                        <input placeholder="Language" name="language" id="language" type="text" class="validate" value="@if($languages != null)
+                                        {{$languages}}@endif">
+                                        <button class="btn" id="languageSubmit">Save Changes</button>
+                                    </div>
+                                </li>
+
+                                <li class="col l6 m12 s12">
+                                    <div id="interestMessage" class="center-align"></div>
+
+                                    <div class="collapsible-header">
+                                        <?php
+                                        $interests = null;
+
+                                        if(isset($user->details) && ($user->details->interests != null)){
+                                            $interests = $user->details->$interests;
+                                        }
+                                        ?>
+                                        <i class="material-icons">insert_emoticon</i> <b> Interests: </b> <span id="displayInterest"></span>
+                                        <span><i class="material-icons right">more_horiz</i></span>
+                                    </div>
+                                    <div class="collapsible-body center-align">
+                                        <input type="hidden" id="interestTable" value="details">
+                                        <input placeholder="Interest" name="interest" id="interest" type="text" class="validate"
+                                               value="@if($languages != null){{$languages}}@endif" required>
+                                        <button class="btn" id="interestSubmit">Save Changes</button>
+                                    </div>
+                                </li>
+
+                                <li class="col l12 m12 s12">
+                                    <div id="bioMessage" class="center-align"></div>
+
+                                    <div class="collapsible-header">
+                                        <i class="material-icons">import_contacts</i> <b> Bio: </b> <span id="displayBio"></span>
+                                        <span><i class="material-icons right">more_horiz</i></span>
+                                    </div>
+                                    <div class="collapsible-body center-align">
+                                        <input type="hidden" id="bioTable" value="details">
+                                        <input placeholder="Bio" name="bio" id="bio" type="text" class="validate" value="">
+                                        <button class="btn" id="bioSubmit">Save Changes</button>
+                                    </div>
+                                </li>
+
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="bio s-heig" style="">
+                        <h5>Contact</h5>
+                        <div class="row">
+                            <ul class="collapsible" data-collapsible="accordion">
+                                <li class="col l6 m6 s12">
+                                    <div class="collapsible-header" style="border-right: 2px solid">
+                                        <i class="material-icons" alt="mail">mail</i> <b> Mail:  </b> <span id="topPrimary">{{Auth::user()->email}}</span>
+                                            @if(Auth::user()->is_active == 0)
+                                                <a href="/profile/edit/resendprimary/{{$id}}">
+                                                    <button class="btn waves-effect waves-light btn">Resend Verification Link</button>
+                                                </a>
+                                            @endif
+                                        </b>
+                                        <span><i class="material-icons right" alt="more">more_horiz</i></span>
+                                    </div>
+                                    <div class="collapsible-body center-align">
+                                        <div class="row">
+                                            @if(Auth::user()->email != null && Auth::user()->secondary_email != null && Auth::user()->secondary_token == null)
+                                                <div class="col s12">
+                                                    <p id="ajaxMessage" style="color:darkslategray; box-shadow: -1px 1px 5px 0px;"></p>
+                                                    Change Primary Email. Your primary email will be used to log in.
+                                                    <select name="primary" id="primary">
+                                                        <option value="{{Auth::user()->email}}" selected id="first">{{Auth::user()->email}}</option>
+                                                        <option value="{{Auth::user()->secondary_email}}" id="second">{{Auth::user()->secondary_email}}</option>
+                                                    </select>
+                                                </div>
+                                            @endif
+                                            <?php
+                                            //$emailAct = (Auth::user()->email != null)?'Change':'Add';
+                                            $secondaryAct = (Auth::user()->secondary_email != null)?'Change':'Add';
+
+                                            $email = ((Auth::user()->email) == null)?'No Primary Email':(Auth::user()->email);
+
+                                            if(Auth::user()->secondary_email == null){
+                                                $secondary = 'No secondary email';
+                                            } elseif(Auth::user()->secondary_email != null && Auth::user()->secondary_token == null){
+                                                $secondary = Auth::user()->secondary_email." (secondary)";
+                                            } elseif(Auth::user()->secondary_email != null && Auth::user()->secondary_token != ''){
+                                                $secondary = 'Please verify your secondary email. '.Auth::user()->secondary_email;
+                                            }
+                                            ?>
+                                            <div id="tab1" class="col s12">
+                                                <span id="topSecondary"><b>{{$secondary}}</b></span>
+                                                @if(preg_match('/verify/', $secondary))
+                                                    <a href="/profile/edit/resend/{{$id}}">
+                                                        <button class="btn waves-effect waves-light btn">Resend Verification Link</button>
+                                                    </a>
+                                                @endif
+                                                {{--@if($errors->has('secondary'))--}}
+                                                {{--<p style="color: darkslategrey; box-shadow: -1px 1px 5px 0px;"><strong>The secondary email has already been taken.</strong></p>--}}
+                                                {{--@endif--}}
+                                            </div>
+                                            <div class="row">
+                                                <form action="/profile/edit/{{$id}}" method="post">
+                                                    {{csrf_field()}}
+                                                    <input type="hidden" name="table" value="user">
+                                                    <div id="tab2" class="col s12">
+                                                        <div class=" col s12">
+                                                            <input name="secondary" id="email" type="text" class="validate" placeholder="Change Secondary Mail" required>
+                                                            <label for="secondary"></label><br>
+                                                        </div>
+                                                        <div class="col s12">
+                                                            <button class="btn waves-effect waves-light btn">{{$secondaryAct}}</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="col l6 m6 s12">
+                                    <div id="contactMessage" class="center-align"></div>
+                                    <div class="collapsible-header">
+                                        <?php
+                                        if(Auth::user()->details != null){
+                                            $phone = ((Auth::user()->details->phone != null)?Auth::user()->details->phone:'Add Phone Number');
+                                            $phoneAct = ((Auth::user()->details->phone != null)?'Change':'Add');
+                                        } else {
+                                            $phone = 'Add Phone Number';
+                                            $phoneAct = 'Add';
+                                        }
+                                        ?>
+                                        <i class="material-icons" alt="contact">contact_phone</i><b>Contact Number:</b> <span id="displayContact">{{$phone}}</span>
+                                        &nbsp;
+                                        <span><i class="material-icons right" alt="more">more_horiz</i></span>
+                                    </div>
+                                    <div class="collapsible-body center-align">
+                                        <input type="hidden" id="contactTable" value="details">
+                                        <input name="phone" id="contact" type="number" class="validate" required>
+                                        <button class="btn" id="contactSubmit">{{$phoneAct}}</button>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="booked" class="section scrollspy">
+                <div class="card content">
+                    <h2  class="titleHeadtwo">
+                        <span class="reviewTitle"> Booked Trips </span>
+                    </h2>
+
+                    @if($fullPaymentTrips != null || $fullPaymentFixed != null)
+
+                        <div  class="row" >
+                            @if($fullPaymentTrips != null )
+                                <div  class="col l12 m12 s12"  style="padding: 10px;" >
+                                    <div class="center-align"><h5 style="border-bottom: 1px solid teal;font-weight: 600;color: darkslategrey;">Normal Trips</h5></div>
+                                    @foreach($fullPaymentTrips as $book)
+                                        <div style="padding:0px 20px;">
+                                            <div  class=" col l6 m6 s12">
+                                                <a>
+                                                    <div class="grey lighten-5 z-depth-1" style="padding: 5px;">
+                                                        <div class="row valign-wrapper">
+                                                            <div class="col s2" style="padding: 0px;">
+                                                                <img class="circle" src="{{url('images/trips/thumbnail/'.$book->trips->cover_image)}}" style="width: 120px;height: 120px;padding: 10px;">
+                                                            </div>
+
+                                                            <div class="col s10">
+                                                                  <span class="black-text">
+                                                                        {{$book->trips->name}}
+                                                                      <p><a href="#" style="color: teal">Booked On: {{$book->created_at}}</a></p>
+                                                                        <p><a href="#" style="color: teal">Book Id: {{$book->bookid}}</a></p>
+                                                                  </span>
+                                                            </div>
+                                                        </div>
+                                                        @if($book->is_posted($book->bookid) == false)
+                                                            <div style="text-align: center">
+                                                                <a class="waves-effect waves-light btn modal-trigger"
+                                                                   href="#modal5" style="text-align: center">Post to TrekkingPartner</a>
+                                                            </div>
+
+                                                        @endif
+                                                        <div id="modal5" class="modal">
+                                                            <div class="modal-title" >
+                                                                <h2 style="padding:10px;text-align: center;background: #008EB0;color: white;font-size: 22px;">Post to Trekking partner</h2>
+                                                            </div>
+                                                            <form action="/partner/post/{{$book->trip_id}}" method="post" style="margin-top: -20px;">
+                                                                {{csrf_field()}}
+                                                                <input type="hidden" name="is_custom" value="1">
+                                                                <input type="hidden" name="book_id" value="{{$book->bookid}}">
+                                                        <div class="modal-content" style="padding: 0px;">
+                                                            <div class="row" style="padding: 5px 20px;">
+
+                                                                <div >
+                                                                    <label for="textarea1">Description<span style="color:red;">*</span></label>
+                                                                    
+                                                                    <textarea name="description" id="textarea1" class="materialize-textarea TrekkingpartnerTextarea" style="color:black"></textarea>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col lg4 m4 s12">
+                                                                        <div>
+                                                                            <label for="textarea1">Preferred Nationalities<span style="color:red;">*</span></label>
+                                                                            
+                                                                            <input type="text" name="nationalities" id="textarea1" class="materialize-textarea TrekkingpartnerInput" style="color:black">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col lg4 m4 s12">
+                                                                        <div>
+                                                                            <label for="textarea1">Preferred Age<span style="color:red;">*</span></label>
+                                                                            
+                                                                            <input type="text" name="age" id="textarea1" class="materialize-textarea TrekkingpartnerInput" style="color:black">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col lg4 m4 s12">
+                                                                        <div >
+                                                                            <label for="textarea1">Preferred Gender<span style="color:red;">*</span></label>
+                                                                            <input type="text" name="gender" id="textarea1" class="materialize-textarea TrekkingpartnerInput" style="color:black;border:1px solid gray;">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="modal-footer" style="margin-top: -20px;">
+                                                                    <button class="modal-close waves-effect waves-green btn-flat" style="background: tomato;color: white;">Post</button>
+                                                                </div>
+
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    @endforeach
+
+                                </div><br> <br>
+                            @endif
+
+                            @if($fullPaymentFixed != null )
+                            <div  class="col l12 m12 s12"  style="padding: 10px;" >
+                                <div class="center-align"><h5 style="border-bottom: 1px solid teal;font-weight: 600;color: darkslategrey;">Fixed Departure Trips</h5></div>
+                                @foreach($fullPaymentFixed as $book)
+                                    <div style="padding:0px 20px;">
+
+                                        <div  class=" col l6 m6 s12">
+                                            <a>
+                                                <div class="grey lighten-5 z-depth-1" style="padding: 5px;">
+                                                    <div class="row valign-wrapper">
+                                                        <div class="col s2" style="padding: 0px;">
+                                                            <img class="circle" src="{{url('images/trips/thumbnail/'.$book->trips->trips->cover_image)}}" style="width: 120px;height: 120px;padding: 10px;">
+                                                        </div>
+                                                        <div class="col s10">
+                                                                  <span class="black-text">
+                                                                      {{$book->trips->trips->name}}
+                                                                      <p><a href="#" style="color: teal">Booked On: {{$book->created_at}}</a></p>
+                                                                       <p><a href="#" style="color: teal">Book Id: {{$book->bookid}}</a></p>
+                                                                  </span>
+                                                        </div>
+                                                    </div>
+                                                    @if($book->is_posted($book->trip_id) == false)
+                                                        <div style="text-align: center">
+                                                            <a class="waves-effect waves-light btn modal-trigger"
+                                                               href="#modal4" style="text-align: center">Post to TrekkingPartner</a>
+                                                        </div>
+                                                    @endif
+                                                    <div id="modal4" class="modal">
+                                                        <div class="modal-title" >
+                                                            <h2 style="padding:10px;text-align: center;background: #008EB0;color: white;font-size: 22px;">Post to Trekking partner</h2>
+                                                        </div>
+                                                        <form action="/partner/post/{{$book->trips->id}}" method="post">
+                                                            {{csrf_field()}}
+                                                            <input type="hidden" name="is_custom" value="0">
+                                                            
+                                                            <div class="modal-content" style="padding: 0px;">
+                                                                <div class="row" style="padding: 5px 20px;">
+
+                                                                    <div >
+                                                                        <label for="textarea1">Description<span style="color:red;">*</span></label>
+                                                                        
+                                                                        <textarea name="description" id="textarea1" class="materialize-textarea TrekkingpartnerTextarea" style="color:black"></textarea>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col lg4 m4 s12">
+                                                                            <div>
+                                                                                <label for="textarea1">Preferred Nationalities<span style="color:red;">*</span></label>
+                                                                                
+                                                                                <input type="text" name="nationalities" id="textarea1" class="materialize-textarea TrekkingpartnerInput" style="color:black">
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="col lg4 m4 s12">
+                                                                            <div>
+                                                                                <label for="textarea1">Preferred Age<span style="color:red;">*</span></label>
+                                                                                
+                                                                                <input type="text" name="age" id="textarea1" class="materialize-textarea TrekkingpartnerInput" style="color:black">
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="col lg4 m4 s12">
+                                                                            <div >
+                                                                                <label for="textarea1">Preferred Gender<span style="color:red;">*</span></label>
+                                                                                <input type="text" name="gender" id="textarea1" class="materialize-textarea TrekkingpartnerInput" style="color:black;border:1px solid gray;">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="modal-footer" style="margin-top: -20px;">
+                                                                        <button class="modal-close waves-effect waves-green btn-flat" style="background: tomato;color: white;">Post</button>
+                                                                    </div>
+
+                                                                </form>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                @endforeach
+
+                            </div>
+                            @endif
+
+                        </div>
+                    @else
+                        <p style="text-align: center;font-size: 20px;"> No any booked trips found. </p>
+                    @endif
+
+                </div>
+            </div>
+
+            <div id="pending" class="section scrollspy">
+                <div class="card content">
+                    <h2  class="titleHeadtwo">
+                        <span class="reviewTitle"> Pending Trips </span>
+                    </h2>
+
+                @if($datebooks != null || $fixedbooks != null)
+
+                    <div  class="row" >
+                        @if($datebooks != null )
+                        <div  class="col l12 m12 s12"  style="padding: 10px;" >
+                            <div class="center-align"><h5 style="border-bottom: 1px solid teal;font-weight: 600;color: darkslategrey;">Normal Trips</h5></div>
+                            @foreach($datebooks as $book)
+                                <div style="padding:0px 20px;">
+                                    <div  class=" col l6 m6 s12">
+                                        <a>
+                                            <div class="grey lighten-5 z-depth-1" style="padding: 5px;">
+                                                <div class="row valign-wrapper">
+                                                    <div class="col s2" style="padding: 0px;">
+                                                        <img class="circle" src="{{url('images/trips/thumbnail/'.$book->trips->cover_image)}}" style="width: 120px;height: 120px;padding: 10px;">
+                                                    </div>
+                                                    <div class="col s10">
+                                                  <span class="black-text">
+                                                        {{$book->trips->name}}
+                                                      <p><a href="#" style="color: teal">Booked On: {{$book->created_at}}</a></p>
+                                                        <p><a href="#" style="color: teal">Book Id: {{$book->bookid}}</a></p>
+                                                  </span>
+                                                    </div>
+                                                </div>
+                                                @if($book->document == '')
+                                                    <div class="center-align">
+                                                        <a class="waves-effect waves-light btn modal-trigger"
+                                                           href="#pend{{$book->id}}" ><i class="material-icons left" style="color:white;">
+                                                                attach_file</i>Upload Document</a>
+                                                    </div>
+                                                @else
+                                                    <div style="text-align: center">
+                                                        <button class="btn center-aligned docs">Documents are being reviewed!</button>
+                                                    </div>
+                                                @endif
+                                                <div id="pend{{$book->id}}" class="modal" style="width: 35%;" >
+                                                    <div class="modal-content center-align">
+                                                        <h4 style="color: teal">Please choose a file:</h4>
+                                                        <form action="/submit/document" enctype="multipart/form-data" method="post">
+                                                            {{csrf_field()}}
+                                                            <input type="hidden" name="bookid" value="{{$book->bookid}}">
+                                                            <div class="input-field">
+                                                                <input type="file" id="document" name="document">
+                                                            </div>
+                                                            BOOKED TRIPS          <div class="modal-footer center-align">
+                                                                <button type="submit" class="btn">Upload</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            @endforeach
+
+                        </div>
+                            <br> <br>
+                        @endif
+
+                            @if($fixedbooks != null )
+                        <div  class="col l12 m12 s12"  style="padding: 10px;" >
+                            <div class="center-align"><h5 style="border-bottom: 1px solid teal;font-weight: 600;color: darkslategrey;">Fixed Departure Trips</h5></div>
+                            @foreach($fixedbooks as $book)
+                                <div style="padding:0px 20px;">
+
+                                    <div  class=" col l6 m6 s12">
+                                        <a>
+                                            <div class="grey lighten-5 z-depth-1" style="padding: 5px;">
+                                                <div class="row valign-wrapper">
+                                                    <div class="col s2" style="padding: 0px;">
+                                                        <img class="circle" src="{{url('images/trips/thumbnail/'.$book->trips->trips->cover_image)}}" style="width: 120px;height: 120px;padding: 10px;">
+                                                    </div>
+                                                    <div class="col s10">
+                                                      <span class="black-text">
+                                                          {{$book->trips->trips->name}}
+                                                          <p><a href="#" style="color: teal">Booked On: {{$book->created_at}}</a></p>
+                                                           <p><a href="#" style="color: teal">Book Id: {{$book->bookid}}</a></p>
+                                                      </span>
+                                                    </div>
+                                                </div>
+                                                @if($book->document == '')
+                                                    <div class="center-align">
+                                                        <a class="waves-effect waves-light btn modal-trigger"
+                                                           href="#pend{{$book->id}}" ><i class="material-icons left" style="color:white;">
+                                                                attach_file</i>Upload Document</a>
+                                                               
+                                                    </div>
+                                                @else
+                                                    <div style="text-align: center">
+                                                        <button class="btn center-aligned docs">Documents are being reviewed!</button>
+                                                    </div>
+                                                @endif
+                                                <div id="pend{{$book->id}}" class="modal" style="width: 35%;" >
+                                                    <div class="modal-content center-align">
+                                                        <h4 style="color: teal">Please choose a file:</h4>
+                                                        <form action="/submit/documents" enctype="multipart/form-data" method="post">
+                                                            {{csrf_field()}}
+                                                            <input type="hidden" name="bookid" value="{{$book->bookid}}">
+                                                            <div class="input-field">
+                                                                <input type="file" id="document" name="document">
+                                                            </div>
+                                                            <div class="modal-footer center-align">
+                                                                <button type="submit" class="btn">Upload</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            @endforeach
+
+
+                        </div>
+                            @endif
+
+                    </div>
+                @else
+                    <p style="text-align: center;font-size: 20px;"> No any pending trips found. </p>
+                @endif
+                </div>
+            </div>
+
+            <div id="blog" class="section scrollspy">
+                <div class="card content">
+
+                    <h2  class="titleHeadtwo ">
+                        <span class="reviewTitle"> Blogs </span>
+
+                        <span class="right-align" style="position: absolute;right: 10px;border:0px;">
+                            <a href="/blog/create" class="waves-effect waves-light btn red" style="font-size:15px;padding: 0px 8px;">Add a blog</a>
+                        </span>
+                    </h2>
+                    <div class="row">
+                        @foreach($blogs as $blog)
+                            <div class="col s12 m4">
+                                <a href="/blogs/show/{{$blog->slug}}" target="_blank">
+                                    <div class="card ">
+                                        <div class="card-image">
+                                            <img src="{{url('images/blogs/thumbnail/'.$blog->cover_image)}}">
+                                            <a style="position: absolute;top:5px;right:5px" href="/blog/edit/{{$blog->id}}" class="btn-floating halfway-fab waves-effect waves-light blue"><i class="material-icons">edit</i></a>
+                                        </div>
+                                        <a href="/blogs/show/{{$blog->slug}}" target="_blank">
+                                            <div class="card-title">
+                                                <p style="text-transform: uppercase; color:teal;text-align: center;padding: 5px 10px;font-size: 15px;">{{$blog->title}}</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </a>
+                            </div>
+
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+               
+
+            <div id="bucket" class="section scrollspy">
+                <div class="card content">
+
+                    <h2  class="titleHeadtwo">
+                        <span class="reviewTitle"> Your Bucket list </span>
+                    </h2>
+
+                    @if(count($wishes))
+                        <div class="row" id="items">
+                            @foreach($wishes as $wish)
+                                <div class="col l4 m6 s12" style="position: relative">
+                                    <a href="/trip/{{$wish->trips->slug}}">
+                                        <div class="card indexproducts z-depth-5 waves-effect waves-block waves-light" style="border:0px;padding:0px;">
+                                            <div class="card-image indexprodimage">
+                                                <img src="{{url('images/trips/thumbnail/'.$wish->trips->cover_image)}}">
+                                                <span class="card-title" style="padding:10px 0px 0px 0px;top:0px;"> <span style="padding:2px 10px;background: #454545;"> {{$wish->trips->name}} </span></span>
+
+                                                <a href="/removewish/{{$wish->id}}"
+                                                   class="btn-small red btn-floating halfway-fab waves-effect waves-light tooltipped"
+                                                   data-position="bottom" data-delay="10"
+                                                   data-tooltip="Remove from Bucket list" style="right:60px;bottom:10px;">
+                                                    <i class="material-icons" style="color:white;">favorite</i>
+                                                </a>
+                                                <a href="/trip/{{$wish->trips->slug}}#departures"
+                                                   class="btn-small green btn-floating  halfway-fab waves-effect waves-light tooltipped"
+                                                   data-position="bottom" data-delay="10"
+                                                   data-tooltip="View Departure Dates" style="right:10px;bottom:10px;"><i class="material-icons" style="color: white;">date_range</i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <div style="position: absolute;bottom:25px;z-index:200;left:25px;">
+                                        <span title="Compare" style="background: #008eb0;font-size: 16px;padding: 9px 8px 9px 8px;border-radius:2px;">
+                                                        <label for="{{$wish->id}}">
+                                                            <input type="checkbox" class="compareCheckbox" id="{{$wish->id}}" onchange="compareTo({{$wish->id}},this)"/>
+                                                            <span style="font-size: 12px;color:white;">Compare</span>
+                                                        </label>
+                                                </span>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    
+                    @else
+                        <p style="text-align: center;font-size: 20px;"> No any bucket list found. </p>
+                    @endif
+
+                </div>
+            </div>                    
+
+            <div id="hold" class="section scrollspy">
+                <div class="card content">
+                    <h2  class="titleHeadtwo">
+                        <span class="reviewTitle"> Trips on Hold </span>
+                    </h2>
+                    @if(count($holds))
+                    <div class="row">
+                        @foreach($holds as $hold)
+                            <div class="col l4 m6 s12 " >
+                                <a  class="modal-trigger" href="#holdmodal">
+                                    <div class="card " style="border:1px solid gray;padding:0px;">
+                                        <div class="card-image z-depth-5 waves-effect waves-block waves-light">
+                                            <img class="responsive-img"
+                                                 src="{{url('images/trips/thumbnail/'.$hold->trips->trips->cover_image)}}" id="profilePicture">
+                                        </div>
+                                        <div class="card-content">
+                                        <span class="card-title activator" style="background-color: white;">
+                                            <p> {{$hold->trips->trips->name}} </p>
+                                            <p><a href="#" class="">Hold on: {{$hold->date}}</a></p>
+                                            <p><a href="#" class="">Seats: {{$hold->seats}}</a></p>
+                                            <p><a href="#" class="">Departure: {{date('Y-m-d', strtotime($hold->trips->start_date))}}</a></p>
+                                        </span>
+                                        </div>
+                                        <div class="collapsible-header">
+                                            The hold expires within <span id="demo{{$hold->id}}"></span>
+                                        </div>
+                                        <div class="card-action">
+                                            <form action = "/booking/step2" method = "post" id="form">
+                                                {{csrf_field()}}
+                                                <input type="hidden" name = 'trip_id' value="{{$hold->trip_id}}">
+                                                <input type="hidden" name="no_of_travellers" value="{{$hold->seats}}">
+                                                <input type="hidden" name="is_hold" value="1">
+                                                <input type="hidden" name="hold_id" value="{{$hold->id}}">
+                                                <div class="center-align">
+                                                    <button class="btn" type="submit">
+                                                        <i class="material-icons left" style="color:white;">attach_money</i>Book Now</button>
+                                                </div>
+                                            </form>
+                                            <div class="center-align" style="margin-top: 2px">
+                                                <a class="btn" type="submit" style="background-color: red" href="/hold/destroy/{{$hold->id}}">
+                                                    <i class="material-icons left" style="color:white;">content_cut</i>Cancel Hold
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <script>
+                                    // Set the date we're counting down to
+                                    // var countDownDate = new Date("Sep 5, 2018 15:37:25").getTime();
+                                    var countDownDate{{$hold->id}} = new Date("{{date('M d, Y H:i:s',strtotime($hold->date.'+77 hours 40 minutes'))}}").getTime();
+                                    {{--var countDownDate = new Date("{{date("m/d/Y h:i:s a", time() + 30)}}").getTime();--}}
+
+                                    // Update the count down every 1 second
+                                    var x = setInterval(function() {
+
+                                        // Get todays date and time
+                                        var now = new Date().getTime();
+
+                                        // Find the distance between now an the count down date
+                                        var distance = countDownDate{{$hold->id}} - now;
+
+                                        // Time calculations for days, hours, minutes and seconds
+                                        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                                        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                                        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                                        // Output the result in an element with id="demo"
+                                        document.getElementById("demo{{$hold->id}}").innerHTML = days + "d " + hours + "h "
+                                            + minutes + "m " + seconds + "s ";
+
+                                        // If the count down is over, write some text
+                                        if (distance < 0) {
+                                            clearInterval(x);
+                                            document.getElementById("demo{{$hold->id}}").innerHTML = "0";
+                                        }
+                                    }, 1000);
+
+                                </script>
+                            </div>
+                        @endforeach
+                    </div>
+                    @else
+                        <p style="text-align: center;font-size: 20px;"> No any hold trips found. </p>
+                    @endif
+                </div>
+            </div>                
+
+            <div id="paymentdetails" class="section scrollspy">
+                <div class="card content">
+                    <h2  class="titleHeadtwo withsidecard">
+                        <span class="reviewTitle"> Payment Details </span>
+
+                        <span class="right-align addnewcard" style="">
+                            <a href="#newcardModal" class="waves-effect waves-light btn red  modal-trigger" style="font-size:15px;padding: 0px 8px;">
+                                Add a new Card
+                            </a>
+                        </span>
+                    </h2>
+
+                    @if(count($paymentDetails)>0)
+                    <p style="text-align: center;font-size: 15px;margin-top: -20px;">  The following payment methods are associated with your account.</p>
+                    <div class="row" style="padding: 30px 20px 20px;">
+                        <ul class="collapsible " style="border: 0px;">
+                            
+                            @foreach ($paymentDetails as $payDetails)
+                                <li class="paymentdetailsList active">
+                                  <div class="collapsible-header active" style="background: #f0f0f0;padding: 5px;"><i class="material-icons">payment</i>{{$payDetails->card_type}} {{$payDetails->card_number}} </div>
+                                  <div class="collapsible-body">
+                                      
+                                      <div class="paymentdetailsTable">
+                                          <table 
+                                              <tr>
+                                                  <td>Card type: </td>
+                                                  <td style="text-align: right"> {{$payDetails->card_type}} </td>
+                                              </tr>
+                                              <tr>
+                                                  <td>Card number: </td>
+                                                  <td style="text-align: right">  {{$payDetails->card_number}} </td>
+                                              </tr>
+
+                                              <tr>
+                                                  <td>Card holder name: </td>
+                                                  <td style="text-align: right"> {{$payDetails->card_holder_name}}  </td>
+                                              </tr>
+
+                                              <tr>
+                                                  <td>Expiry date: </td>
+                                                  <td style="text-align: right">{{$payDetails->card_expiry_date}}  </td>
+                                              </tr>
+                                          </table>
+
+                                          <div style="clear: both;"></div>
+                                          <div class="paymentdetailsBtns right-align"> <br>
+                                              <a href="#editcardModal{{$payDetails->id}}" class=" modal-trigger waves-effect waves-light btn" style="background: #008080;">Update</a>
+                                              <a href="/profile/payment/delete/{{$payDetails->id}}" class="waves-effect waves-light btn" style="background: tomato;">Delete</a> 
+                                          </div>
+                                      </div>
+                                     </div>
+
+                                     <!-- Modal Structure -->
+                                       <div id="editcardModal{{$payDetails->id}}" class="modal" style="">
+                                           <div class="modal-title" style="background: #4C4C4C;color: white;">
+                                             <h4 style="font-size: 18px;font-weight: bolder;padding: 10px;text-align: center;">Edit a new card</h4>
+                                           </div>
+
+                                             <div class="modal-content">
+                                               
+                                               <div class="row">
+                                                 <form class="col s12" action="/profile/payment/update/{{$payDetails->id}}">
+                                                   <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                                  
+                                                    <div class="row">
+                                                     <div class="input-field col s6">
+                                                       <input id="" type="text" class="" name="card_type" value="{{$payDetails->card_type}}" required="">
+                                                       <label for="">Card type</label> 
+                                                     </div>
+
+                                                      <div class="input-field col s6">
+                                                        <input id="" type="number" class="" name="card_number" value="{{$payDetails->card_number}}" required="">
+                                                        <label for="">Card number</label>
+                                                      </div>
+                                                     </div>
+
+                                                     <div class="row">
+                                                     <div class="input-field col s6"> <br>
+                                                       <input id="" type="text" class="" name="card_holder_name" value="{{$payDetails->card_holder_name}}">
+                                                       <label for="">Card holder name</label>
+                                                     </div>
+
+                                                      <div class="input-field col s6">
+                                                        <label for="">Card expiry date</label><br>
+                                                        <input id="" type="date" class="" name="card_expiry_date" value="{{$payDetails->card_expiry_date}}"> 
+                                                      </div>
+                                                     </div>
+
+                                                     <div class=" right-align">
+                                                         <button type="submit" class="waves-effect waves-light btn" style="background: teal;" style="width: 100%;">Update details</button>
+                                                         <button  class="modal-close waves-effect waves-light btn" style="background: tomato;">Cancel</button> 
+                                                     </div>
+                                                 </form>
+
+                                               </div>
+                                             </div>
+                                       </div>
+                                </li>
+                                
+                            @endforeach
+                    </div>
+                    @else 
+                    <p style="text-align: center;font-size: 15px;margin-top: -20px;">  No any  payment methods are associated with your account yet.</p>
+                    @endif
+                </div>
+            </div>
+
+            
+                
+
+                <!-- Modal Structure -->
+                  <div id="newcardModal" class="modal" style="">
+                      <div class="modal-title" style="background: #4C4C4C;color: white;">
+                        <h4 style="font-size: 18px;font-weight: bolder;padding: 10px;text-align: center;">Add a new card</h4>
+                      </div>
+
+                    <div class="modal-content">
+                      
+                      <div class="row">
+                          <form class="col s12" action="/profile/payment/store">
+                            <input type="hidden" name="_token" value="{{csrf_token()}}">
+                           
+                             <div class="row">
+                              <div class="input-field col s6">
+                                <input id="" type="text" class="" name="card_type" required="">
+                                <label for="">Card type<span style="color:red;">*</span></label> 
+                              </div>
+
+                               <div class="input-field col s6">
+                                 <input id="" type="number" class="" name="card_number" required="">
+                                 <label for="">Card number<span style="color:red;">*</span></label>
+                               </div>
+                              </div>
+
+                              <div class="row">
+                              <div class="input-field col s6"> <br>
+                                <input id="" type="text" class="" name="card_holder_name">
+                                <label for="">Card holder name</label>
+                              </div>
+
+                               <div class="input-field col s6">
+                                 <label for="">Card expiry date</label><br>
+                                 <input id="" type="date" class="" name="card_expiry_date"> 
+                               </div>
+                              </div>
+
+                              <div class=" right-align">
+                                  <button type="submit" class="waves-effect waves-light btn" style="background: teal;" style="width: 100%;">Add details</button>
+                                  <button  class="modal-close waves-effect waves-light btn" style="background: tomato;">Cancel</button> 
+                              </div>
+                          </form>
+                      </div>
+                    </div>
+                  </div>
+
+
+            <!-- Modal Structure -->
+                <div id="modal20" class="modal">
+                    <div class="modal-content center-align">
+                        <a class="modal-action modal-close waves-effect waves-light btn center" style="text-align: center;">Select Another Trip </a>
+                    </div>
+                </div>
+
+                <div id="modal2" class="modal">
+                    <div class="modal-content" style="text-align: center">
+                        You have selected two trips. You can compare these trips or add another. <br>
+                        <a class="modal-action modal-close waves-effect waves-light btn center">Add another trip</a>
+                        <span class="CompareOr">OR</span>
+                        <a href="javascript:ViewComparison();" class="modal-action modal-close waves-effect waves-light btn center">Compare Trips</a>
+                    </div>
+                </div>
+
+                <!-- Modal Structure -->
+                <div id="modal3" class="modal">
+                    <div class="modal-content">
+                        <h5>You have already checked trips.You can compare 2 or 3 trips only</h5>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="modal-action modal-close waves-effect waves-light center">Okay</a>
+                    </div>
+                </div>
+
+            </div>
+
+            @include('layouts.footer1')
+    </main>
+@endsection
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('.scrollspy').scrollSpy();
+        });
+
+        var elem = document.querySelector('.collapsible.expandable');
+        var instance = M.Collapsible.init(elem, {
+          accordion: false
+        });
+
+        //Ajax call to change primary email
+        $('#primary').on('change', function(){
+            var primary = $('#primary').val();
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "/profile/ajax/edit/{{Auth::user()->id}}",
+                data: {
+                    '_method': 'POST',
+                    '_token': $('input[name=_token]').val(),
+                    'primary': primary,
+                },
+                success: function(data){
+                    $('#ajaxMessage').html('<strong>'+data[0]+'</strong>');
+                    $('#ajaxMessage').css("color","red");
+                    var first = $('#first').text();
+                    $('#topPrimary').html('<strong>'+data[1]+' (primary) <strong>');
+                    $('#topSecondary').html('<strong>'+data[2]+' (secondary) <strong>');
+                }
+            });
+        });
+
+        //Ajax Call to change name
+
+        $('#nameSubmit').on('click', function(){
+            var name = $('#name').val();
+            var table = $('#table').val();
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "/profile/edit/{{Auth::user()->id}}",
+                data: {
+                    '_method': 'POST',
+                    '_token': $('input[name=_token]').val(),
+                    'table': table,
+                    'name': name,
+                },
+                success: function(data){
+                    $('#nameMessage').html('<strong>'+data[0]+'</strong>');
+                    $('#nameMessage').fadeIn();
+                    $('#nameMessage').css("color","green");
+                    $('#nameMessage').delay(2000).fadeOut();
+                    $('#displayName').text(data[1]);
+                    $('#displayName').css("font-weight", "bold");
+                    $(document).prop('title', data[1]);
+                }
+            });
+        });
+
+        //Ajax Call to change date
+
+        $('#dateSubmit').on('click', function(){
+            var day = $('#day').val();
+            var month = $('#month').val();
+            var year = $('#year').val();
+            var table = $('#dobtable').val();
+            // alert(table);
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "/profile/edit/{{Auth::user()->id}}",
+                data: {
+                    '_method': 'POST',
+                    '_token': $('input[name=_token]').val(),
+                    'table': table,
+                    'day': day,
+                    'month': month,
+                    'year': year,
+                },
+                success: function(data){
+                    // alert(data.join(' '));
+                    $('#dateMessage').html('<strong>'+data[0]+'</strong>');
+                    $('#dateMessage').fadeIn();
+                    $('#dateMessage').css("color","green");
+                    $('#dateMessage').delay(2000).fadeOut();
+                    $('#displayDate').text(data[1]);
+                    $('#displayDate').css("font-weight", "bold");
+                }
+            });
+        });
+
+        //Ajax Call to change nationality
+
+        $('#countrySubmit').on('click', function(){
+            var table = $('#countryTable').val();
+            var country = $('#country').val();
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "/profile/edit/{{Auth::user()->id}}",
+                data: {
+                    '_method': 'POST',
+                    '_token': $('input[name=_token]').val(),
+                    'table': table,
+                    'country': country,
+                },
+                success: function(data){
+                    $('#countryMessage').html('<strong>'+data[0]+'</strong>');
+                    $('#countryMessage').fadeIn();
+                    $('#countryMessage').css("color","green");
+                    $('#countryMessage').delay(2000).fadeOut();
+                    $('#displayCountry').text(data[1]);
+                    $('#displayCountry').css("font-weight", "bold");
+                }
+            });
+        });
+
+        //Ajax Call to change address
+
+        $('#addressSubmit').on('click', function(){
+            var table = $('#addressTable').val();
+            var address = $('#address').val();
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "/profile/edit/{{Auth::user()->id}}",
+                data: {
+                    '_method': 'POST',
+                    '_token': $('input[name=_token]').val(),
+                    'table': table,
+                    'address': address,
+                },
+                success: function(data){
+                    $('#addressMessage').html('<strong>'+data[0]+'</strong>');
+                    $('#addressMessage').fadeIn();
+                    $('#addressMessage').css("color","green");
+                    $('#addressMessage').delay(2000).fadeOut();
+                    $('#displayAddress').text(data[1]);
+                    $('#displayAddress').css("font-weight", "bold");
+                }
+            });
+        });
+
+        //Ajax Call to change Phone
+
+        $('#contactSubmit').on('click', function(){
+            var table = $('#contactTable').val();
+            var contact = $('#contact').val();
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "/profile/edit/{{Auth::user()->id}}",
+                data: {
+                    '_method': 'POST',
+                    '_token': $('input[name=_token]').val(),
+                    'table': table,
+                    'contact': contact,
+                },
+                success: function(data){
+                    $('#contactMessage').html('<strong>'+data[0]+'</strong>');
+                    $('#contactMessage').fadeIn();
+                    $('#contactMessage').css("color","green");
+                    $('#contactMessage').delay(2000).fadeOut();
+                    $('#displayContact').text(data[1]);
+                    $('#displayContact').css("font-weight", "bold");
+                }
+            });
+        });
+
+
+        //Ajax Call to change Languages
+
+        $('#languageSubmit').on('click', function(){
+            var table = $('#languageTable').val();
+            var languages = $('#language').val();
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "/profile/edit/{{Auth::user()->id}}",
+                data: {
+                    '_method': 'POST',
+                    '_token': $('input[name=_token]').val(),
+                    'table': table,
+                    'languages': languages,
+                },
+                success: function(data){
+                    $('#languageMessage').html('<strong>'+data[0]+'</strong>');
+                    $('#languageMessage').fadeIn();
+                    $('#languageMessage').css("color","green");
+                    $('#languageMessage').delay(2000).fadeOut();
+                    $('#displayLanguage').text(data[1]);
+                    $('#displayLanguage').css("font-weight", "bold");
+                }
+            });
+        });
+
+        //Ajax Call to change Interests
+
+        $('#interestSubmit').on('click', function(){
+            var table = $('#interestTable').val();
+            var interests = $('#interest').val();
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "/profile/edit/{{Auth::user()->id}}",
+                data: {
+                    '_method': 'POST',
+                    '_token': $('input[name=_token]').val(),
+                    'table': table,
+                    'interests': interests,
+                },
+                success: function(data){
+                    $('#interestMessage').html('<strong>'+data[0]+'</strong>');
+                    $('#interestMessage').fadeIn();
+                    $('#interestMessage').css("color","green");
+                    $('#interestMessage').delay(2000).fadeOut();
+                    $('#displayInterest').text(data[1]);
+                    $('#displayInterest').css("font-weight", "bold");
+                }
+            });
+        });
+
+        //Ajax Call to change Bio
+
+        $('#bioSubmit').on('click', function(){
+            var table = $('#bioTable').val();
+            var bio = $('#bio').val();
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "/profile/edit/{{Auth::user()->id}}",
+                data: {
+                    '_method': 'POST',
+                    '_token': $('input[name=_token]').val(),
+                    'table': table,
+                    'bio': bio,
+                },
+                success: function(data){
+                    $('#bioMessage').html('<strong>'+data[0]+'</strong>');
+                    $('#bioMessage').fadeIn();
+                    $('#bioMessage').css("color","green");
+                    $('#bioMessage').delay(2000).fadeOut();
+                    $('#displayBio').text(data[1]);
+                    $('#displayBio').css("font-weight", "bold");
+                }
+            });
+        });
+
+        //For profile update
+        $("form#photoUpload").submit(function(e){
+            $('#displayPhoto').html('<img src="{{url('images/profile/loading.gif')}}" alt="" class="responsive-img" style="height: 132px; width: 132px;">');
+            $('#displayPhoto').fadeIn(1000);
+
+            e.preventDefault();
+            var formData = new FormData(this);
+            $('#profileModal').fadeOut(3000);
+
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: "/profile/edit/{{Auth::user()->id}}",
+                data: formData,
+                success: function(data){
+                    $('#displayPhoto').html('<img src="'+data[0]+'" alt="" class="responsive-img" style="height: 132px; width: 132px;">');
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        });
+    </script>
+@endsection
+
+{{----------------------modals--------------------------------}}
+<div id="upload" class="modal" id="profileModal" style="width: 35%;" >
+    <div class="modal-content center-align">
+        <h4 style="color: teal">Please choose a picture:</h4>
+        <form id="photoUpload" method="post" enctype="multipart/form-data">
+            {{csrf_field()}}
+            <p style="color:red; text-align:center">Please select image of size less than 5 MB.</p>
+            <input type="hidden" name="table" value="user">
+            <div class="file-field input-field">
+                <div class="btn">
+                    <span>File</span>
+                    <input type="file" id="photo4" name="photo" required>
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" name="photo">
+                </div>
+            </div>
+
+            <div class="modal-footer center-align">
+                <button type="submit" class="modal-action modal-close waves-effect waves-green btn-flat"
+                        style="float: none">Upload
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

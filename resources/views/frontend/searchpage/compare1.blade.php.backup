@@ -1,0 +1,240 @@
+@extends('layouts.master')
+@section('title')
+    <title>Compare Trips </title>
+@endsection
+@section('metatags')
+    <link rel="shortcut icon" href="{{{ asset('images/favicon.ico') }}}">
+@endsection
+@section('styles')
+    <link rel="stylesheet" href="{{url('css/frontend/index.min.css')}}">
+    <style>
+        .clear{
+            clear: both;
+            margin-top: 56px;
+        }
+        .pad{
+            margin: 0 15px 0 5px;
+        }
+        .collection .collection-item {
+            background-color: #fff;
+            line-height: 1.0rem;
+            padding: 6px 12px;
+            margin: 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+    </style>
+@endsection
+@section('content')
+    @include('layouts.navbar2')
+    <div class="clear"></div>
+    <div class="containerPadding">
+        <div class="row" style="padding: 1px 40px;">
+            @if(count($trips) == 2)
+                @for ($i = 0; $i < count($trips); $i++)
+                    <div class="col s12 m6 l6" >
+                        <ul class="card listing collection center-align">
+                            <li>
+                                <div class="" >
+                                    <a href="/trip/{{$trips[$i]->slug}}" >
+                                        <img title="view details" class="responsive-img" src="{{url('images/trips/'.$trips[$i]->cover_image)}}" alt=""
+                                             style="height: 300px; width: 100%; border-radius:6px ; cursor: pointer">
+                                    </a>
+                                    @if(!empty($trips[$i]->customtrip->recommended))
+                                        @if($trips[$i]->customtrip->recommended == 1)
+                                            <div class="center-align" style="background-color: #008EB0;position:absolute;top:0px;left:0px;padding:5px 20px;">
+                                                <i class="shine"></i>
+                                                <span id="recomend">Trending</span>
+                                            </div>
+                                        @endif
+                                    @endif
+                                </div>
+                                <div class="row" style="margin-left: 2px;">
+                                    
+                                    <div class="col l7 m7 s7">
+                                        @if(!Auth::user())
+                                            <a href="/wish/{{$trips[$i]->id}}" class="btn-small btn-floating  waves-effect waves-light teal tooltipped"  data-tooltip="Add to Bucket list">
+                                                <i class="material-icons">favorite</i>
+                                            </a>
+                                        @else
+                                            <a class="btn-small
+                                            @if(!Auth::user())
+                                                    wsh
+                                            @else
+                                            @if(!empty($trips[$i]->wish) && $trips[$i]->wish->user_id == Auth::user()->id)
+                                                    rmv red
+
+            @else
+                                                    wsh teal
+@endif
+                                            @endif
+
+                                                    btn-floating waves-effect waves-light tooltipped " data-position="top" id = "{{$trips[$i]->id}}"
+                                               data-id="{{$trips[$i]->id}}"
+                                               data-name="id" data-value="{{$trips[$i]->id}}"  data-tooltip="Add to Bucket list">
+                                                <i class="material-icons">favorite</i>
+                                            </a>
+                                        @endif
+                                        <a href="/trip/{{$trips[$i]->slug}}#departures" class="btn-small green btn-floating waves-effect waves-light tooltipped"
+                                           data-position="top" data-delay="10" data-tooltip="View Departure Dates"><i class="material-icons">date_range</i>
+                                        </a>
+                                        <a id="one" class="btn-small green btn-floating  waves-effect waves-light tooltipped"
+                                           data-position="top" data-delay="10" data-tooltip="Total views:{{count($trips[$i]->views)}}" >
+                                            <img src="{{url('images/eyes.png')}}" alt="views" style="height: 40px;width: 40px;">
+                                        </a>
+                                    </div>
+                                    <div class="col l5 m5 s5" >
+                                        <a href="/trip/book/{{$trips[$i]->id}}" class="waves-effect waves-light btn teal" style="padding: 0px 5px;font-size: 12px;">Book Now</a>
+                                    </div>
+                                </div>
+                                    <br>
+
+                            </li>
+                            <li class="collection-item">Trip Name: <strong style="text-transform: uppercase">{{$trips[$i]->name}}</strong></li>
+                            <li class="collection-item">Price: ${{$trips[$i]->price}}</li>
+                            <li class="collection-item">Elevation :{{$trips[$i]->altitude}} m</li>
+                            <li class="collection-item">Duration: {{$trips[$i]->days}} days</li>
+                            <li class="collection-item">Venture: {{$trips[$i]->ventures}}</li>
+                            <li class="collection-item">Style: {{$trips[$i]->style}}</li>
+                            <li class="collection-item">Region: {{$trips[$i]->regions}}</li>
+                            <li class="collection-item">Country: {{$trips[$i]->country}}</li>
+                            <li class="collection-item">Difficulty: @if($trips[$i]->physical_rating == 1)
+                                    <span>Easy</span>
+                                @elseif($trips[$i]->physical_rating == 2)
+                                    <span >Moderate</span>
+                                @elseif($trips[$i]->physical_rating  == 3)
+                                    <span >Hard</span>
+                                @elseif($trips[$i]->physical_rating  == 4)
+                                    <span >Very Hard</span>
+                                @elseif($trips[$i]->physical_rating  == 5)
+                                    <span >Severe</span>
+                                @elseif($trips[$i]->physical_rating  == 6)
+                                    <span >Very Severe</span>
+                                @else
+                                    <span >Extreme</span>
+                                @endif
+                            </li>
+                            <li class="collection-item">Average Ratings: {{$trips[$i]->ratings}}</li>
+                            <li class="collection-item">Special Discount: @if($trips[$i]->special_discount == 0) <span>No Discount</span> @else <span>{{$trips[$i]->special_discount}}</span>
+                                @endif</li>
+                            <li class="collection-item">Popularity Level:
+								<?php $rateno = $trips[$i]->poplularity; ?>
+                                @for($m=0; $m < $rateno; $m++)
+                                    <i class="fa fa-star" aria-hidden="true" style="color: gold; font-size: 16px;"></i>
+                                @endfor
+                            </li>
+                            <li class="collection-item">Group Size: Max:{{$trips[$i]->max_group_size}}, Min:{{$trips[$i]->min_group_size}}</li>
+                            <li class="collection-item">Start Location: {{$trips[$i]->start_location}}</li>
+                            <li class="collection-item">End Location: {{$trips[$i]->finish_location}}</li>
+
+                        </ul>
+                    </div>
+                @endfor
+            @else
+                @for ($i = 0; $i < count($trips); $i++)
+                    <div class="col s12 m4 l4">
+                        <ul class="card listing collection center-align">
+                            <li>
+                                <div class="">
+                                    <a href="/trip/{{$trips[$i]->slug}}">
+                                        <img title="view details" class="responsive-img" src="{{url('images/trips/'.$trips[$i]->cover_image)}}" alt=""
+                                             style="height: 300px; width: 100%; border-radius:6px ; cursor: pointer">
+                                    </a>
+
+                                    @if(!empty($trips[$i]->customtrip->recommended))
+                                        @if($trips[$i]->customtrip->recommended == 1)
+                                            <div class="center-align" style="background-color: #008EB0;position:absolute;top:0px;left:0px;padding:5px 20px;">
+                                                <i class="shine"></i>
+                                                <span id="recomend">Trending</span>
+                                            </div>
+                                        @endif
+                                    @endif
+                                </div>
+                                <div class="row" style="margin-left: 2px;">
+                                    <div class="col l1 m1 s1 pad">
+                                        @if(!Auth::user())
+                                            <a href="/wish/{{$trips[$i]->id}}" class="btn-small btn-floating  waves-effect waves-light teal tooltipped"  data-tooltip="Add to Bucket list">
+                                                <i class="material-icons">favorite</i>
+                                            </a>
+                                        @else
+                                            <a class="btn-small
+                                            @if(!Auth::user())
+                                                    wsh
+                                            @else
+                                            @if(!empty($trips[$i]->wish) && $trips[$i]->wish->user_id == Auth::user()->id)
+                                                    rmv red
+
+                                            @else
+                                                    wsh teal
+                                            @endif
+                                            @endif
+
+                                                    btn-floating waves-effect waves-light tooltipped " data-position="top" id = "{{$trips[$i]->id}}"
+                                               data-id="{{$trips[$i]->id}}"
+                                               data-name="id" data-value="{{$trips[$i]->id}}"  data-tooltip="Add to Bucket list">
+                                                <i class="material-icons">favorite</i>
+                                            </a>
+                                        @endif
+                                    </div>
+                                    <div class="col l1 m1 s1 pad">
+
+                                        <a href="/trip/{{$trips[$i]->slug}}#departures" class="btn-small green btn-floating waves-effect waves-light tooltipped"
+                                           data-position="top" data-delay="10" data-tooltip="View Departure Dates"><i class="material-icons">date_range</i>
+                                        </a>
+                                    </div>
+                                    <div class="col l1 m1 s1 pad">
+                                        <a id="one" class="btn-small green btn-floating  waves-effect waves-light tooltipped"
+                                           data-position="top" data-delay="10" data-tooltip="Total views:{{count($trips[$i]->views)}}" >
+                                            <img src="{{url('images/eyes.png')}}" alt="views" style="height: 40px;width: 40px;">
+                                        </a>
+                                    </div>
+                                    <div class="col l3 m3 s3 pad" style="float: right;margin-right: 30px">
+                                        <a href="/trip/book/{{$trips[$i]->id}}" class="waves-effect waves-light btn teal">Book Now</a>
+                                    </div>
+                                </div>
+                            </li>
+                                <li class="collection-item">Trip Name: <strong style="text-transform: uppercase">{{$trips[$i]->name}}</strong></li>
+                                <li class="collection-item">Price: ${{$trips[$i]->price}}</li>
+                                <li class="collection-item">Elevation :{{$trips[$i]->altitude}} m</li>
+                                <li class="collection-item">Duration: {{$trips[$i]->days}} days</li>
+                                <li class="collection-item">Venture: {{$trips[$i]->ventures}}</li>
+                                <li class="collection-item">Style: {{$trips[$i]->style}}</li>
+                                <li class="collection-item">Region: {{$trips[$i]->regions}}</li>
+                                <li class="collection-item">Country: {{$trips[$i]->country}}</li>
+                                <li class="collection-item">Difficulty: @if($trips[$i]->physical_rating == 1)
+                                        <span>Easy</span>
+                                    @elseif($trips[$i]->physical_rating == 2)
+                                        <span >Moderate</span>
+                                    @elseif($trips[$i]->physical_rating  == 3)
+                                        <span >Hard</span>
+                                    @elseif($trips[$i]->physical_rating  == 4)
+                                        <span >Very Hard</span>
+                                    @elseif($trips[$i]->physical_rating  == 5)
+                                        <span >Severe</span>
+                                    @elseif($trips[$i]->physical_rating  == 6)
+                                        <span >Very Severe</span>
+                                    @else
+                                        <span >Extreme</span>
+                                    @endif
+                                </li>
+                                <li class="collection-item">Average Ratings: {{$trips[$i]->ratings}}</li>
+                                <li class="collection-item">Special Discount: @if($trips[$i]->special_discount == 0) <span>No Discount</span> @else <span>{{$trips[$i]->special_discount}}</span>
+                                    @endif</li>
+                                <li class="collection-item">Popularity Level:
+							        <?php $rateno = $trips[$i]->poplularity; ?>
+                                    @for($m=0; $m < $rateno; $m++)
+                                        <i class="fa fa-star" aria-hidden="true" style="color: gold; font-size: 16px;"></i>
+                                    @endfor
+                                </li>
+                                <li class="collection-item">Group Size: Max:{{$trips[$i]->max_group_size}}, Min:{{$trips[$i]->min_group_size}}</li>
+                                <li class="collection-item">Start Location: {{$trips[$i]->start_location}}</li>
+                                <li class="collection-item">End Location: {{$trips[$i]->finish_location}}</li>
+                        </ul>
+                    </div>
+                @endfor
+            @endif
+        </div>
+    </div>
+    <br><br>
+    @include('layouts.footer1')
+@endsection
+

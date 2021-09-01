@@ -1,0 +1,1746 @@
+@extends('layouts.master')
+@section('title')
+    <title> @if(!empty($trip->seotrip)){{$trip->seotrip->meta_title}} @else  {{$trip->name}} @endif</title>
+@endsection
+@section('metatags')
+    <meta name="title" content="@if(!empty($trip->seotrip)){{$trip->seotrip->meta_title}} @endif">
+    <meta name="description" content="@if(!empty($trip->seotrip)){{$trip->seotrip->meta_description}} @endif">
+    <meta name="keywords" content="@if(!empty($trip->seotrip)){{$trip->seotrip->keywords}} @endif">
+    <link rel="canonical" href="{{route('show-path',$trip->slug)}}">
+@endsection
+@section('seocontents')
+    <meta property="og:url" content="https://www.swotahtravel.com/{{$trip->slug}}"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="@if(!empty($trip->seotrip)){{$trip->seotrip->meta_title}} @endif"/>
+    <meta property="og:description" content="@if(!empty($trip->seotrip)){{$trip->seotrip->meta_description}} @endif"/>
+    <meta property="og:image" content="{{url('images/trips/cover/'.$trip->cover_image)}}"/>
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:url" content="https://www.swotahtravel.com">
+    <meta name="twitter:title" content="Swotah Travel and Adventure">
+    <meta name="twitter:description" content="@if(!empty($trip->seotrip)){{$trip->seotrip->meta_description}} @endif">
+    <meta name="twitter:image" content="{{url('images/trips/cover/'.$trip->cover_image)}}">
+@endsection
+@section('styles')
+    {{--Here goes in external css files--}}
+    <link rel="stylesheet" href="{{asset('css/frontend/trippage.css?ver=')}}<?php echo rand(1, 100000000)?>">
+    <style>
+        thead input {
+            height: 30px !important;
+            padding: 0 10px !important;
+            width: calc(100% - 20px) !important;
+        }
+
+        .titleHeadthree {
+            font-weight: bold;
+        }
+
+        .titleHeadFour {
+            font-weight: bold;
+        }
+
+        .dateClass {
+            background-color: #c0ffe3 !important;
+        }
+
+        .overviewTable {
+            margin-bottom: 10px;
+        }
+
+        .overviewTable tr td, .overviewTable tr th {
+            padding: 4px 8px !important;
+            border: 1px solid #ccc;
+        }
+
+        .overviewTable tr th {
+            text-transform: capitalize;
+        }
+
+        .collapBtn .btn-floating {
+            background-color: #008EB0 !important;
+        }
+
+        /************ tab menu starts ************/
+        .tabmenu {
+            background-color: #E0DEDF;
+            color: black;
+            font-family: 'Roboto', sans-serif;
+            padding-bottom: 22px !important;
+            margin: auto;
+            position: fixed;
+            z-index: 99;
+        }
+
+        .tabmenu a {
+            z-index: 9999;
+        }
+
+        .tabmenu a {
+            color: black !important;
+            font-weight: bolder;
+        }
+
+        .viewRating .small {
+            margin-bottom: -5px;
+            font-size: 2px !important;
+        }
+
+        /************ tab menu ends ************/
+        /************ tab content starts ************/
+        .similarTripsCard {
+            opacity: 0.8;
+        }
+
+        .similarTripsCard:hover {
+            opacity: 1;
+            transition: 0.4s;
+            transform: scale(1.05);
+        }
+
+        .tabContainer {
+            background-color: #EBEBEB;
+        }
+
+        .imggallery {
+            width: 100%;
+            height: 100%;
+        }
+
+        .actionButton a {
+            background-color: #17B2DE;
+            font-size: 14px;
+            padding: 6px 14px;
+            transition: 400ms ease;
+        }
+
+        .actionButton a:hover {
+            background-color: #008EB0;
+        }
+
+        .tripImage .mapImage {
+            width: 100%;
+
+        }
+
+        .tripfactList > li {
+            list-style-type: disc !important;
+            display: list-item !important;
+            padding-left: 5px;
+        }
+
+        /************ tab content ends ************/
+
+        .CollapHead {
+            background-color: #008EB0;
+            color: white;
+            border: 0px;
+            border-bottom: 1px solid black !important;
+        }
+
+        .CollapHead1 {
+            line-height: 2rem;
+        }
+
+        .CollapBody {
+            background-color: #eeeeee;
+        }
+
+        #departuresSection a {
+            background-color: #17B2DE;
+        }
+
+        .cardTitle {
+            padding: 5px;
+            font-size: 15px;
+            font-weight: bolder;
+        }
+
+        .cardTitleTrips span {
+            padding: 5px;
+            font-size: 15px;
+            font-weight: bolder;
+            background-color: #4F4F4F;
+        }
+
+        .TripImage {
+            height: 100% !important;
+        }
+
+        #reviewForm label {
+            color: black !important;
+        }
+
+        #reviewForm input {
+            margin: 0px;
+            padding: 0px;
+            height: 30px;
+        }
+
+        #reviewTextarea {
+            border: 1px solid black;
+            color: black;
+            min-height: 80px;
+            margin-top: 20px;
+        }
+
+        #reviewRating {
+            text-align: center;
+        }
+
+        #reviewRating i {
+            font-size: 40px !important;
+            color: #17B2DE;
+        }
+
+        .owl-next, .owl-prev {
+            /*display: none!important;*/
+        }
+
+        /********* desktop *********/
+
+        @media only screen and (min-width: 768px) {
+            .tabmenu {
+                height: 100px;
+                padding-top: 20px;
+            }
+
+            .topSpace {
+                padding-top: 100px;
+            }
+
+            .tabmenu {
+                width: 90%;
+            }
+
+            .tabContent {
+                padding: 10px 20px 30px 20px;
+            }
+
+            .tabmenu a {
+                font-size: 100% !important;
+                text-transform: uppercase;
+
+            }
+
+            .titleHeadthree {
+                font-size: 160%;
+            }
+
+            .titleHeadFour {
+                font-size: 100%;
+            }
+
+            .tableBtn {
+                padding: 2px 10px;
+                font-size: 14px;
+                color: white;
+            }
+
+            .trippageTopImage {
+                width: 100%;
+                height: 500px;
+            }
+        }
+
+        @media (max-width: 767px) and (min-width: 600px) {
+            .tabmenu {
+                height: 100px;
+                padding-top: 40px;
+            }
+
+            .topSpace {
+                padding-top: 100px;
+            }
+
+            .tabmenu a {
+                font-size: 80% !important;
+                text-transform: uppercase;
+            }
+
+            .tabContent {
+                padding: 10px;
+            }
+
+            .titleHeadthree {
+                font-size: 140%;
+            }
+
+            .titleHeadFour {
+                font-size: 120%;
+            }
+
+            .actionButton a {
+                font-size: 15px !important;
+                padding: 2px 10px !important;
+            }
+
+            .tableBtn {
+                padding: 2px 8px;
+                font-size: 15px;
+                color: white;
+            }
+
+            .trippageTopImage {
+                width: 100%;
+                height: 460px;
+            }
+
+        }
+
+        @media only screen and (max-width: 600px) {
+            .tabmenu {
+                height: 90px;
+                padding-top: 40px;
+            }
+
+            .topSpace {
+                padding-top: 90px;
+            }
+
+            .tabmenu a {
+                font-size: 80% !important;
+                text-transform: capitalize;
+            }
+
+            .tabContent {
+                padding: 5px;
+            }
+
+            .titleHeadthree {
+                font-size: 120%;
+            }
+
+            .titleHeadFour {
+                font-size: 100%;
+            }
+
+            .actionButton a {
+                font-size: 12px !important;
+                padding: 2px 10px !important;
+            }
+
+            .tableBtn {
+                padding: 2px 5px;
+                font-size: 12px;
+                color: white;
+            }
+
+            .tableAvailable {
+                background-color: transparent !important;
+                padding: 0px;
+                color: black;
+            }
+
+            .trippageTopImage {
+                width: 100%;
+                height: 320px;
+            }
+        }
+
+        @media only screen and (max-width: 400px) {
+            .tabContent {
+                padding: 2px;
+            }
+
+            .tabmenu .row {
+                padding: 2px !important;
+                margin-left: -20px !important;
+            }
+
+        }
+
+        .group_discount td {
+            border: 1px solid !important;
+            padding: 2px;
+        }
+
+    </style>
+
+    <style type="text/css">
+        #indexBlogContent .card:hover {
+            border: 2px solid white;
+            transition: 0.5s;
+            transform: scale(1.05);
+        }
+
+        #indexBlogContent .card:hover img {
+            opacity: 1 !important;
+            transition: 0.8s;
+        }
+
+        #indexBlogContent .card {
+            border: 4px solid white;
+        }
+
+        @media only screen and (min-width: 768px) {
+            .blogImg {
+                height: 280px;
+            }
+        }
+
+        #galleryImg {
+            width: 100%;
+            height: 360px;
+        }
+
+        #galleryImageSection .owl-carousel .owl-nav button.owl-next {
+            position: absolute;
+            top: 30px;
+            right: 10px;
+        }
+
+        #galleryImageSection .owl-carousel .owl-nav button.owl-prev {
+            position: absolute;
+            top: 30px;
+            left: 10px;
+        }
+
+        #galleryImageSection .owl-carousel .owl-nav button.owl-next span {
+            font-size: 80px;
+            color: #00b1ff;
+        }
+
+        #galleryImageSection .owl-carousel .owl-nav button.owl-prev span {
+            font-size: 80px;
+            color: #00b1ff;
+        }
+
+        @media only screen and (min-width: 600px) {
+            #galleryImageSection .owl-carousel .owl-nav button.owl-next {
+                position: absolute;
+                top: 80px;
+                right: 10px;
+            }
+
+            #galleryImageSection .owl-carousel .owl-nav button.owl-prev {
+                position: absolute;
+                top: 80px;
+                left: 10px;
+            }
+
+            #galleryImg {
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        #galleryImageSection .owl-theme .owl-nav [class*=owl-]:hover {
+            background: transparent;
+        }
+
+        #galleryImageSection .owl-carousel .owl-nav button.owl-prev span:hover {
+            color: black;
+        }
+
+        #galleryImageSection .owl-carousel .owl-nav button.owl-next span:hover {
+            color: black;
+        }
+
+        #galleryImageSection .owl-theme .owl-dots .owl-dot span {
+            background: #00b1ff;
+        }
+
+        #galleryImageSection .owl-theme .owl-dots .owl-dot.active span,
+        #galleryImageSection .owl-theme .owl-dots .owl-dot:hover span {
+            background: black;
+        }
+
+
+    </style>
+
+    <style>
+        .containerPadding .col
+        .viewInclusion .card {
+            padding: 20px 20px 0px 20px;
+        }
+
+        .viewInclusion table td, th {
+            padding: 0px;
+        }
+
+        .InclussionTabs {
+            background: #00B1FF !important;
+        }
+
+        .InclussionTabs li a {
+            font-size: 10px !important;
+        }
+
+        .InclussionTabs .indicator {
+            border: 0px !important;
+        }
+
+        .InclussionTabs .active {
+            background: #008EB0 !important;
+            transition: 0.5s !important;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .InclussionTabs li a {
+                font-size: 8px !important;
+            }
+        }
+
+        .tripdate {
+            cursor: pointer;
+        }
+
+        .CollapBody {
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -o-user-select: none;
+            user-select: none;
+        }
+    </style>
+@endsection
+@section('content')
+    @include('layouts.navbar')
+    {{--@include('layouts.navdrop')--}}
+    <nav class="nav-extended" id="trip-bar"
+         style="margin-top: -30px; z-index: 100; width: 100%; top: 0; position: fixed;">
+        <div class="nav-wrapper mainextra">
+            <div class="tabs" id="sabaitab" style="background-color: #17B2DE;margin-top: 70px;">
+                <div class="row">
+                    <ul class="table-of-contents">
+                        <li class="tab col l2 s12">
+                            <a class="color-text scrollcol" href="#overviewSection">
+                                <img class="left ico" src="{{url('images/icons/overview.png')}}" alt="overview">
+                                <span class="wow-text hide-on-med-and-down title">Overview
+                               </span>
+                            </a>
+                        </li>
+                        <li class="tab col l2 s12">
+                            <a class="color-text" href="#tripfactSection">
+                                <img class="left ico" src="{{url('images/icons/facts.png')}}" alt="facts">
+                                <span class="wow-text hide-on-med-and-down title">Trip Facts</span>
+                            </a>
+                        </li>
+                        <li class="tab col l2 s12">
+                            <a class="color-text" href="#gallerySection">
+                                <img class="left ico" src="{{url('images/icons/gallery.png')}}" alt="gallery">
+                                <span class="wow-text hide-on-med-and-down title">Gallery</span>
+                            </a>
+                        </li>
+                        <li class="tab col l2 s12">
+                            <a class="color-text" href="#itinerarySection">
+                                <img class="left ico" src="{{url('images/icons/itinerary.png')}}" alt="itinerary">
+                                <span class="wow-text hide-on-med-and-down title">Itinerary/FAQs</span>
+                            </a>
+                        </li>
+                        <li class="tab col l2 s12">
+                            <a class="color-text" href="#departuresSection">
+                                <img class="left ico" src="{{url('images/icons/departure.png')}}" alt="departure">
+                                <span class="wow-text hide-on-med-and-down title">Departures</span>
+                            </a>
+                        </li>
+                        <li class="tab col l2 s12">
+                            <a class="color-text" href="#reviewSection">
+                                <img class="left ico" src="{{url('images/icons/review.png')}}" alt="review">
+                                <span class="wow-text hide-on-med-and-down title">Reviews </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="clear"></div>
+    <div class="containerPadding" style="width:90%;margin:auto;padding-bottom: -20px;margin-top: 40px;">
+        <!-- ******** overview Section starts ********* -->
+        <div id="overviewSection" class="scrollspy col s12 tabContainer" style="background:#FAFAFA;">
+            <div class="tripContent" style="padding: 10px;">
+                <h1 class="titleHeadtwo" style="margin-top: 0; margni-bottom: 0;"><span> {{$trip->name}} </span></h1>
+                <div style="text-align: justify;">
+                    {!! $trip->description !!}
+                </div>
+            </div>
+            <div class="row tabContent">
+                <div class="col l4 s12">
+                    <table class="overviewTable striped">
+                        <tr>
+                            <th> Trip Code:</th>
+                            <td> {{$trip->code}} </td>
+                        </tr>
+                        <tr>
+                            <th> Starts:</th>
+                            <td> {{$trip->start_location}}</td>
+                        </tr>
+                        <tr>
+                            <th> Finishes:</th>
+                            <td> {{$trip->finish_location}} </td>
+                        </tr>
+                        <tr>
+                            <th> Duration:</th>
+                            <td> {{$trip->days}} Days</td>
+                        </tr>
+                        <tr>
+                            <th> Difficulty:</th>
+                            <td>
+                                @if($trip->physical_rating == 1)
+                                    <span>Easy</span>
+                                @elseif($trip->physical_rating == 2)
+                                    <span>Moderate</span>
+                                @elseif($trip->physical_rating  == 3)
+                                    <span>Hard</span>
+                                @elseif($trip->physical_rating  == 4)
+                                    <span>Very Hard</span>
+                                @elseif($trip->physical_rating  == 5)
+                                    <span>Severe</span>
+                                @elseif($trip->physical_rating  == 6)
+                                    <span>Very Severe</span>
+                                @else
+                                    <span>Extreme</span>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <th> Group Size:</th>
+                            <td> {{$trip->min_group_size}} - {{$trip->max_group_size}} </td>
+                        </tr>
+                        <tr>
+                            <th> Age:</th>
+                            <td> Minimum {{$trip->ages}} </td>
+                        </tr>
+                        <tr>
+                            <th> Seasons:</th>
+                            <td> {{$trip->seasons}} </td>
+                        </tr>
+                        <tr>
+                            <th> Elevation:</th>
+                            <td>
+                                {{strtoupper($trip->altitude)}}m/ {{round(strtoupper($trip->altitude * 3.28084),1)}}ft
+                            </td>
+                        </tr>
+                        <tr>
+                            <th> Trip Views:</th>
+                            <td> {{$trip->views->count}} </td>
+                        </tr>
+                        <tr>
+                            <th> Activities:</th>
+                            <td>
+                                @foreach($trip->themes as $venture)
+                                    {{$venture->theme_name }}
+                                @endforeach
+                            </td>
+                        </tr>
+                        <tr>
+                            <th> Trip popularity:</th>
+                            <td>
+                            <!-- {{$trip->poplularity}} -->
+                                <?php $popularityno = $trip->poplularity; ?>
+                                @for($m=0; $m < $popularityno; $m++)
+                                    <i class="fa fa-star" aria-hidden="true"
+                                       style="color: #FF9517; font-size: 16px;"></i>
+                                @endfor
+
+                                <?php $no_popularityno = 9 - $popularityno; ?>
+                                @for($m=0; $m < $no_popularityno; $m++)
+                                    <i class="fa fa-star-o" aria-hidden="true"
+                                       style="color: gray; font-size: 16px;"></i>
+                                @endfor
+                            </td>
+                        </tr>
+                        <tr>
+                            <th> Travel Style:</th>
+                            <td class="travel-style">
+                                @if($trip->styles->name == "Comfortable")
+                                    <span>Budget</span>
+                                    <span class="active">Comfortable<i class="material-icons">check</i></span>
+                                    <span>Luxury</span>
+                                @elseif($trip->styles->name == "Luxury")detailItineraryModal
+                                <span>Budget</span>
+                                <span>Confortable</span>
+                                <span class="active">Luxury <i class="material-icons">check</i></span>
+                                @else
+                                    <span class="active">Budget <i class="material-icons">check</i></span>
+                                    <span>Confortable</span>
+                                    <span>Luxury</span>
+                                @endif
+                            </td>
+                        </tr>
+                    </table>
+                    @if($trip->special_discount != 0)
+                        <span style="font-size: 20px;color:#17B2DE">Special Discount:</span>
+                        <span style="font-size: 20px;color:#17B2DE;font-weight: bolder;">{{$trip->special_discount}} %</span>
+                    @endif
+                    @if(Auth::user() && Auth::user()->is_active == 1)
+                        @if(!empty($trip->customtrip->group_discount))
+                            <?php
+                            $totalrange = explode(',', str_replace(' ', '', $trip->customtrip->group_discount));
+                            $total = count($totalrange);
+                            $price = null;
+                            foreach ($totalrange as $item) {
+                                $price = explode('=', $item);
+                            }
+                            $discount = $price[1];
+                            $result = array();
+                            foreach ($totalrange as $item) {
+                                $price = explode('=', $item);
+                                if ($price[1] != 0) {
+                                    $result[$price[1]][] = $item;
+                                }
+                            }
+                            ?>
+                            <table class="centered group_discount">
+                                <tr>
+                                    <td colspan="2" style="text-align: center">
+                                        <b> Group Discount: </b>
+                                    </td>
+                                </tr>
+                                <?php
+                                foreach ($result as $res){
+                                if(count($res) > 1){
+                                ?>
+                                <tr>
+                                    <td> Group Size:
+                                        <?php
+                                        $first = reset($res); $man = explode('=', $first);
+                                        echo $man[0];
+
+                                        ?>-<?php $last = end($res); $men = explode('=', $last);
+                                        echo $men[0];
+                                        ?>
+                                    </td>
+                                    <td>USD $
+                                        <?php
+                                        $last = end($res);
+                                        $percen = explode('=', str_replace('%', '', $last));
+                                        $disprice = ($trip->price - (floor($percen[1] / 100 * $trip->price)));
+                                        echo $disprice;
+                                        ?>
+                                        /person
+                                    </td>
+                                </tr>
+                                <?php
+                                }
+                                }
+                                ?>
+                            </table>
+                        @endif
+
+                    @else
+                        <p>
+                            @if(!Auth::user())
+                                <br> Please <a href="/login"
+                                               style="font-size: 14px; text-transform: uppercase;margin-top:0">login</a>
+                                your account to see Group Discount.
+                            @elseif(Auth::user()->is_active != 1)
+                                <br> Please <a href="/profile/edit/resendprimary/{{Auth::user()->id}}"
+                                               style="font-size: 20px; font-weight: bold; text-transform: uppercase;">verify</a>
+                                your account to see Group Discount.
+                            @endif
+                        </p>
+                    @endif
+                </div>
+                <div class="col l8 s12">
+                    <div class="sectionImage" style="position: relative;">
+                        <img src="{{url('images/trips/cover/'.$trip->cover_image)}}"
+                             data-src="{{url('images/trips/cover/'.$trip->cover_image)}}" alt="{{$trip->name}}"
+                             class="imggallery responsive-img lazyload blur-up" style="width: 100%;">
+                        @if(!empty($trip->customtrip->recommended))
+                            @if($trip->customtrip->recommended == 1)
+                                <div class="center-align"
+                                     style="background-color: tomato;position:absolute;top:0px;left:0px;padding:5px 20px;">
+                                    <i class="shine"></i>
+                                    <span id="recomend">Trending</span>
+                                </div>
+                            @endif
+                        @endif
+                        <div style="position:absolute;bottom:10px;right:10px;">
+                            <span class="favourite">
+                                            @if(!Auth::user())
+                                    <a href="/wish/{{$trip->id}}"
+                                       class=" tooltipped  btn-floating btn-small waves-effect waves-light"
+                                       data-position="bottom" data-delay="10"
+                                       data-tooltip="Please Login to add your trip to Bucket List">
+                                        <i class="material-icons">favorite</i>
+                                    </a>
+                                @else
+                                    @if(!Auth::user())
+                                        <a class=" tooltipped  btn-floating btn-small waves-effect waves-light red"
+                                           id="{{$trip->id}}" data-id="{{$trip->id}}"
+                                           data-name="{{Auth::user()->is_active}}"
+                                           data-value="{{$trip->id}}" data-position="top" data-delay="10"
+                                           data-tooltip="Remove from Bucket list"><i
+                                                    class="material-icons">favorite </i></a>
+                                    @else
+                                        @if(!empty($trip->wish) && $trip->wish->user_id == Auth::user()->id)
+                                            <a class=" tooltipped  btn-floating btn-small waves-effect waves-light red"
+                                               id="{{$trip->id}}" data-id="{{$trip->id}}"
+                                               data-name="{{Auth::user()->is_active}}"
+                                               data-value="{{$trip->id}}" data-position="top"
+                                               data-delay="10" data-tooltip="Remove from Bucket list"><i
+                                                        class="material-icons">favorite </i></a>
+                                        @else
+                                            <a class=" tooltipped  btn-floating btn-small waves-effect waves-light wsh"
+                                               id="{{$trip->id}}"
+                                               data-id="{{$trip->id}}"
+                                               data-name="{{Auth::user()->is_active}}"
+                                               data-value="{{$trip->id}}" data-position="top"
+                                               data-delay="10" data-tooltip="Add to Bucket list"><i
+                                                        class="material-icons">favorite </i>
+                                            </a>
+                                        @endif
+                                    @endif
+                                @endif
+                            </span>
+                        </div>
+                        <div class="trip-btn-group">
+                            <div class="row actionButton">
+                                 <span class="enquiry">
+                                     <a class="waves-effect waves-light tableBtn" href="#enq-btn">Enquiry</a>
+                                 </span>
+                                <span class="enquiry">
+                                            @if(file_exists(storage_path('trippdf/'.$trip->slug.'.pdf')))
+                                        <span class="download">
+                                                @if(!Auth::user())
+
+                                                <a href="/login" class="waves-effect waves-light tableBtn tooltipped"
+                                                   data-tooltip="Please Login to download this trip as pdf."
+                                                   data-position="top">Download Itinerary
+                                                </a>
+                                            @elseif(Auth::user() && Auth::user()->is_active == 0)
+                                                <a href="/profile/edit/resendprimary/{{Auth::user()->id}}"
+                                                   class="waves-effect waves-light tableBtn tooltipped"
+                                                   data-tooltip="Please verify your account to download this trip as pdf."
+                                                   data-position="top">Download Itinerary
+                                                </a>
+                                            @else
+                                                <a href='/trip-pdf/{{$trip->id}}'
+                                                   class="waves-effect waves-light tableBtn tooltipped"
+                                                   data-tooltip="Download Trip Details as PDF" data-position="top">
+                                                        Download Itinerary
+                                                </a>
+                                            @endif
+                                        </span>
+                                    @endif
+                                </span>
+                                <span class="price">
+                                    @if(Auth::user())
+                                        @if(Auth::user()->is_active == 1)
+                                            <a class="waves-effect waves-light tableBtn">Price ${{$trip->price}}</a>
+                                        @elseif(Auth::user())
+
+                                            <a class="waves-effect waves-light tableBtn tooltipped" href="/login"
+                                               data-position="top" data-delay="10"
+                                               data-tooltip="Please verify your account to view the price">Price</a>
+                                        @endif
+                                    @else
+                                        <a class="waves-effect waves-light tableBtn tooltipped" href="/login"
+                                           data-position="top" data-delay="10"
+                                           data-tooltip="Please login to view the price">Price</a>
+                                    @endif
+                                </span>
+                                <span class="priceService">
+                                            @if(!empty($trip->customtrip->showcustom))
+                                        @if($trip->customtrip->showcustom == 1)
+                                            <a class="waves-effect waves-light tableBtn @if(!Auth::user()) tooltipped @endif"
+                                               data-position="top" data-delay="10"
+                                               @if(!Auth::user())  data-tooltip="Please login to customize the trip"
+                                               @endif href="/custom-trip/{{$trip->id}}">Price  Customization </a>
+                                        @endif
+                                    @endif
+                                </span>
+                                <a class="waves-effect waves-light tableBtn" href="/book-trip/{{$trip->id}}">Book
+                                    Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        {{--<h2 class="titleHeadtwo"><span> Trip Inclusions </span></h2>--}}
+                        <div class="row">
+                            <div class="col s12" style="padding: 0">
+                                <ul class="InclussionTabs tabs custom-tab"
+                                    style="background: #4B4B4B;color: white;width: 100%;">
+                                    <li class="tab">
+                                        <a href="#guide" style="color: white;width: 100%;">
+                                            Guide(s)
+                                        </a>
+                                    </li>
+                                    <li class="tab">
+                                        <a href="#porter" style="color: white;width: 100%;">
+                                            Porter(s)
+                                        </a>
+                                    </li>
+                                    <li class="tab">
+                                        <a href="#entranceFee" style="color: white;width: 100%;">
+                                            Entrance Fees
+                                        </a>
+                                    </li>
+                                    <li class="tab">
+                                        <a class="active" href="#MealsDetails" style="color: white;width: 100%;">
+                                            Meal(s)
+
+                                        </a>
+                                    </li>
+                                    <li class="tab">
+                                        <a href="#TransportationDetails" style="color: white;width: 100%;">
+                                            Transportation
+                                        </a>
+                                    </li>
+                                    <li class="tab">
+                                        <a href="#AccomodationDetail" style="color: white;width: 100%;">
+                                            Accommodation
+                                        </a>
+                                    </li>
+                                    <li class="tab">
+                                        <a href="#CityTourDetails"
+                                           style="color: white;width: 100%; border-right: none;">
+                                            City Tour(s)
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tab-content custom-tab-content clearfix">
+                                <div id="guide" class="col s12">
+                                    <div class="viewInclusion" style="padding: 0px;">
+                                        <div class="row">
+                                            <div class="col s4"> @if($trip->customtrip->guide_cost > 0 ) Yes
+                                                (Included) @else No (Not Included) @endif </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="porter" class="col s12">
+                                    <div class="viewInclusion" style="padding: 0px;">
+                                        <div class="row">
+                                            <div class="col s4"> @if($trip->customtrip->porter_cost > 0 ) Yes
+                                                (Included) @else No (Not Included) @endif</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="entranceFee" class="col s12">
+
+                                    <div class="viewInclusion" style="padding: 0px;">
+                                        <div class="row">
+                                            <div class="col s4"> @if($trip->customtrip->entrancefee == 1) Yes
+                                                (Included) @else No (Not Included) @endif</div>
+                                            {{--<div class="col s4"> Entrance Fee: $210</div>--}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="MealsDetails" class="col s12">
+                                    <div class="viewInclusion" style="padding: 0px;">
+                                        <?php
+                                        $breakfast = 0;
+                                        $lunch = 0;
+                                        $dinner = 0;
+
+                                        foreach ($trip->itenary as $it) {
+                                            $meals = explode(',', $it->meals_included);
+                                            foreach ($meals as $meal) {
+                                                if (strtoupper($meal) == 'BREAKFAST') {
+                                                    $breakfast++;
+                                                } elseif (strtoupper($meal) == 'DINNER') {
+                                                    $dinner++;
+                                                } elseif (strtoupper($meal) == 'LUNCH') {
+                                                    $lunch++;
+                                                } else {
+                                                    continue;
+                                                }
+                                            }
+                                        }?>
+                                        @if($breakfast!=0)
+                                            <div class="row">
+                                                <div class="col s4">
+                                                    Breakfast: {{$breakfast}}
+                                                </div>
+
+                                                <div class="col s4">
+                                                    Lunch: {{$lunch}}
+                                                </div>
+
+                                                <div class="col s4">
+                                                    Dinner: {{$dinner}}
+                                                </div>
+                                            </div>
+                                        @else
+                                            <div class="row" style="text-align: center;">
+                                                No meals are available in inclusion
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div id="TransportationDetails" class="col s12">
+                                    <div class="viewInclusion" style="padding: 0px;">
+                                        <div class="row">
+                                            @foreach(explode(",",$trip->transportation) as $transport)
+                                                <div class="col s4">
+                                                    {{$transport}}
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="AccomodationDetail" class="col s12">
+                                    <div class="viewInclusion" style="padding: 0px;">
+                                        <?php
+                                        $hotel = 0;
+                                        $guesthouse = 0;
+                                        $teahouse = 0;
+                                        $lodge = 0;
+                                        $cottage = 0;
+                                        $camping = 0;
+                                        $homestay = 0;
+                                        foreach ($trip->itenary as $it) {
+                                            $acco = explode(',', $it->accomodation);
+                                            foreach ($acco as $a) {
+                                                if (strtolower($a) == 'hotel') {
+                                                    $hotel++;
+                                                }
+                                                if (strtolower($a) == 'guesthouse' or strtolower($a) == 'guest house') {
+                                                    $guesthouse++;
+                                                }
+                                                if (strtolower($a) == 'tea house' or strtolower($a) == 'teahouse') {
+                                                    $teahouse++;
+                                                }
+                                                if (strtolower($a) == 'lodge') {
+                                                    $lodge++;
+                                                }
+                                                if (strtolower($a) == 'cottage') {
+                                                    $cottage++;
+                                                }
+                                                if (strtolower($a) == 'camping') {
+                                                    $camping++;
+                                                }
+                                                if (strtolower($a) == 'homestay' or strtolower($a) == 'home stay') {
+                                                    $homestay++;
+                                                }
+                                            }
+                                        }
+                                        ?>
+                                        @if($hotel!=0 || $lodge!=0 || $teahouse!=0 || $cottage!=0 || $camping!=0 || $guesthouse!=0 || $homestay!=0)
+                                            <div class="row">
+                                                @if($hotel!=0)
+                                                    <div class="col s4">
+                                                        Hotel: {{$hotel}}&nbsp;Night(s)
+                                                    </div>
+                                                @endif
+
+                                                @if($lodge!=0)
+                                                    <div class="col s4">
+                                                        Lodge: {{$lodge}}&nbsp;Night(s)
+                                                    </div>
+                                                @endif
+
+                                                @if($teahouse!=0)
+                                                    <div class="col s4">
+                                                        Teahouse: {{$teahouse}}&nbsp;Night(s)
+                                                    </div>
+                                                @endif
+
+                                                @if($cottage!=0)
+                                                    <div class="col s4">
+                                                        Cottage: {{$cottage}}&nbsp;Night(s)
+                                                    </div>
+                                                @endif
+
+                                                @if($camping!=0)
+                                                    <div class="col s4">
+                                                        Camping(Tent): {{$camping}}&nbsp;Night(s)
+                                                    </div>
+                                                @endif
+
+                                                @if($guesthouse!=0)
+                                                    <div class="col s4">
+                                                        Guesthouse: {{$guesthouse}}&nbsp;Night(s)
+                                                    </div>
+                                                @endif
+                                                @if($homestay!=0)
+                                                    <div class="col s4">
+                                                        Home Stay: {{$homestay}}&nbsp;Night(s)
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        @else
+                                            <div class="row" style="text-align: center;">
+                                                No accommodation are available in inclusion
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div id="CityTourDetails" class="col s12">
+                                    <div class="viewInclusion" style="padding: 0px;">
+                                        <div class="row">
+                                            <div class="col s4">
+                                                @if($trip->customtrip->citytour_cost !=0 or $trip->customtrip->citytour_cost != null)
+                                                    Yes (Included)
+                                                @else
+                                                    No (Not Included)
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- ******** overview Section ends ********* -->
+        <!-- ******** tripfact Section starts ********* -->
+        <div id="tripfactSection" class="scrollspy col s12 tabContainer" style="background-color:#FAFAFA">
+            <div class="tabContent">
+                <div class="row" style="margin-top: -10px;">
+                    <div class="col l6 s12" style="padding:0px 10px;">
+                        <div class="tripfact trip-fact" style="background: white;padding: 30px 10px 5px;">
+                            <h2 class="titleHeadtwo" style="margin-top: -10px;"><span>  Trip Facts  </span></h2>
+
+                            <div class="dinc" style="text-align: justify-all;padding-left:25px;">
+                                {!! $trip->trip_information !!}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col l6 s12" style="padding:0px 4px;">
+                        <div class="tripfact why-trip" style="background: white;padding: 30px 10px 5px;">
+                            <h2 class="titleHeadtwo" style="margin-top: -10px;"><span> Why this Trip</span></h2>
+                            <ul class="collection tripfactList" style="border:0px;text-align: justify;margin:0;">
+                                <li class="collection-item"
+                                    style="background-color: white;">{{$trip->why_this_trip}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col" style="padding:0px 10px;">
+                        <div class="tripfact trip-note">
+                            <h4><i class="material-icons">speaker_notes</i><span> Trip Notes</span></h4>
+                            <div class="tripContent">
+                                <ul class="" style="border:0px;text-align: justify;">
+                                    <?php
+                                    $string = explode(":", $trip->trip_notes); ?>
+                                    @foreach ($string as $str)
+                                        <li class="">{{$str}}</li>
+                                    @endforeach
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- ******** tripfact Section ends ********* -->
+        <!-- ******** tripfact Section starts ********* -->
+        <div id="gallerySection" class="scrollspy col s12 tabContainer" style="background-color:#EEEEEE">
+            <div class="row tabContent" id="gallerySection">
+                <div class="col l6 s12" style="padding-right:20px;">
+                    <h2 class="titleHeadtwo"><span>  Location</span></h2>
+                    <div class="tripImage">
+                        @if(count($trip->gallery) > 0)
+                            <?php $count = 1; ?>
+                            @foreach($trip->gallery as $gallery)
+                                @if($gallery->map != 0)
+                                    <a href="#imageZoomModal" style="cursor: zoom-in;">
+                                        <img class="responsive-img mapImage lazyload"
+                                             src="{{url('images/gallery/'.$gallery->image)}}"
+                                             data-src="{{url('images/gallery/'.$gallery->image)}}"
+                                             alt="{{$trip->name}} map">
+                                    </a>
+                                    <div id="imageZoomModal" class="modal">
+                                        <div class="modal-content">
+                                            <img class="responsive-img lazyload"
+                                                 src="{{url('images/gallery/'.$gallery->image)}}"
+                                                 data-src="{{url('images/gallery/'.$gallery->image)}}"
+                                                 alt="{{$trip->name}} map">
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
+                        @endif
+                    </div>
+                </div>
+                <div class="col l6 s12">
+                    <h2 class="titleHeadtwo"><span>  Gallery </span></h2>
+                    <div class="tripImage" id="galleryImageSection">
+                        <div class="owl-2" style="width: 100%;position: relative;">
+                            <div class="owl-carousel galleryCaurosel owl-theme">
+                                @if(count($trip->gallery) > 0)
+                                    @foreach($trip->gallery as $gallery)
+                                        @if($gallery->map == 0)
+                                            <div class="item">
+                                                <img class="responsive-img lazyload"
+                                                     data-src="{{url('images/gallery/'.$gallery->image)}}" alt="gallery"
+                                                     id="galleryimg" alt="{{$trip->name}}">
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- ******** tripfact Section ends ********* -->
+        <!-- ******** itinerary Section starts ********* -->
+        <div id="itinerarySection" class="scrollspy col s12 tabContainer" style="background-color:#FAFAFA">
+            <div class="row tabContent">
+                <div class="col l8 s12 itineraryPart" id="itineraryPart" style="padding-right:20px;">
+                    <h2 class="titleHeadtwo" style="margin-bottom:30px;">
+                        <span id="itinerarydetail"> Brief Itinerary  </span>
+                        <div class="right expandAll">
+                                <span class="closeall collapBtn" id="minimize"
+                                      style="display: none;border:0px;">
+                                   <a class="" onclick="allCollapse()" style="cursor: pointer;">
+                                    <span style="font-size:12px;border:0px;">   Collapse All  </span>
+                                    </a>
+                                    <a class="btn-floating btn-small waves-effect waves-light red tooltipped"
+                                       onclick="allCollapse()" data-position="top"
+                                       data-tooltip="View Brief  Itinerary" style="margin-bottom: 0;"><i
+                                                class="material-icons">close</i>
+                                     </a>
+                                </span>
+                            <span class="openall collapBtn" id="expand" style="display: block;border:0px;">
+                                    <a class="" onclick="allExpand()" style="cursor: pointer;">
+                                        <span style="font-size:12px;border:0px;"> Expand All</span>
+                                    </a>
+
+                                    <a class="btn-floating btn-small waves-effect waves-light red tooltipped"
+                                       onclick="allExpand()" data-position="top"
+                                       data-tooltip="View Detailed Itinerary" style="margin-bottom: 0;"><i
+                                                class="material-icons">add </i>
+                                     </a>
+                                </span>
+                        </div>
+                    </h2>
+                    <ul class="collapsible" data-collapsible="expandable">
+                        @foreach($trip->itenary as $it)
+                            <?php $content = explode(':', $it->description)?>
+                            <li>
+                                <div class="collapsible-header CollapHead" style="position: relative;">
+                                    <i class="material-icons" style="color: white;">place</i>DAY {{$it->day+1}}
+                                    : {{strtoupper($content[0])}}
+                                    <a href="#detailItineraryModal" style="position: absolute;right:5px;"
+                                       class="btn-small waves-effect waves-light">
+                                    </a>
+                                </div>
+                                <div class="collapsible-body CollapBody" style="text-align: justify;">
+                                        <span>
+                                            {{str_replace($content[0].":", "", $it->description)}}
+                                            <?php $meals = explode(',', $it->meals_included)?>
+                                            <?php $highlights = explode(',', $it->included_activities)?>
+                                            <?php $accomodation = explode(',', $it->accomodation)?>
+                                            <div class="row">
+                                                <div class="col l4 s12">
+                                                        <h4 class="titleHeadFour">Meal:</h4>
+                                                        <ul>
+                                                            @if(!empty($meals) && count($meals))
+                                                                @foreach($meals as $meal)
+                                                                    <li> {{$meal}}</li>
+                                                                @endforeach
+                                                            @else
+                                                                No meals
+                                                            @endif
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col l4 s12">
+                                                        <h4 class="titleHeadFour">Accommodation:</h4>
+                                                        <ul>
+                                                            @if(!empty($accomodation) && count($accomodation) > 0)
+                                                                @foreach($accomodation as $acc)
+                                                                    <li> {{$acc}}</li>
+                                                                @endforeach
+                                                            @else
+                                                                No accommodation
+                                                            @endif
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col l4 s12">
+                                                        <h4 class="titleHeadFour">Activities:</h4>
+                                                        <ul>
+                                                            @if(!empty($highlights) && count($highlights) > 0)
+                                                                @foreach($highlights as $high)
+                                                                    <li> {{$high}}</li>
+                                                                @endforeach
+                                                            @else
+                                                                No Activities
+                                                            @endif
+                                                        </ul>
+                                                    </div>
+                                            </div>
+                                        </span>
+                                </div>
+                            </li>
+                        @endforeach
+                        <li>
+                            <div class="collapsible-header" style="display: none;"><i
+                                        class="material-icons">place</i>Detail Inclusions
+                            </div>
+                            <div class="collapsible-body" style="text-align: justify;">
+                                <div class="container">
+                                    <div class="title-wrapper1">
+                                        <span class="title hbb">Detail Inclusions</span>
+                                    </div>
+                                    <div class="dinc">
+                                        @if(!empty($trip->is_this_trip_right))
+                                            {!! $trip->is_this_trip_right !!}
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header" style="display: none;"><i
+                                        class="material-icons">place</i>Complimentary
+                            </div>
+                            <div class="collapsible-body">
+                                <div class="container">
+                                    <div class="title-wrapper1">
+                                        <span class="title hbb">Complimentary</span>
+                                    </div>
+                                    <div class="dinc">
+                                        @if(!empty($trip->complimentary))
+                                            {!! $trip->complimentary !!}
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header" style="display: none;"><i
+                                        class="material-icons">place</i>Exclusions
+                            </div>
+                            <div class="collapsible-body">
+                                <div class="container">
+                                    <div class="title-wrapper1">
+                                        <span class="title hbb">Exclusions</span>
+                                    </div>
+                                    <div class="dinc">
+                                        {!! $trip->exclusions !!} <br>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </li>
+                    </ul>
+                    <br>
+                </div>
+
+                <div id="faqsSection" class="faqSection" class="col l4 s12">
+                    <h2 class="titleHeadtwo" style="margin-bottom: 30px;"><span> FAQS </span></h2>
+                    @if(count($trip->faq) > 0)
+                        <ul class="collapsible" style="margin: 0;">
+                            @foreach($trip->faq as $faq)
+                                <li>
+                                    <?php $a = explode('?', $faq->trip_faq)?>
+                                    <div class="collapsible-header CollapHead CollapHead1">
+                                        {{$a[0].' ?'}}
+                                    </div>
+                                    <div class="collapsible-body CollapBody" style="text-align: justify;"><span>
+                                                {{$a[1]}}
+                                              </span></div>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <p> No FAQS</p>
+
+
+                    @endif
+                </div>
+            </div>
+
+            @if(count($trip->extraPackages))
+                <div class="row con tabContent" style="background-color: #E0DEDF;margin:-10px -3px;">
+                    <div class="col l12 s12">
+                        <h2 class="titleHeadtwo"><span> Optional Activities </span></h2>
+
+                        <div class="row">
+                            @foreach($trip->extraPackages as $package)
+                                <div class="col l4 m6 s12 ">
+                                    <div class="card">
+                                        <div class="card-image">
+                                            <img data-src="{{url('images/trips/extraPackages/thumbnail/'.$package->image)}}"
+                                                 class="responsive-img TripImage lazyload"
+                                                 alt="{{ucfirst($package->title)}} ">
+                                            <a class="btn-floating halfway-fab waves-effect waves-light blue activator"
+                                               style="right: 10px; top: 10px;">
+                                                <i class="fa fa-info" style="font-size: 16px;"></i></a>
+                                        </div>
+                                        <div class="card-content">
+                                            <p class="cardTitle"><span> {{ucfirst($package->title)}} </span></p>
+
+                                            @if(Auth::user() && (Auth::user()->is_active == 1))
+                                                <p> - USD $ {{$package->price}}</p>
+                                            @elseif(Auth::user() && (Auth::user()->is_active == 0))
+                                                Please <a href="/profile/edit/resendprimary/{{Auth::user()->id}}"
+                                                          style="font-size: 20px; font-weight: bold; text-transform: uppercase;">verify</a>
+                                                your account to see the price.
+                                            @else
+                                                Please <a href="/login"
+                                                          style="font-size: 14px !important;margin: 4px;background-color: #008EB0;	color: #fff;padding: 4px 10px;text-transform: capitalize;">login</a>
+                                                your account to see the price.
+                                            @endif
+                                        </div>
+                                        <div class="card-reveal">
+                                            <span class="card-title grey-text text-darken-4">{{ucfirst($package->title)}}
+                                                <i class="material-icons right">close</i></span>
+                                            <p>{!! $package->description !!}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+        </div> <!-- ******** itinerary Section ends ********* -->
+
+        <!-- ******** departures Section starts ********* -->
+        <div id="departuresSection" class="scrollspy col s12 tabContainer" style="background-color:#EEEEEE;">
+
+            @if(count($trip->date) > 0)
+                <div class="row tabContent">
+                    <div class="col l12 s12">
+                        <h2 class="titleHeadtwo"><span> Fixed Departures1 </span></h2>
+                        @if(!Auth::user())
+                            <div class="center-align" style="margin-bottom: 15px;">
+                                Please login to view the price of Fixed Departures
+                                <a class="waves-effect waves-light tableBtn" href="/login" style="padding: 5px 30px;">Login</a>
+                            </div>
+                        @endif
+                        <div class="fixed-months clearfix">
+                            @foreach($tripdatess as $tripdate)
+                                <a class="tripdate" data-id="{{$tripdate->new_date}}" data-tripid="{{$trip->id}}">
+                                    {{substr($tripdate->month_one,0,3)}} {{$tripdate->year}} [Trips:{{$tripdate->data}}]
+                                </a>
+                            @endforeach
+                        </div>
+                        @if(!empty($tripdatess))
+                            @if(count($tripdatess) > 0)
+                                <div class="fixed-months-body">
+                                    <table id="fixeddep" class="striped highlight centered responsive-table"
+                                           style="background-color: white;border:1px solid #e0e0e0;">
+                                        <thead style="background-color: #4F4F4F;color: white;">
+                                        <tr>
+                                            <th>Departure Date</th>
+                                            <th>Finish Date</th>
+                                            <th>Seats Availability</th>
+                                            @if(Auth::user())
+                                                <th>Price</th>
+                                            @endif
+                                            <th>Hold</th>
+                                            <th>Book</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @else
+                                <h5 class="text-center">No any Fixed Departures Available !</h5>
+                            @endif
+                        @endif
+                    </div>
+
+                </div>
+            @endif
+            {{-- <div id="similarTrips">
+                 @include('layouts.similartrips')
+             </div>--}}
+        </div> <!-- ******** departures Section ends ********* -->
+        <div id="reviewSection" class="scrollspy col s12 " style="background:#EEEEEE;">
+            <div class="row tabContent">
+                @include('layouts.reviewForm')
+            </div>
+        </div>
+    </div>
+    @include('layouts.nayareview')
+    <section id="reviews" class="scrollspy">
+        @include('layouts.enquiry')
+    </section>
+    @include('layouts.footer1')
+@endsection
+@section('scripts')
+    <script src="{{url('js/jquery.sticky.min.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="{{url('js/trip-page.min.js')}}"></script>
+    <script>
+        var aarr = window.location.href.split('#');
+        var moh = aarr[aarr.length - 1];
+        if (moh === "departures") {
+
+            $(document).ready(function () {
+                $('ul.table-of-contents').tabs('select_tab', 'departures');
+                document.getElementById('faqs').style.marginTop = "-50px";
+            });
+        }
+
+        $('#currencySubmit').on('click', function () {
+
+            $('.loadingStatus').removeClass('hide');
+
+            var toConvert = $('#currencyChange').val();
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "/currency/convert",
+                data: {
+                    '_method': 'POST',
+                    '_token': $('input[name=_token]').val(),
+                    'toConvert': toConvert,
+                },
+                success: function (data) {
+                    //Converting the discounted price
+                    $('.price').each(function () {
+                        var price = $(this).html();
+                        var convertedPrice = Math.round(price * data[0]);
+                        $(this).closest('.newPrice').find('.newConverted').html(" &nbsp;&nbsp;" + data[1] + " " + convertedPrice + "</strike>");
+                    });
+
+                    $('.loadingStatus').addClass('hide');
+                }
+            });
+        });
+        $(window).on('load', function () {
+            $(".owl-2 .galleryCaurosel").owlCarousel({
+                loop: !0,
+                margin: 10,
+                responsiveClass: !0,
+                slideSpeed: 200,
+                rewind: !0,
+                center: !0,
+                lazyLoad: !0,
+                animateOut: "slideOutDown",
+                animateIn: "flipInX",
+                autoplay: !0,
+                autoplayTimeout: 4e3,
+                autoplayHoverPause: !0,
+                responsive: {
+                    0: {items: 1, nav: !0},
+                    600: {items: 1, nav: !0},
+                    768: {items: 1, nav: !0},
+                    1e3: {items: 1, nav: !0}
+                }
+            })
+        })
+        //    Location Height
+        /* setTimeout(function () {
+             var galHeight = $("#galleryImageSection").height();
+             $(".tripImage .mapImage").css('height', galHeight);
+         }, 3000);*/
+
+        /* $(".scrollspy").onscroll(function () {
+             document.getElementById('faqs').style.marginTop = "0px";
+         });
+
+         function msb() {
+             document.getElementById('faqs').style.marginTop = "0px";
+         }*/
+
+    </script>
+    <script>
+        function allExpand() {
+            document.getElementById("itinerarydetail").innerHTML = "Detailed Itinerary";
+
+            $("#itineraryPart .collapsible-header").addClass("active");
+            $("#itineraryPart .collapsible").collapsible({accordion: false});
+
+            var a = document.getElementById("expand");
+            a.style.display = "none";
+
+            var b = document.getElementById("minimize");
+            b.style.display = "block"
+        }
+
+        function allCollapse() {
+
+            document.getElementById("itinerarydetail").innerHTML = "Brief Itinerary";
+
+            $("#itineraryPart .collapsible-header").removeClass(function () {
+                return "active";
+            });
+
+            $("#itineraryPart .collapsible").collapsible({accordion: true});
+            $("#itineraryPart .collapsible").collapsible({accordion: false});
+
+            var b = document.getElementById("minimize");
+            b.style.display = "none";
+
+            var a = document.getElementById("expand");
+            a.style.display = "block"
+
+        }
+
+        $(document).ready(function () {
+            var itineraryHeight = $("#itineraryPart .collapsible").height();
+            var faqHeight = $("#faqsSection .collapsible").height();
+            if (itineraryHeight > faqHeight) {
+                $("#itineraryPart .collapsible").css('height', faqHeight);
+                $("#faqsSection .collapsible").css('height', faqHeight);
+            } else if (faqHeight > itineraryHeight) {
+                $("#itineraryPart .collapsible").css('height', itineraryHeight);
+                $("#faqsSection .collapsible").css('height', itineraryHeight);
+            }
+            //Location Height
+            // setTimeout(function () {
+            var galHeight = $("#galleryImageSection").height();
+            console.log(galHeight);
+            $(".tripImage .mapImage").css('height', 550);
+            // }, 10000);
+        });
+
+        $(document).ready(function () {
+            $('.tripdate').on("click", function () {
+                var date = $(this).data("id");
+                var tripid = $(this).data("tripid");
+                $('.fixed-months a').css({'background-color': '', 'opacity': ''});
+                // $(".icha0").css({ 'background-color' : '', 'opacity' : '' });
+                $(this).css("cssText", "background-color:#17B2DE !important;");
+                // $(this).css('background-color','red');
+                // console.log(date, tripid);
+
+                $.ajax({
+                    type: 'POST',
+                    url: "{{route('showfixeddep')}}",
+                    data: {
+                        '_token': $('input[name=_token]').val(),
+                        'date': date,
+                        'tripid': tripid
+                    },
+                    success: function (data) {
+                        // if(data.trips.length > 0) {
+                        all = data.trips;
+                        // console.log(all);
+                        arrayLength = all.length;
+                        $('#fixeddep tbody').empty();
+                        for (var i = 0; i < arrayLength; i++) {
+                            var markup =
+                                "<tr id='actsrow' class=''>" +
+                                "<td>" + all[i]['start_date'] + "</td>" +
+                                "<td>" + all[i]['finish_date'] + "</td>" +
+                                "<td>" + all[i]['remainingseats'] + "</td>" +
+                                    @if(Auth::user())
+                                        "<td>" + '$ ' + all[i]['price'] + "</td>" +
+                                    @endif
+                                        "<td><a href='/holdthetrip/" + all[i]['id'] + "' class='waves-effect waves-light tableBtn '>Hold</a></td>" +
+                                "<td><a href='/book/" + all[i]['id'] + "' class='waves-effect waves-light tableBtn '>Book</a></td>" +
+                                "</tr>";
+                            $("#fixeddep tbody").append(markup).slideDown("fast");
+                        }
+                        // }else {
+                        //     alert("No any data available !");
+                        // }
+                    },
+                });
+
+            })
+        });
+
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-slimScroll/1.3.8/jquery.slimscroll.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('.fixed-months a:first').click();
+
+
+            // var factHeight = $(".trip-fact .dinc").height();
+            // var whyHeight = $(".why-trip .tripfactList").height();
+            // console.log(factHeight);
+            // console.log(whyHeight);
+            // console.log('mohan');
+            var factHeight = $(".trip-fact").height();
+            var whyHeight = $(".why-trip").height();
+
+            // console.log(factHeight, whyHeight);
+            if (factHeight > whyHeight) {
+                $(".trip-fact .dinc").css('height', whyHeight);
+                $(".why-trip .tripfactList").css('height', whyHeight);
+                $('.trip-fact .dinc').slimscroll({
+                    height: 'whyHeight',
+                    distance: '2px',
+                    alwaysVisible: false,
+                    railVisible: true,
+                    wheelStep: 10,
+                    color: '#008EB0'
+                });
+                $('.why-trip .tripfactList').slimscroll({
+                    height: 'whyHeight',
+                    distance: '2px',
+                    railVisible: true,
+                    alwaysVisible: false,
+                    wheelStep: 10,
+                    color: '#008EB0'
+                });
+            } else if (whyHeight > factHeight) {
+                $(".trip-fact .dinc").css('height', factHeight);
+                $(".why-trip .tripfactList").css('height', factHeight);
+                $('.trip-fact .dinc').slimscroll({
+                    height: 'factHeight',
+                    distance: '2px',
+                    alwaysVisible: false,
+                    railVisible: true,
+                    wheelStep: 10,
+                    color: '#008EB0'
+                });
+                $('.why-trip .tripfactList').slimscroll({
+                    height: 'factHeight',
+                    distance: '2px',
+                    alwaysVisible: false,
+                    railVisible: true,
+                    wheelStep: 10,
+                    color: '#008EB0'
+                });
+            }
+
+        });
+    </script>
+    <script>
+
+        $(document).ready(function () {
+            var itineraryHeight = $("#itineraryPart .collapsible").height();
+            var faqHeight = $("#faqsSection .collapsible").height();
+            console.log(itineraryHeight, faqHeight);
+
+            if (itineraryHeight > faqHeight) {
+                $("#itineraryPart .collapsible").css('height', faqHeight);
+                $("#faqsSection .collapsible").css('height', faqHeight);
+
+                $('#itineraryPart .collapsible').slimscroll({
+                    height: 'faqHeight',
+                    distance: '2px',
+                    alwaysVisible: false,
+                    railVisible: true,
+                    wheelStep: 10,
+                    color: '#008EB0'
+                });
+                $('#faqsSection .collapsible').slimscroll({
+                    height: 'faqHeight',
+                    distance: '2px',
+                    alwaysVisible: false,
+                    railVisible: true,
+                    wheelStep: 10,
+                    color: '#008EB0'
+                });
+            } else if (faqHeight > itineraryHeight) {
+                $("#itineraryPart .collapsible").css('height', itineraryHeight);
+                $("#faqsSection .collapsible").css('height', itineraryHeight);
+
+                $('#itineraryPart .collapsible').slimscroll({
+                    height: 'itineraryHeight',
+                    distance: '2px',
+                    alwaysVisible: false,
+                    railVisible: true,
+                    wheelStep: 10,
+                    color: '#000000'
+                });
+                $('#faqsSection .collapsible').slimscroll({
+                    height: 'itineraryHeight',
+                    distance: '2px',
+                    alwaysVisible: false,
+                    railVisible: true,
+                    wheelStep: 10,
+                    color: '#000000'
+                });
+            }
+        });
+
+        // elem.click();
+        // console.log(elem);
+
+        // elem.click();
+    </script>
+
+@endsection

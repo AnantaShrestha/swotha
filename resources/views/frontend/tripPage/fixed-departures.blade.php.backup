@@ -1,0 +1,322 @@
+@extends('layouts.master')
+@section('title')
+    <title>Fixed Departures of all time
+    </title>
+@endsection
+
+@include('layouts.loading-gif')
+
+@section('metatags')
+    {{--Here goes all the meta information for index page--}}
+@endsection
+{{--End of meta tags--}}
+{{--External css--}}
+@section('styles')
+    <link rel="stylesheet" href="{{url('css/frontend/index.min.css')}}">
+    <link rel="stylesheet" href="{{url('css/frontend/fixeddepartures.css')}}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.css">
+
+    <style>
+        #exampe_filter label input[placeholder]{
+            font-size:25px !important;
+        }
+        #exampe_wrapper.container{
+            width:90% !important;
+        }
+
+        @media only screen and (max-width: 992px){
+            table.responsive-table thead tr {
+                padding: 0 0 0 0;
+            }
+        }
+        #exampe_length label{
+            display: none;
+        }
+        .dataTables_wrapper .dataTables_filter {
+            float: none;
+            display: flex;
+            justify-content: center;
+            text-align: center;
+        }
+        .dataTables_wrapper .dataTables_filter input{
+            margin-left: 0px;
+        }
+
+        .tableBtn{
+            padding:2px 8px;
+            font-size: 15px;
+            color: white;
+            background: #008EB0;
+        }
+
+        .fixedDeparturePagination li{
+            background: #00B1FF;
+            color: white;
+            height: 30px;
+            width:30px;
+        }
+
+        .fixedDeparturePagination li.active{
+            background: tomato;
+            padding: 1px 10px;
+            color: white;
+            height: 30px;
+            width:30px;
+        }
+
+        .fixedDeparturePagination li a{
+            color: white;
+        }
+
+        @media only screen and (max-width: 980px) {
+            table.dataTable thead th{
+                padding: 10px 18px;
+            }
+            table.dataTable thead th:first-child{
+                padding: 9px 18px;
+            }
+
+            table.dataTable thead th:nth-child(5){
+                padding: 20px 18px;
+            }
+            table.dataTable thead th:nth-child(6){
+                padding: 15px 18px;
+            }
+            table.dataTable thead th:last-child{
+                padding: 16px 18px;
+                border-bottom: none;
+            }
+        }
+        .dataTables_wrapper .dataTables_filter input[type=search] {
+            border: 2px solid #008EB0;
+            border-radius: 6px;
+            background-color: #FFF;
+            margin-bottom: 20px;
+        }
+
+        .dataTables_wrapper .dataTables_filter input[placeholder]{
+            font-size:25px !important;
+            font-weight: bolder;
+        }
+
+        .dataTables_wrapper .dataTables_filter input[type=search]:focus {
+            border: 2px solid #008EB0;
+        }
+
+        table.dataTable, table.dataTable th, table.dataTable td{
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        .imgallery{
+            height:50px;
+            width:100px;
+        }
+
+
+    </style>
+
+@endsection
+{{--end of content--}}
+{{--Start of content section--}}
+@section('content')
+    {{--Navbar--}}
+    @include('layouts.navbar2')
+    <br>
+    {{--Start of  Last minute deal--}}
+    <div class="containerPadding" style="width: 90%;margin:auto;">
+            <h1 class="titleHeadtwo"> <span>  ALL FIXED DEPARTURES </span></h1>
+        <br>
+        @if(!Auth::user())
+            <div class="center-align" style="margin-bottom: 5px;margin-top: -15px;">
+                <a class="waves-effect waves-light btn " href="/login" style="line-height: 40px">Please login to view the price of Fixed Departures</a>
+            </div>
+        @endif
+
+        <table class="responsive-table" data-page-length="25" id="exampe" style="background-color: white;border:1px solid #e0e0e0;">
+                <thead  style="background-color: #4F4F4F;color: white;text-align: center">
+                    <tr>
+                        <th style="text-align: center">Trip Name</th>
+                        <th class = "hide-on-med-and-down">Gallery</th>
+                        <th>Seats Availability</th>
+                        <th>Departure Date</th>
+                        <th>Days</th>
+                        @if(Auth::user())
+                            <th>Price</th>
+                        @endif
+                        <th>HOLD</th>
+                        <th>BOOK</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @if(!empty($allfixed))
+                    @foreach($allfixed as  $deal)
+                        <tr>
+                            <td style="text-align:left;">
+                                <a class="waves-effect waves-light " style="color:#008EB0;text-align: center;padding-left: 20px;" href="/trip/{{$deal->trips->slug}}" target="_blank"><b>{{$deal->trips->name}}</b> </a>
+                            </td>
+                            <td class = "hide-on-med-and-down">
+                                <div class="">
+                                    <div class="card-image">
+                                        <a href="/trip/{{$deal->trips->slug}}" target="_blank">
+                                            <img data-src="{{url('images/trips/thumbnail/'.$deal->trips->cover_image)}}" class="imgallery lazyload" alt="{{$deal->trips->name}}">
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="waves-effect waves-light tableBtn lastmintooltipBtn tooltipped" style="color:white;
+                                        background-color: @if($deal->remainingseats >= 10) #008EB0 @elseif($deal->remainingseats >= 5)
+                                        #d5d50b @else red @endif" data-tooltip="
+                                        @if($deal->remainingseats >= 10)
+                                        There are good number of seats available. Be one of the first ones to book the trip for this date!
+                                    @elseif($deal->remainingseats >= 5)
+                                        Only limited seats are available for this departure date. Please make sure to book or hold as soon as possible!
+                                    @else
+                                        The number of seats for this trip is almost full or may not be available. Please leave an enquiry for more details!
+                                    @endif" data-position="top"> Available
+                                </span>
+                            </td>
+                            <td>{{$deal->start_date}}</td>
+                            <td>{{$deal->trips->days}} days</td>
+                            @if(Auth::user())
+                                <td><strike style = "margin-left:25px">$ {{$deal->trips->price}}<br></strike>
+                                    <span style = "color:#D8343D;font-size:20px; font-weight: 600;">
+                                    <i class="fa fa-fire" aria-hidden="true"></i> $ {{round($deal->price - $deal->discount/100 * $deal->price)}}</span>
+                                </td>
+                            @endif
+
+                            @if(strtotime($deal->start_date) > strtotime('-1 month ago'))
+                        <td>
+                                <?php
+                                if(Auth::user()){
+                                    $seats = \App\HoldDates::where([
+                                        ['user_id', '=', Auth::user()->id],
+                                        ['is_confirmed', '=', 1],
+                                    ])->get();
+                                    $singleTotal = 0;
+                                    $allTotal = 0;
+                                    $temp = 0;
+                                    foreach($seats as $seat){
+                                        if($deal->id == $seat->trip_id){
+                                            if(strtotime($seat->trips->start_date) == strtotime($deal->start_date)){
+                                                $singleTotal += $seat->seats;
+                                            }
+                                        }
+
+                                        $allTotal += $seat->seats;
+                                    }
+                                }
+                                ?>
+                                @if($deal->remainingseats > 0)
+                                    @if((Auth::user()))
+                                        <a  href="#hold1{{$deal->id}}" class="waves-effect waves-light tableBtn lastminBookBtn  modal-trigger tooltipped hbb" data-tooltip="Please note that if seats are available, you can hold up to 7 seats of any
+                                            particular trip, and 14 seats in total, at a given period of time.">Hold</a>
+                                    @else
+                                        <a class="waves-effect waves-light tableBtn lastminBookBtn  hbb" href="/login"  title="Login to Hold">Hold</a>
+                                    @endif
+                                @endif
+
+                                {{--this is change--}}
+                                <div id="hold1{{$deal->id}}" class="modal" style="border: 4px solid #17B3DE;overflow: visible;">
+                                    <div class="modal-content" >
+                                        <form action = "/hold/{{$deal->id}}" method="post" id="form">
+                                            {{csrf_field()}}
+                                            <span style="font-size:12px;text-transform: none;">
+                                                Please note that if seats are available, you can hold up to 7 seats of any particular trip, and 14 seats in total, at a given period of time.
+                                            </span>
+                                            <input type="hidden" name = 'deal_id' value="{{$deal->id}}">
+                                            <div class="input-field row" style="background-color:
+                                            white;border-radius: 5px; height: 46px;">
+                                                <select name="seats" id="seats">
+                                                    <option selected disabled="disabled">Select No. Of Seats to hold</option>
+                                                    <?php
+                                                    if($deal->remainingseats > 7){
+                                                        $seats = 7;
+                                                    } else {
+                                                        $seats = $deal->remainingseats;
+                                                    }
+                                                    ?>
+                                                    @for($i=1; $i<=7; $i++)
+                                                        <option value="{{$i}}"
+                                                        @if(Auth::user() && (((($singleTotal+$i) > 7))|| ((($allTotal+$i)) > 14) || ($i > $deal->remainingseats)))
+                                                            {{'disabled'}}
+                                                                @endif
+                                                        >{{$i}}</option>
+                                                    @endfor
+                                                </select>
+                                            </div>
+                                            <br>
+                                            <div class="row center-align">
+                                                <button type="submit"
+                                                        class="waves-effect waves-light btn btn-block  tableBtn lastminBookBtn" name="submit"
+                                                        @if(Auth::user() && (($allTotal+1) > 14 || ($singleTotal+1) > 7)))
+                                                        {{'disabled'}}
+                                                        @endif
+                                                >
+                                                    Continue</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                        </td>
+                        @else
+                        <td>
+                            <span style="visibility:hidden;"> . </span>
+                        </td>
+                        @endif
+
+                            <td><a href="/book/{{$deal->id}}" class="waves-effect waves-light  tableBtn">Book</a></td>
+                        </tr>
+                    @endforeach
+
+                @endif
+                </tbody>
+            </table>
+     </div>
+    
+    <br><br><br>
+
+    @include('layouts.footer1')
+@endsection
+@section('scripts')
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#exampe').DataTable( {
+                "order": [[ 3, "asc" ]],
+            } );
+
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("overlay").style.display = "none";
+
+            $('#exampe_wrapper').addClass('container');
+            $('table#exampe').css({width:""});
+            $('table#exampe th').css({width:""});
+//            $('table.dataTable').css({box-sizing:""});
+
+//            $('#exampe_filter label input').each(function(){
+//               originalText =$(this).html();
+//               newText = originalText.replace('Search','');
+//               $(this).html = newText;
+//            });
+                
+//            $('#exampe_filter label input').addClass('search-input');
+            $('#exampe_filter label').contents().filter( function(){
+                return this.nodeType===3;
+            }).remove();
+
+            $('#exampe_filter label input').attr('placeholder','Search');
+
+            $('#exampe_filter label input').attr('id','fixedDepartureSearchBar');
+
+            $('#exampe_filter label').css({
+                'width': '100%',
+                'margin': '0px 20%'
+            });
+//            $('#exampe_filter label input[placeholder]').css('fontSize','25');
+        } );
+    </script>
+@endsection
+

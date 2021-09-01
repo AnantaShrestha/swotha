@@ -1,0 +1,2145 @@
+@extends('layouts.master')
+@section('title')
+    <title>
+        Booking Form
+    </title>
+@endsection
+@section('metatags')
+@endsection
+
+@section('styles')
+    <link rel="stylesheet" href="{{url('css/frontend/booking.css')}}">
+
+    <link rel="stylesheet" href="{{url('css/customtrip.min.css')}}">
+    <style>
+
+        input:focus:invalid{
+            border-bottom-color: red !important;
+        }
+
+        .cf:before,
+        .cf:after {
+            content: " "; /* 1 */
+            display: table; /* 2 */
+        }
+
+        .cf:after {
+            clear: both;
+        }
+
+        /**
+         * For IE 6/7 only
+         * Include this rule to trigger hasLayout and contain floats.
+         */
+        /*.cf {*/
+        /**zoom: 1;*/
+        /*}*/
+        .wrapper {
+            margin-right: auto;
+            margin-left: 2%;
+            margin-top: 50px;
+            width: 95%;
+        }
+
+        .content {
+            padding: 10px 15px;
+        }
+
+        .content h1 {
+            margin-top: 0;
+        }
+
+        .content p,
+        .sidebar p {
+            font-family: "BLOKKNeue-Regular";
+        }
+
+        .sidebar {
+            padding: 20px;
+            color: #000000;
+        }
+
+        .sidebar h3 {
+            margin: 0;
+        }
+
+        .content,
+        .sidebar {
+            float: left;
+        }
+
+        /* The sticky */
+        .sidebar {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 8%;
+        }
+
+        .hea {
+            background-color: #989898;
+            color: white;
+            font-family: "Roboto";
+            padding:8px;
+            margin-right: 3px;
+            margin-left:3px;
+            box-shadow: 2px 10px 10px #989898;
+
+        }
+
+        table {
+            width: 100%;
+            display: table;
+        }
+
+        td, th {
+            padding: 3px 3px;
+        }
+
+        h4 {
+            font-size: 1.80rem;
+        }
+
+        h6 {
+            font-weight: 600;
+        }
+
+        .row {
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 0px;
+        }
+
+        input,
+        button {
+            background-color: transparent;
+            border: 0;
+        }
+
+        .input-field.input-field-composed {
+            padding-right: 0;
+            position: relative;
+            width: 100%;
+            margin-left: 0;
+        }
+
+        .btn#submitcoupon {
+            position: absolute;
+            margin:0px;
+            left: 51%;
+            top: 0px;
+            /*width: auto;*/
+            padding-right:5px;
+            padding-left: 5px;
+            margin-left: -5px;
+            background-color: #2E7685;
+            border-radius: 0 10px 10px 0;
+        }
+
+        input#couponcode {
+            position: absolute;
+            top:0px;
+            width: 50% !important;
+            border: 1px solid #72BBCC;
+            border-right: none;
+            border-radius: 10px 0px 0px 10px;
+            height: 34px;
+            text-transform: uppercase;
+            font-size: 15px;
+            padding-left: 5px;
+        }
+
+        .iamvisible{
+            display: block;
+        }
+
+        @media only screen and (min-width: 994px) {
+            .fName{
+                width: 25% !important;
+            }
+
+            .mName{
+                margin-left: 5% !important;
+            }
+
+            .lName{
+                margin-left: 5% !important;
+                width: 25% !important;
+            }
+
+            .bEmail{
+                width: 33% !important;
+            }
+
+            .bContactNo{
+                margin-left: 5% !important;
+            }
+            .bZipCode{
+                margin-left: 3% !important;
+            }
+            .bPassportNo{
+                margin-left: 3% !important;
+                width: 25% !important;
+            }
+            .bDOI{
+                margin-left: 2% !important;
+            }
+            .bSelectCountry{
+                width: 33% !important;
+            }
+            .bState{
+                margin-left: 5% !important;
+            }
+            .bPermaAddress{
+                width: 33% !important;
+            }
+            .bTown{
+                margin-left: 5% !important;
+                width: 25% !important;
+            }
+            .bTempoAddress{
+                margin-left: 5% !important;
+            }
+            .noOfTravellers{
+                background-color: white;
+                height: 46px;
+                text-align: center;
+                width: 30% !important;
+                margin-left: 12% !important;
+            }
+            .tripDepartureDate{
+                background-color: white;
+                height: 46px;
+                text-align: center;
+                width: 30% !important;
+                margin-left:12% !important;
+            }
+        }
+
+        .cf .col{
+            padding:2px 5px;
+        }
+
+        .cf .input-field{
+            margin-top:0px;
+        }
+
+        @media only screen and (max-width:390px){
+            #bookingFormInfoCard .col{
+                padding: 0px;
+            }
+            #paymentBtn .btn{
+                margin-top:2px;
+            }
+
+        }
+
+        @media only screen and (max-width: 600px) {
+            .hea {
+                font-size: 1.92rem;
+            }
+        }
+
+        @media only screen and (min-width:992px) and (max-width: 1194px){
+            #paymentBtn .btn{
+                margin-top:2px;
+            }
+        }
+
+        #invoiceDetailsBtn{
+            height: auto;
+            line-height: inherit;
+            padding: 5px 10px;
+        }
+
+        /*@media only screen and (max-width:454px) {*/
+        /*#invoiceDetailsBtn{*/
+        /*height: auto;*/
+        /*line-height: inherit;*/
+        /*padding: 7px;*/
+        /*}*/
+        /*}*/
+
+    </style>
+@endsection
+@section('content')
+    @include('layouts.navbar2')
+    <div class="clear"></div>
+    <div class="clear"></div>
+    <div class="wrapper cf row" >
+        <div class="col l8 content" style="margin-top: -10px;">
+            <h2  class="titleHeadtwo" style="font-size: 18px;padding: 10px;"> <span class="reviewTitle"> {{$trips->name}} </span> </h2>
+            <div class="card hoverable">
+                <div class="row center-align">
+                    <div class="col l2 m2 s3">
+                        <h6>Trip code</h6>
+                        <div>{{$trips->code}}</div>
+                    </div>
+                    <div class="col l2 m2 s4">
+                        <h6>Location</h6>
+                        <div>{{$trips->start_location}} - {{$trips->finish_location}}</div>
+                    </div>
+                    <div class="col l2 m2 s4">
+                        <h6>Ages</h6>
+                        <div>Min {{$trips->ages}}</div>
+                    </div>
+                    <div class="col l2 m2 s4">
+                        <h6>Venture</h6>
+                        <div>{{$trips->ventures}}</div>
+                    </div>
+                    <div class="col l2 m2 s4">
+                        <h6>Duration</h6>
+                        <div>{{$trips->days}} Days - {{$trips->trekdays}}Days</div>
+                    </div>
+                    <div class="col l2 m2 s4">
+                        <h6>Difficulty</h6>
+                        <div>
+                            @if($trips->physical_rating == 1)
+                                Easy
+                            @elseif($trips->physical_rating == 2)
+                                Moderate
+                            @elseif($trips->physical_rating  == 3)
+                                Hard
+                            @elseif($trips->physical_rating  == 4)
+                                Very Hard
+                            @elseif($trips->physical_rating  == 5)
+                                Severe
+                            @elseif($trips->physical_rating  == 6)
+                                Very Severe
+                            @else
+                                Extreme
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form id="firstform" action="/tripbook-confirm" method="post">
+                <input type="hidden" name="invoiceno" value="{{$invoiceNo}}">
+                <input type="hidden" name="tripid" value="{{$trips->id}}">
+                <div class="card hoverable">
+                    <div class="row">
+                        <div class="input-field col l6 m6 s12 bracket noOfTravellers"
+                             style="">
+
+                            <select id="not" name="not" class="validate" required>
+                                    <option value="{{$trips->min_group_size}}" selected>No of Travellers :{{$trips->min_group_size}}</option>
+                                @for($z = $trips->min_group_size+1; $z <= 14; $z ++)
+                                    <option value="{{$z}}">No of Travellers :{{$z}}</option>
+                                @endfor
+                            </select>
+                            <label for="not"></label>
+                        </div>
+                        <div class="input-field col l6 m6 s12 tripDepartureDate" style="">
+                            <input type="date" id="startdate" name="start_date" class="datepicker1" required>
+                            <label for="startdate" data-error="fill in the date" data-success="right" style="text-align: center"><b>Trip Departure Date*</b></label>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="card hoverable"  style="padding: 0px;">
+                    <h1 style="text-align: center;font-size: 18px;font-weight: bolder;padding: 10px 20px;background: #B7BDBF;"> Lead Traveller</h1>
+                    <div class="row">
+                        <div id="bookform">
+                            <div class="row">
+                                <div style="font-size: 20px;margin:9px 2px;" class="hb">
+                                    <i class="material-icons tiny">person</i>
+                                    <b>Personal Information:</b>
+                                </div>
+                                <div class="row">
+                                    <div class="col l1 m6 s12">
+                                        <div class="input-field">
+                                            <select  id="koho" name = "title[1]" required>
+                                                <option value="" disabled selected><b>Title*</b></option>
+                                                <option value = "mr">Mr</option>
+                                                <option value = "mrs">Mrs</option>
+                                                <option value = "ms">Ms</option>
+                                                <option value = "miss">Miss</option>
+                                            </select>
+                                            <label for="koho"></label>
+                                        </div>
+                                    </div>
+                                    <div class="input-field col l4 m6 s12 fName" style="">
+                                        <input name="fname[1]" id="fname" type="text" class="validate" onkeyup="cfirst()" required>
+                                        <label><b>First Name*</b></label>
+                                    </div>
+                                    <div class="input-field col l3 m6 s12 mName" style="">
+                                        <input name="mname[1]" id="mname" type="text" class="validate" onkeyup="csecond()">
+                                        <label><b>Middle Name (Optional)</b></label>
+                                    </div>
+                                    <div class="input-field col l4 m6 s12 lName" style="">
+                                        <input name="lname[1]" id="lname" type="text" class="validate" onkeyup="cthird()" required>
+                                        <label><b>Last Name*</b></label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col l5 m6 s12 bEmail" style="">
+                                        <input id="name" type="email" name="email[1]" class="validate" required>
+                                        <label for="name"><b>Email*</b></label>
+                                    </div>
+                                    <div class="input-field col l3 m6 s12 bContactNo" style="">
+                                        <input type="number" id="contactno" name="contactno[1]" class="validate" required>
+                                        <label for="name"><b>Contact number*</b></label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div>
+                                        <div class="input-field col l1 m4 s12">
+                                            <select class="validate" name="dd[1]" required>
+                                                <option value="" disabled selected><b>DOB*</b></option>
+                                                @for($d = 1; $d <= 31; $d++)
+                                                    <option value="{{$d}}">{{$d}}</option>
+                                                @endfor
+                                            </select>
+                                        </div>
+                                        <div class="input-field col l1 m4 s12">
+                                            <select class="validate" name="mm[1]" required>
+                                                <option value="" disabled selected><b>Month*</b></option>
+                                                <option value="1">Jan</option>
+                                                <option value="2">Feb</option>
+                                                <option value="3">Mar</option>
+                                                <option value="4">Apr</option>
+                                                <option value="5">May</option>
+                                                <option value="6">Jun</option>
+                                                <option value="7">Jul</option>
+                                                <option value="8">Aug</option>
+                                                <option value="9">Sep</option>
+                                                <option value="10">Oct</option>
+                                                <option value="11">Nov</option>
+                                                <option value="12">Dec</option>
+                                            </select>
+                                        </div>
+                                        <div class="input-field col l1 m4 s12">
+                                            <select class="validate" name="year[1]" required>
+                                                <option value="" disabled selected><b>Year*</b></option>
+                                                @for($d = date('Y'); $d >= 1930; $d--)
+                                                    <option value="{{$d}}">{{$d}}</option>
+                                                @endfor
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="input-field col l3 m6 s12 bZipCode" style="">
+                                        <input name="zip[1]" type="number" class="validate">
+                                        <label><b>Postcode / Zip (Optional)</b></label>
+                                    </div>
+                                    <div class="input-field col l2 m6 s12 bPassportNo" style="">
+                                        <input id="passn" type="number" name="passportno[1]" class="validate" required>
+                                        <label for="passn" type="number"><b>Passport number*</b></label>
+                                    </div>
+                                    <div class="input-field col l2 m12 s12 bDOI" style="">
+                                        <select name="doi[1]" class="validate">
+                                            <option value="null" selected><b>Date of issue</b></option>
+                                            @for($d = date('Y'); $d >= 1930; $d--)
+                                                <option value="{{$d}}">{{$d}}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                </div>
+                                <div style="font-size: 20px;margin: 9px 2px;" class="hb">
+                                    <i class="material-icons tiny">location_on</i>
+                                    <b>Location:</b></div>
+                                <div class="row">
+                                    <div class="input-field col l4 m6 s12 bSelectCountry" style="">
+                                        <select id="country" name="country[1]" class="validate" required>
+                                            <option value="" disabled selected><b>Select your Country*</b></option>
+                                            @foreach($countries as $country)
+                                                <option value="{{$country['name']}}">{{$country['name']}}</option>
+                                            @endforeach
+                                        </select>
+                                        <label for="country"></label>
+                                    </div>
+                                    {{--third row--}}
+                                    <div class="input-field col l3 m6 s12 bState" style="">
+                                        <input name="state[1]" type="text" class="validate">
+                                        <label><b>State / Province (Optional)</b></label>
+                                    </div>
+                                    <div class="input-field col l4 m6 s12 bTown" style="">
+                                        <input name="town[1]" type="text" class="validate">
+                                        <label><b>Town (Optional)</b></label>
+                                    </div>
+                                    <div class="input-field col l4 m6 s12 bPermaAddress" style="">
+                                        <input name="paddress[0]" type="text" class="validate" required>
+                                        <label><b>Permanant Address*</b></label>
+                                    </div>
+                                    <div class="input-field col l4 m6 s12 bTempoAddress" style="">
+                                        <input name="taddress[1]" type="text" class="validate">
+                                        <label><b>Temporary Address (Optional)</b></label>
+                                    </div>
+                                </div>
+                                <div style="font-size: 20px; padding-bottom: 10px;margin: 9px 2px;" class="hb">
+                                    <i class="material-icons tiny">info</i>
+                                    <b>General:</b></div>
+
+                                <div class="row">
+                                    <div class="input-field col l9 m12 s12">
+                                        <div class="row">
+                                            <div class="insurance-show">
+                                                <div class="input-field col l4 m6 s11" >
+                                                    <input id="ic" name="ic[1]" type="text" class="validate"  />
+                                                    <label for="ic"><b>Insurance Company </b></label>
+                                                </div>
+                                                <div class="input-field col l4 m6 s11">
+                                                    <input id="ipn" name="ipn[1]" type="number" class="validate"  />
+                                                    <label for="ipn"><b>Insurance Policy Number</b></label>
+                                                </div>
+                                                <div class="input-field col l4 m6 s11">
+                                                    <input id="icn" name="icn[1]" type="number" class="validate" >
+                                                    <label for="icn"><b>Contact</b> </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <strong style="font-size: 14px;">
+                                            Note: <span style="padding: 2px;"> Insurance</span> is mandatory for the trips. You must be covered for both medical
+                                            issues & emergency evacuation - minimum coverage US$100,000.(For high altitude adventures) *
+                                        </strong>
+                                    </div>
+                                    <div class="input-field col l3 m12 s12">
+                                        <div class="input-field col l12 m12 s12">
+                                            <select name="feedback[0]" class="validate">
+                                                <option value="null" selected>How did you hear about us</option>
+                                                <option value="Previous Client" id="previousclient">I am a previous client</option>
+                                                <option value="Internet" id="internet">Internet Search</option>
+                                                <option value="Facebook" id="facebook">Facebook</option>
+                                                <option value="Twitter" id="twitter">Twitter</option>
+                                                <option value="Recommendation" id="recommendation">Friend Recommendation</option>
+                                                <option value="Tripadvisor" id="tripadvisor">Trip Advisor</option>
+                                                <option value="Lonelyplanet" id="lonelyplanet">Lonely Planet</option>
+                                                <option value="Others" id="others">Others</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="card hoverable"  style="padding: 0px;">
+                    @if(count($allequipments) > 0)
+                        <div class="row">
+                            <h1 style="text-align: center;font-size: 18px;font-weight: bolder;padding: 10px 20px;background: #B7BDBF;">Rental Services</h1>
+                            <?php $count = 0; ?>
+                            @foreach($allequipments as $equip)
+                                <div id="extraequip" class="col l4 m6 s12">
+                                    <div class="card-panel hoverable">
+                                        <div class="row" style="margin-bottom: -35px; font-weight: 500;">
+                                            <div class="col l12 m12 s12 center-align">
+                                                <input type="hidden" name = "equipment_name[{{$count}}]" value="{{$equip->name}}">
+                                                <input type="hidden" name = "equipment_price[{{$count}}]" value="{{$equip->price}}">
+                                                <div class="row">
+                                                    <div class="col l4">
+                                                        <img src="{{url('images/equipments/thumbnail/'.$equip->image)}}" height="52px" alt="" style="padding: 8px;">
+                                                    </div>
+                                                    <div class="col l4" id="eqname{{$equip->id}}" style="margin-top: 5%; font-weight: 500;">{{$equip->name}}</div>
+                                                    <div class="col l4" style="margin-top: 5%;">$ <span id="eqprice{{$equip->id}}">{{$equip->price}}</span></div>
+                                                </div>
+                                            </div>
+                                            <div class="col l12 m12 s12 center-align">
+                                                <div class="panel-body">
+                                                    <div class="row">
+                                                        <div class="value-button" id="decrease" onclick="downequip({{$equip->id}})" value="Decrease Value"
+                                                             style="background:#008EB0">
+                                                            <i class='material-icons' style="color: white;">exposure_neg_1</i>
+                                                        </div>
+                                                        <input type="text" id="count{{$equip->id}}" name="equipment_quantity[{{$count}}]"
+                                                               class="counter{{$equip->id}}" value="0" readonly autocomplete="off"
+                                                               style="width: 40px; text-align: center; color: black"/>
+                                                        <div class="value-button" id="increase" onclick="upequip({{$equip->id}})" value="Increase Value"
+                                                             style="background:#008EB0">
+                                                            <i class='material-icons' style="color: white;">exposure_plus_1</i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><?php $count++ ?>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+                <br>
+                <div class="card hoverable" style="padding: 0px;">
+                    @if(count($extrapackages) > 0)
+                        <h1 style="text-align: center;font-size: 18px;font-weight: bolder;padding: 10px 20px;background: #B7BDBF;">Optional Activities</h1>
+                        <div class="row">
+                            <?php $count1 = 0; ?>
+                            @foreach($extrapackages as $extrapackage)
+                                <input type="hidden" name = "activity_name[{{$count1}}]" value="{{$extrapackage->title}}">
+                                <div class="col l4 m6 s12">
+                                    <div class="card">
+                                        <div class="card-image">
+                                            <img src="{{url('images/trips/extraPackages/thumbnail/'.$extrapackage->image)}}">
+                                            <input type="hidden" id="actprice{{$extrapackage->id}}" name="actprice[{{$count1}}]" value="{{$extrapackage->price}}">
+                                            <span class="pricetag" >USD ${{$extrapackage->price}}</span>
+                                            <span id="actname{{$extrapackage->id}}" class="pactitle">{{$extrapackage->title}}</span>
+                                        </div>
+                                        <div class="col l12 m12 s12 center-align">
+                                            <div class="panel-body" style="margin-top:7px;">
+                                                <div class="row">
+                                                    <div class="value-button" id="decrease" onclick="downoptact({{$extrapackage->id}})" value="Decrease Value"
+                                                         style="background:#008EB0">
+                                                        <i class='material-icons' style="color: white;">exposure_neg_1</i>
+                                                    </div>
+                                                    <input type="text" id="count1{{$extrapackage->id}}" name="optact_number[{{$count1}}]"
+                                                           class="counter1{{$extrapackage->id}}" value="0" style="width: 40px; text-align: center; color: black" readonly
+                                                           autocomplete="off"/>
+                                                    <div class="value-button" id="increase" onclick="upoptact({{$extrapackage->id}})" value="Increase Value"
+                                                         style="background:#008EB0">
+                                                        <i class='material-icons' style="color: white;">exposure_plus_1</i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><?php $count1++ ?>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+                <div id="allother" class="card hoverable" style="display:none">
+                    <div class="row">
+                        <div id="extraform">
+                        </div>
+                    </div>
+                </div>
+                <div id="modal1" class="modal">
+                    <div class="modal-content" style="padding: 0px;">
+                        <div class="center-align" >
+                            <h4 style="font-weight: 500;background:#008EB0;color:white;padding:10px;">Swotah Travel and Adventure Pvt. Ltd</h4>
+                            
+                            <div style="padding: 20px;">
+                                <div>
+                                    <b><span id="kotitlem">&nbsp;</span></b>
+                                        <span id="cfnamem">&nbsp; </span>
+                                        <span id="cmnamem">&nbsp;</span>
+                                        <span id="clnamem"></span>
+                                </div>
+
+                                <table class="table table-responsive responsive-table">
+                                    <tr>
+                                        <td> <b> Invoice No: </b> {{$invoiceNo}}</td>
+                                        <td> <b> Booking Date: </b> {{date("j F, Y")}}</td>
+                                        <td> <b> Trip Departure Date: </b> <span id="janedin1"></span></td>
+                                    </tr>
+                                </table>
+                                <table id="" class=" highlight">
+                                    <thead style="text-align: center;background: #4D4D4D;color:white;padding: 2px;border-radius: 0px;">
+                                    <tr>
+                                        <th>DESCRIPTION</th>
+                                        <th>PRICE</th>
+                                        <th>PAX</th>
+                                        <th>TOTAL</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody  style="padding: 3px; margin-top: 0;border:1px solid #e0e0e0;">
+                                    <tr>
+                                        <td><b>{{$trips->name}}</b></td>
+                                        <td><br>${{$trips->price}}</td>
+                                        <td><span class="pax">{{$trips->min_group_size}}</span></td>
+                                        <td>USD $ <span class="triptotal">
+                                            {{$trips->min_group_size * $trips->price}}
+                                        </span></td>
+                                    </tr>
+
+                                    @if(count($allequipments) > 0)
+                                        <tr>
+                                            <td><b>Rental Services</b></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>USD $<span id="eqsubtotal2">0</span></td>
+                                        </tr>
+                                    @endif
+
+
+                                    @if(count($extrapackages) > 0 )
+                                        <tr>
+                                            <td><b>Optional Activities</b></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>USD $<span id="actssubtotal2">0</span></td>
+                                    @endif
+                                    <tr>
+                                        <td>
+                                            <b>Discounts</b><br>
+                                            <table id="discounts" class="responsive-table">
+                                                <tr>
+                                                    @if($trips->special_discount != 0 && $trips->special_discount != null)
+                                                        <td> Special Trip Discount({{$trips->special_discount}}%)</td>
+                                                        <input type="hidden" name="specialdis" value="{{$trips->special_discount}}">
+                                                        <?php $std = $trips->special_discount; ?>
+                                                    @else
+                                                        <?php $std = 0; ?>
+                                                    @endif
+                                                    <td>
+                                                        <span id="gdiscount"></span>
+                                                    </td>
+                                                    <input class="gdiscount" type="hidden" name="groupdiscount" value="0">
+                                                    <td>
+                                                        <span id="ebcdiscount"></span>
+                                                    </td>
+                                                    <input class="ebcdiscount" type="hidden" name="earlybookdiscount" value="0">
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td><span class="discountone"></span></td>
+                                        <td><span class="disperson"></span></td>
+                                        <td>(USD $<span class="discountallperson">0</span>)</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <b>Coupon Discount</b>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>($ <span class="coupon"></span>)</td>
+                                    </tr>
+                                    <tr  style="background-color: lightgray;font-weight: bolder;font-size: 18px;color:#008EB0;">
+                                        <td>
+                                            <b>Total</b>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>$ <span id="grandytotal0"></span></td>
+                                    </tr>
+                                    
+                                    </tbody>
+                                </table>
+
+                                <br><hr> 
+                                <div class="row">
+
+                                    @if(count($allequipments) > 0 && count($extrapackages) > 0)
+                                        <div class="col l6 m6 s12">
+                                            <h6>Rental Services</h6>
+                                            <table id="rentals" class=" highlight">
+                                                <thead style="text-align: center;background: #4D4D4D;color:white;padding: 2px;border-radius: 0px;">
+                                                <tr>
+                                                    <th>Item</th>
+                                                    <th>Price</th>
+                                                    <th>Quantity</th>
+                                                    <th>Days</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody style="padding: 3px; margin-top: 0;">
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr style="background-color: lightgray;font-weight: bolder;font-size: 18px;color:#008EB0;">
+                                                        <td>Total</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td>$ <span id="eqsubtotal1">0</span></td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+
+                                        <div class="col l6 m6 s12">
+                                            <h6>Optional Activities</h6>
+                                            <table id="acts" class=" highlight">
+                                                <thead style="text-align: center;background: #4D4D4D;color:white;padding: 2px;border-radius: 0px;">
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Pax</th>
+                                                    <th>Price</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody style="padding: 3px; margin-top: 0;">
+                                                </tbody>
+                                                <tfoot>
+                                                <tr style="background-color: lightgray;font-weight: bolder;font-size: 18px;color:#008EB0;">
+                                                    <td>Total</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>$ <span id="actssubtotal1">0</span></td>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+
+                                    @elseif(count($allequipments) > 0)
+                                        <div class="col 12 m12 s12">
+                                            <h6>Rental Services</h6>
+                                            <table id="rentals" class=" highlight">
+                                                <thead style="text-align: center;background: #4D4D4D;color:white;padding: 2px;border-radius: 0px;">
+                                                <tr>
+                                                    <th>Item</th>
+                                                    <th>Price</th>
+                                                    <th>Quantity</th>
+                                                    <th>Days</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody style="padding: 3px; margin-top: 0;">
+                                                </tbody>
+                                                <tfoot>
+                                                <tr style="background-color: lightgray;font-weight: bolder;font-size: 18px;color:#008EB0;">
+                                                    <td>Total</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>$ <span id="eqsubtotal1">0</span></td>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+
+                                    @elseif(count($extrapackages) > 0)
+                                        <div class="col l12 m12 s12">
+                                            <h6>Optional Activities</h6>
+                                            <table id="acts" class=" highlight">
+                                                <thead style="text-align: center;background: #4D4D4D;color:white;padding: 2px;border-radius: 0px;">
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Pax</th>
+                                                    <th>Price</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody style="padding: 3px; margin-top: 0;">
+                                                </tbody>
+                                                <tfoot>
+                                                <tr style="background-color: lightgray;font-weight: bolder;font-size: 18px;color:#008EB0;">
+                                                    <td>Total</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>$ <span id="actssubtotal1">0</span></td>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-close waves-effect waves-green btn-flat" style="background: #008EB0;color: white;">Close</a>
+                    </div>
+                </div>
+                <button type="submit" id="merosubmit" name="submitall" style="display: none;"></button>
+            </form>
+        </div>
+        <div class="col l4 m10 offset-m1 s12 sidebar">
+            <div class="center-align">
+                <h2  class="titleHeadtwo"  style="font-size: 18px;padding:0px 10px;"> <span class="reviewTitle">Booking Details </span> </h2>
+
+                <div class="card" style="padding: 4px;">
+                    <div>
+                        <span id="kotitle">&nbsp;</span><span id="cfname">&nbsp;</span><span id="cmname">&nbsp;</span><span id="clname"></span>
+                    </div>
+
+                    <table class="invoiceDetailsCont" style="font-size: 14px;">
+                        <tr>
+                            <td>Invoice No:</td>
+                            <td>{{$invoiceNo}}</td>
+                        </tr>
+                        <tr>
+                            <td>Booking Date:</td>
+                            <td>{{date("j F, Y")}}</td>
+                        </tr>
+                        <tr>
+                            <td>Trip Departure Date:</td>
+                            <td><div id="janedin"></div></td>
+                        </tr>
+                    </table>
+
+                    <table id="grandtotal" class=" highlight">
+                        <thead style="text-align: center;background: #4D4D4D;color:white;padding: 2px;border-radius: 0px;">
+                        <tr>
+                            <th>DESCRIPTION</th>
+                            <th>PRICE</th>
+                            <th>PAX</th>
+                            <th>TOTAL</th>
+                        </tr>
+                        </thead>
+                        <tbody  style="padding: 3px; margin-top: 0;border:1px solid #e0e0e0;">
+                        <tr>
+                            <td><b>{{$trips->name}}</b></td>
+                            <td>${{$trips->price}}</td>
+                            <td><span class="pax">{{$trips->min_group_size}}</span></td>
+                            <td>USD $ <span class="triptotal">
+                                {{$trips->min_group_size * $trips->price}}
+                            </span></td>
+                        </tr>
+
+                        @if(count($allequipments) > 0)
+                            <tr>
+                                <td><b>Rental Services</b></td>
+                                <td></td>
+                                <td></td>
+                                <td>USD $<span id="eqsubtotal0">0</span></td>
+                            </tr>
+                        @else
+                            <tr>
+                                <td>No Rental Services Available</td>
+                            </tr>
+                        @endif
+                        @if(count($extrapackages) > 0 )
+                            <tr>
+                                <td><b>Optional Activities</b></td>
+                                <td></td>
+                                <td></td>
+                                <td>USD $<span id="actssubtotal0">0</span></td>
+                            </tr>
+                        @else
+                            <tr>
+                                <td>No Optional Activities Available</td>
+                            </tr>
+                        @endif
+                        <tr>
+                            <td><b>Discounts</b></td>
+                            <td>$<span class="discountone">0</span></td>
+                            <td><span class="disperson">1</span></td>
+                            <td>USD $<span class="discountallperson">0</span></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <div style="position:relative;height: 40px;">
+                                    <input id="couponcode" class="border input-boxed" type="text" style="background:white;border-radius: 0px;height: 30px;padding: 0px;text-transform: none;">
+                                    <button type="submit" class="btn btn-composed-input" id="submitcoupon" style="border-radius: 0px;height: 32px;font-size: 10px;padding: 0px 10px;">
+                                        Use Coupon </span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>
+                                USD $<span class="coupon"> 0 </span>
+                            </td>
+                        </tr>
+                        <tr style="background-color: lightgray;font-weight: bolder;font-size: 18px;color:#008EB0; border-top:2px solid whitesmoke">
+                            <td>
+                                Grand Total
+                            </td>
+                            <td colspan="2">
+                                <div class="flex-center" style="">
+                                    <a class="waves-effect waves-light btn modal-trigger" href="#modal1" id="invoiceDetailsBtn" style="font-size: 12px;">
+                                        View&nbsp;Invoice&nbsp;Details
+                                    </a>
+                                </div>
+                            </td>
+                            <td>
+                                USD $ <span id="grandytotal1"></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <input type="hidden" name="confirm" id="confirmPay" value="">
+            <div class="card"  style="padding:4px;">
+                <h2 style="font-size:15px;" >
+                    <span>
+                        * (To get <strong>Early Bird Discount</strong> please make sure to deposit full amount while booking the trip.)
+                    </span>
+                </h2>
+                <div class="row center-align">
+                    <div class="col l12">
+                        <div id="radiocb" onclick="cbclick(event)">
+                            <div class="col l6 m6 s12">
+                                <input type="checkbox" id="test6" class="payoption" value="advanced" autocomplete="off"/>
+                                <label for="test6">Advanced Payment : </label><span id="advanced"></span>
+                            </div>
+                            <div  class="col l6 m6 s12">
+                                <input type="checkbox" id="test5" checked class="payoption" value="full" autocomplete="off"/>
+                                <label for="test5">Full Payment :</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                   
+                <div class="row"> <br> 
+                        <div class="col l12 m12 s12" style="padding-left: 20px;">
+                            <input type="checkbox" id="termsCheckbox" class="termsncondnvalue" value="" autocomplete="off" name="termsncondnvalue" onclick="termsnconditionModal()" />
+                            <label for="termsCheckbox"> I accept the <a class="modal-trigger" href="#termsncondnModal">Terms and condition</a>  </label><span id="advanced"></span>
+                        </div>
+                </div>
+
+                <div class="row center-align">
+                    <div class="col l12" id="paymentBtn">
+                        <button class="btn payonlinebtn" onclick="payonline()" disabled="">Pay Online</button>
+                        <button class="btn paybank" onclick="paybank()" disabled="">Pay through Bank</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal Structure -->
+      <div id="termsncondnModal" class="modal" style="width: 90%;margin:auto;height: 100%;">
+        <div class="modal-header" style="padding: 0px;background: #008EB0;padding: 10px;color: white;text-align: center;">
+            <h4 style="font-size:20px;">Terms And Condition / Deposit and Cancellation</h4>
+        </div>
+        <div class="modal-content">
+          <div class="containerPadding">
+              <div class="termsNcondtion">
+                  <h2 class="titleHeadtwo" style="font-size: 15px;"> <span> Terms And Condition</span> </h2>
+                  @if($termsDetails)
+
+                      {!! $termsDetails->terms_details !!}
+                  @else 
+                      <div style="text-align: center;min-height: 300px;">
+                          <p> NO TERMS AND CONDITIONS</p>
+                      </div>
+                  @endif
+              </div> 
+
+              <br> <hr> <br>
+
+              <div class="depositNcancel">
+                  <h2 class="titleHeadtwo" style="font-size: 15px;"> <span> Deposit and Cancellation </span></h2>
+                  @if($depositDetails)
+                      {!! $depositDetails->deposit_details !!}
+                  @else 
+                      <div style="text-align: center;min-height: 300px;">
+                          <p> NO DEPOSIT AND CANCELLATION POLICY</p>
+                      </div>
+                  @endif
+              </div>
+          </div>
+                   
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class="btn modal-close waves-effect waves-green btn-flat" style="background:red;color: white;margin:2px;" onclick="disagreeTermsCondition()">Disgree</a> 
+          <a href="#!" class="btn modal-close waves-effect waves-green btn-flat" style="background:#008EB0;color: white;margin:2px;" onclick="agreeTermsCondition()">Agree </a>
+        </div>
+      </div>
+
+
+    @include('layouts.footer1')
+@endsection
+@section('scripts')
+    <script>
+        $('select[required]').css({
+            display: 'inline',
+            position: 'absolute',
+            float: 'left',
+            padding: 0,
+            margin: 0,
+            border: '1px solid rgba(255,255,255,0)',
+            height: 0,
+            width: 0,
+            top: '2em',
+            left: '3em',
+            opacity: 0
+        });
+
+        // $(document).ready(function () {
+        //         var triprice = "{{$trips->price}}";
+        //         $('.pax').html(person);
+        //         $('.triptotal').html(newprice);
+
+        //         $.ajax({
+        //             type: 'post',
+        //             async: false,
+        //             url: '/changetripgroupdiscount',
+        //             data: {
+        //                 '_token': $('input[name=_token]').val(),
+        //                 'person': person,
+        //                 'tripid': "{{$trips->id}}"
+        //             },
+
+        //             success: function (data) {
+        //                 if (data[0] != 0) {
+        //                     $('#gdiscount').html("Group Discount(" + data[0] + "%)");
+        //                     $('.gdiscount').val(data[0]);
+        //                     calculateAllDiscount();
+        //                 } else {
+        //                     $('#gdiscount').empty();
+        //                     $('.gdiscount').val(0);
+        //                     calculateAllDiscount();
+        //                 }
+
+        //             }
+        //         });
+        // });
+
+        var trekdin = "{{$trips->trekdays}}";
+        var min_total_people = "{{$trips->min_group_size}}";
+
+        // var tripamount = "{{$trips->price}}";
+        // var trip_price = min_total_people*tripamount;
+        
+        var trip_price = "{{$trips->price}}";
+
+        var picker=$('.datepicker1').pickadate({
+            selectMonths: true, // Creates a dropdown to control month
+            selectYears: 15, // Creates a dropdown of 15 years to control year
+            min: true,
+            format:'yyyy-mm-dd',
+            clear: false,
+            close:'OK',
+            editable:true,
+            onOpen: function () {
+                this.clear();
+            },
+            onSet: function () {
+                var x,y,year,date,month;
+                x = $('.datepicker1').pickadate().val().toString();
+                y = x.split("-");
+                date = y[0];
+                month = y[1];
+                year = y[2];
+                // console.log(y[0]+" "+ y[1]+ " "+ y[2]);
+                if(date && month && year) {
+                    chosedate()
+                }
+            }
+        });
+
+        $('select').material_select();
+        $('.datepicker1').click(function() {
+            picker.pickadate('open');
+        });
+
+        function chosedate(){
+            var sdate = document.getElementById('startdate').value;
+            $.ajax({
+                type: 'post',
+                url: '/changedeparture',
+                data: {
+                    '_token': $('input[name=_token]').val(),
+                    'startdate': sdate,
+                    'tripid': "{{$trips->id}}"
+                },
+                success: function (data) {
+                    $('#janedin').html(data[0]);
+                    $('#janedin1').html(data[0]);
+                    $('#confirmPay').val(data[2]);
+                    calculateEBC(data[1]);
+                }
+            });
+        }
+
+        $('#koho').on('change', function () {
+            var title = this.value;
+            document.getElementById("kotitle").innerHTML = title.toUpperCase() + " ";
+            document.getElementById("kotitlem").innerHTML = title.toUpperCase() + " ";
+        });
+
+
+        function cfirst() {
+            var x = document.getElementById("fname");
+            document.getElementById("cfname").innerHTML = x.value.toUpperCase() + " ";
+            document.getElementById("cfnamem").innerHTML = x.value.toUpperCase() + " ";
+        }
+
+        function csecond() {
+            var x = document.getElementById("mname");
+            document.getElementById("cmname").innerHTML = x.value.toUpperCase() + " ";
+            document.getElementById("cmnamem").innerHTML = x.value.toUpperCase() + " ";
+        }
+
+        function cthird() {
+            var x = document.getElementById("lname");
+            document.getElementById("clname").innerHTML = x.value.toUpperCase();
+            document.getElementById("clnamem").innerHTML = x.value.toUpperCase();
+        }
+
+        $(document).ready(function () {
+
+            var title = document.getElementById('koho').value;
+            if (title != null) {
+                document.getElementById("kotitle").innerHTML = title.toUpperCase() + " ";
+            }
+
+            var x = document.getElementById("fname");
+            if (x != null) {
+                document.getElementById("cfname").innerHTML = x.value.toUpperCase() + " ";
+            }
+
+            var y = document.getElementById("mname");
+            if (y != null) {
+                document.getElementById("cmname").innerHTML = y.value.toUpperCase() + " ";
+            }
+
+            var z = document.getElementById("lname");
+            if (z != null) {
+                document.getElementById("clname").innerHTML = z.value.toUpperCase() + " ";
+            }
+
+            calculateAllDiscount();
+            calculateGrandtotal();
+        });
+
+        function calculateAllDiscount() {
+            var disarray = [];
+
+            $('#discounts td').each(function () {
+                var eachdis = $(this).html();
+                var str = eachdis.match(/\d+/g, "") + '';
+                var s = Number(str.split(',').join(''));
+                disarray.push(s);
+            });
+
+            function cleaner(arr) {
+                return arr.filter(function (item) {
+                    return typeof item == "string" || (typeof item == "number" && item);
+                    /** Any string**/
+                    /** Numbers without NaN & 0 **/
+                });
+            }
+
+            var nayaarray = cleaner(disarray);
+            var tripP = trip_price;
+            var currentP = parseInt($('#not :selected').val());
+
+            console.log(tripP);
+
+            var arraylen = nayaarray.length;
+
+            for (var o = 0; o < arraylen; o++) {
+                var price1 = tripP - ((nayaarray[o] / 100) * tripP);
+                tripP = price1;
+
+            }
+
+            var sabaidis = (trip_price - tripP).toFixed(2);
+
+            var finaldis = (sabaidis * currentP).toFixed(2);
+
+            $('.discountone').html(sabaidis);
+            $('.disperson').html(currentP);
+            $('.discountallperson').html(finaldis);
+
+            calculateGrandtotal();
+
+        }
+
+        function calculateEBC(ebc) {
+            var ebc1 = ebc;
+            if (ebc1 != 0) {
+                $('#ebcdiscount').html("EarlyBird Discount(" + ebc1 + "%)");
+                $('.ebcdiscount').val(ebc1);
+
+            }else{
+                $('#ebcdiscount').empty();
+                $('.ebcdiscount').val(0);
+            }
+            var advancedpayment = $('#confirmPay').val();
+            console.log('advpay---->'+advancedpayment);
+
+            if(advancedpayment === 100){
+                document.getElementById('radiocb').style.display = "none";
+            }else{
+                document.getElementById('radiocb').style.display = "block";
+            }
+
+            calculateAllDiscount();
+        }
+
+        //equipments price
+        function downequip(id) {
+            var number = parseInt(document.getElementById('count' + id).value);
+//            alert(number);
+            var number = number - 1;
+
+            if (number <= 0) {
+                number = 0;
+            }
+            $('.counter' + id).val(number);
+
+            if (number <= 0) {
+                $("#rentals > tbody > #equiprow" + id).remove();
+            } else {
+                var rwoid = $("#rentals > tbody > #equiprow" + id).length;
+                if (rwoid >= 1) {
+                    $("#rentals > tbody > #equiprow" + id).remove();
+                    var name = $('#eqname' + id).text();
+                    var price = $('#eqprice' + id).text();
+                    var eqtotal = "$" + parseInt(price * number * trekdin);
+                    var markup = "<tr id='equiprow" + id + "'><td>" + name + "</td><td>" + price + "</td><td>" + number + "</td><td>" + trekdin + "</td><td >" + eqtotal + "</td></tr>";
+                    $("#rentals tbody").append(markup);
+                } else {
+                    var name = $('#eqname' + id).text();
+                    var price = $('#eqprice' + id).text();
+                    var eqtotal = "$" + parseInt(price * number * trekdin);
+                    var markup = "<tr id='equiprow" + id + "'><td>" + name + "</td><td>" + price + "</td><td>" + number + "</td><td>" + trekdin + "</td><td>" + eqtotal + "</td></tr>";
+                    $("#rentals tbody").append(markup);
+                }
+            }
+            calculateeqpTotal();
+
+        }
+
+        function upequip(id) {
+            var number1 = parseInt(document.getElementById('count' + id).value);
+//            alert(number1);
+            var number1 = number1 + 1;
+            $('.counter' + id).val(number1);
+            // var ailekati = $('.counter'+id).text();
+            //
+            // var equipsa = $("#rentals > tbody > tr").length;
+
+            var rwoid = $("#rentals > tbody > #equiprow" + id).length;
+            if (rwoid >= 1) {
+                $("#rentals > tbody > #equiprow" + id).remove();
+
+                var name = $('#eqname' + id).text();
+                var price = $('#eqprice' + id).text();
+                var eqtotal = "$" + parseInt(price * number1 * trekdin);
+                var markup = "<tr id='equiprow" + id + "'><td>" + name + "</td><td>" + price + "</td><td>" + number1 + "</td><td>" + trekdin + "</td><td>" + eqtotal + "</td></tr>";
+                $("#rentals tbody").append(markup);
+            } else {
+                var name = $('#eqname' + id).text();
+                var price = $('#eqprice' + id).text();
+                var eqtotal = "$" + parseInt(price * number1 * trekdin);
+                var markup = "<tr id='equiprow" + id + "'><td>" + name + "</td><td>" + price + "</td><td>" + number1 + "</td><td>" + trekdin + "</td><td>" + eqtotal + "</td></tr>";
+                $("#rentals tbody").append(markup);
+            }
+            calculateeqpTotal();
+
+        }
+
+        function calculateeqpTotal() {
+            var sum = 0,
+                all = $('#rentals > tbody > tr');
+            all.each(function () {
+                var dollar = ($('td:eq(4)', this).text());
+                var yeahhh = parseInt(dollar.replace('$', ''));
+                sum += yeahhh;
+            });
+            $('#eqsubtotal0').html(sum);
+            $('#eqsubtotal1').html(sum);
+            $('#eqsubtotal2').html(sum);
+
+            calculateGrandtotal();
+        }
+
+        function cbclick(e) {
+            e = e || event;
+            var cb = e.srcElement || e.target;
+            if (cb.type !== 'checkbox') {
+                return true;
+            }
+            var cbxs = document.getElementById('radiocb').getElementsByTagName('input'), i = cbxs.length;
+            while (i--) {
+                if (cbxs[i].type && cbxs[i].type == 'checkbox' && cbxs[i].id !== cb.id) {
+                    cbxs[i].checked = false;
+                }
+            }
+            checkPayment();
+        }
+
+        function checkPayment() {
+            var moin = null;
+            $(".payoption:checked").each(function () {
+                moin = $(this).val();
+            });
+
+            if (moin === 'advanced') {
+                $('#ebcdiscount').empty();
+                $('.ebcdiscount').val(0);
+                calculateAllDiscount();
+                var grandytotal = $("#grandytotal1").text();
+                var advancedpayment = $('#confirmPay').val();
+                var advpay = ((advancedpayment / 100) * grandytotal).toFixed(0);
+                $('#advanced').html(advpay);
+            } else {
+                chosedate();
+            }
+        }
+
+        //optional activities price
+        function upoptact(id) {
+            var number1 = parseInt(document.getElementById('count1' + id).value);
+            // alert(number1);
+            var number1 = number1 + 1;
+            $('.counter1' + id).val(number1);
+
+            var rwoid = $("#acts > tbody > #actsrow" + id).length;
+
+            if (rwoid >= 1) {
+                $("#acts > tbody > #actsrow" + id).remove();
+                var name = $('#actname' + id).text();
+                var price = $('#actprice' + id).val();
+                var eqtotal = "$" + parseInt(price * number1);
+                var markup = "<tr id='actsrow" + id + "'><td>" + name + "</td><td>" + number1 + "</td><td>" + price + "</td><td >" + eqtotal + "</td></tr>";
+                $("#acts tbody").append(markup);
+            } else {
+                var name = $('#actname' + id).text();
+                var price = $('#actprice' + id).val();
+                var eqtotal = "$" + parseInt(price * number1);
+                var markup = "<tr id='actsrow" + id + "'><td>" + name + "</td><td>" + number1 + "</td><td>" + price + "</td><td>" + eqtotal + "</td></tr>";
+                $("#acts tbody").append(markup);
+            }
+            calculateactsTotal()
+        }
+
+        function downoptact(id) {
+            var number = parseInt(document.getElementById('count1' + id).value);
+            var number = number - 1;
+            if (number < 0) {
+                number = 0;
+            }
+            $('.counter1' + id).val(number);
+
+            if (number <= 0) {
+                $("#acts > tbody > #actsrow" + id).remove();
+            } else {
+                var rwoid = $("#acts > tbody > #actsrow" + id).length;
+
+                if (rwoid >= 1) {
+                    $("#acts > tbody > #actsrow" + id).remove();
+                    var name = $('#actname' + id).text();
+                    var price = $('#actprice' + id).val();
+                    var eqtotal = "$" + parseInt(price * number);
+                    var markup = "<tr id='actsrow" + id + "'><td>" + name + "</td><td>" + price + "</td><td>" + number + "</td><td >" + eqtotal + "</td></tr>";
+                    $("#acts tbody").append(markup);
+                } else {
+                    var name = $('#actname' + id).text();
+                    var price = $('#actprice' + id).val();
+                    var eqtotal = "$" + parseInt(price * number);
+                    var markup = "<tr id='actsrow" + id + "'><td>" + name + "</td><td>" + price + "</td><td>" + number + "</td><td>" + eqtotal + "</td></tr>";
+                    $("#acts tbody").append(markup);
+                }
+            }
+            calculateactsTotal()
+        }
+
+        function calculateactsTotal() {
+            var sum = 0,
+                all = $('#acts > tbody > tr');
+
+            all.each(function () {
+                var dollar = ($('td:eq(3)', this).text());
+                var yeahhh = parseInt(dollar.replace('$', ''));
+                sum += yeahhh;
+            });
+            $('#actssubtotal0').html(sum);
+            $('#actssubtotal1').html(sum);
+            $('#actssubtotal2').html(sum);
+            calculateGrandtotal()
+        }
+
+        $("#submitcoupon").click(function () {
+            var name = $("#couponcode").val();
+            if (name === "") {
+                swal({
+                    html:
+                        "You have entered empty Coupon",
+                    showCloseButton: true,
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                    animation: false,
+                    customClass: 'animated tada',
+                    focusConfirm: false,
+                    background: '#008eb0'
+                });
+            } else {
+                var token = $('input[name=_token]').val();
+                $.ajax({
+                    type: 'post',
+                    url: '/changingtripcoupon',
+                    data: {
+                        '_token': token,
+                        'coupon': name,
+                        'tripid': "{{$trips->id}}"
+                    },
+
+                    success: function (data) {
+                        // alert(data.join('-----'));
+                        $('.coupon').html(data[2]);
+                        yeiho(data[1]);
+                    }
+                })
+            }
+
+        });
+
+        function yeiho(val) {
+            swal({
+                html: val,
+                showCloseButton: true,
+                showCancelButton: false,
+                showConfirmButton: false,
+                animation: false,
+                customClass: 'animated tada',
+                focusConfirm: false,
+                background: '#008eb0'
+            });
+            calculateGrandtotal();
+        }
+
+        $('#not').on('change', function () {
+            var formnum = this.value;
+            $("#extraform").empty();
+            for (var i = 2; i <= formnum; i++) {
+                document.getElementById('allother').style.display = "block";
+                if (formnum === 1) {
+                    break;
+                }
+                else {
+                    var newdiv = document.createElement('div');
+                    newdiv.innerHTML ="<ul class=\"collapsible\">\n" +
+                        "   <li>\n" +
+                        "      <div class=\"collapsible-header\"><i class=\"material-icons\">person_pin</i  >Traveller "+i+":  Details (Optional)</div>\n" +
+                        "      <div class=\"collapsible-body\">" +
+                        "                                    <div style=\"margin-top: 10px;font-size: 20px;\" class=\"hb\">\n" +
+                        "                                        <i class=\"material-icons tiny\">person</i>\n" +
+                        "                                        <b>Personal Information:</b>\n" +
+                        "                                    </div>\n" +
+                        "                                    <div class=\"row\">\n" +
+                        "                                        <div class=\"col l1 m6 s12\">\n" +
+                        "                                            <div class=\"input-field\">\n" +
+                        "                                                <select  name = \"title["+i+"]\""+
+                        "                                                 >\n" +
+                        "                                                    <option value=\"null\" selected><b>Title*</b></option>\n" +
+                        "                                                    <option value = \"mr\">Mr</option>\n" +
+                        "                                                    <option value = \"mrs\">Mrs</option>\n" +
+                        "                                                    <option value = \"ms\">Ms</option>\n" +
+                        "                                                    <option value = \"miss\">Miss</option>\n" +
+                        "                                                </select>\n" +
+                        "                                           <label for=\"not\"></label>"+
+                        "                                            </div>\n" +
+                        "                                        </div>\n" +
+                        "                                        <div class=\"input-field col l4 m6 s12 fName\" style=\"\">\n" +
+                        "                                            <input  name = \"fname["+i+"]\""+ " type=\"text\" class=\"validate\">\n" +
+                        "                                            <label ><b>First Name*</b></label>\n" +
+                        "                                        </div>\n" +
+                        "                                        <div class=\"input-field col l3 m6 s12 mName\" style=\"\">\n" +
+                        "                                            <input  name = \"mname["+i+"]\""+" type=\"text\" class=\"validate\">\n" +
+                        "                                            <label ><b>Middle Name (Optional)</b></label>\n" +
+                        "                                        </div>\n" +
+                        "                                        <div class=\"input-field col l4 m6 s12 lName\" style=\"\">\n" +
+                        "                                            <input  name = \"lname["+i+"]\""+" type=\"text\" class=\"validate\">\n" +
+                        "                                            <label ><b>Last Name*</b></label>\n" +
+                        "                                        </div>\n" +
+                        "                                    </div>\n" +
+                        "                                    <div class=\"row\">\n" +
+                        "                                        <div class=\"input-field col l5 m6 s12 bEmail\" style=\"\">\n" +
+                        "                                            <input id=\"name\" type=\"email\"  name  = \"email["+i+"]\"" + " class=\"validate\">\n" +
+                        "                                            <label for=\"name\"><b>Email*</b></label>\n" +
+                        "                                        </div>\n" +
+                        "                                        <div class=\"input-field col l3 m6 s12 bContactNo\" style=\"\">\n" +
+                        "                                            <input type=\"number\" id=\"contactno\" name = \"contactno["+i+"]\"" + " class=\"validate\">\n" +
+                        "                                            <label for=\"name\"><b>Contact number*</b></label>\n" +
+                        "                                        </div>\n" +
+                        "                                    </div>\n" +
+                        "                                    <div class=\"row\">\n" +
+                        "                                        <div>\n" +
+                        "                                            <div class=\"input-field col l1 m4 s12 \">\n" +
+                        "                                                <select id=\"dd\" class=\"validate\" name = \"dd["+i+"]\"" + ">\n" +
+                        "                                                    <option value=\"null\" selected><b>DOB*</b></option>\n" +
+                            @for($d = 1; $d <= 31; $d++)
+                                "<option value=\"{{$d}}\">{{$d}}</option>" +
+                            @endfor
+                                "                                                </select>\n" +
+                        "                                             <label for=\"dd\"></label>" +
+                        "                                            </div>\n" +
+                        "                                            <div class=\"input-field col l1 m4 s12\">\n" +
+                        "                                                <select id=\"mm\" class=\"validate\" name = \"mm["+i+"]\"" +">\n" +
+                        "                                                    <option value=\"null\" selected><b>Month*</b></option>\n" +
+                        "                                                    <option value=\"1\">Jan</option>\n" +
+                        "                                                    <option value=\"2\">Feb</option>\n" +
+                        "                                                    <option value=\"3\">Mar</option>\n" +
+                        "                                                    <option value=\"4\">Apr</option>\n" +
+                        "                                                    <option value=\"5\">May</option>\n" +
+                        "                                                    <option value=\"6\">Jun</option>\n" +
+                        "                                                    <option value=\"7\">Jul</option>\n" +
+                        "                                                    <option value=\"8\">Aug</option>\n" +
+                        "                                                    <option value=\"9\">Sep</option>\n" +
+                        "                                                    <option value=\"10\">Oct</option>\n" +
+                        "                                                    <option value=\"11\">Nov</option>\n" +
+                        "                                                    <option value=\"12\">Dec</option>\n" +
+                        "                                                </select>\n" +
+                        "<label for=\"mm\"></label>"+
+                        "                                            </div>\n" +
+                        "                                            <div class=\"input-field col l1 m4 s12\">\n" +
+                        "                                                <select class=\"validate\" name = \"year["+i+"]\"" + ">" +
+                        "                                                    <option id=\"year\" value=\"null\" selected><b>Year*</b></option>\n" +
+                            @for($d = date('Y'); $d >= 1930; $d--)
+                                "<option value=\"{{$d}}\">{{$d}}</option>"+
+                            @endfor
+                                "                                                </select>\n" +
+                        "<label for=\"year\"></label>"+
+                        "                                            </div>\n" +
+                        "                                        </div>\n" +
+                        "                                        <div class=\"input-field col l3 m6 s12 bZipCode\" style=\"\">\n" +
+                        "                                            <input  name = \"zip["+i+"]\"" + " type=\"number\" class=\"validate\">\n" +
+                        "                                            <label ><b>Postcode / Zip (Optional)</b></label>\n" +
+                        "                                        </div>\n" +
+                        "                                        <div class=\"input-field col l2 m6 s12 bPassportNo\" style=\"\">\n" +
+                        "                                            <input id=\"passn\" type=\"number\"  name = \"passportno["+i+"]\""+  " class=\"validate\">\n" +
+                        "                                            <label for=\"passn\" type=\"number\"><b>Passport number*</b></label>\n" +
+                        "                                        </div>\n" +
+                        "                                        <div class=\"input-field col l2 m12 s12 bDOI\" style=\"\">\n" +
+                        "                                            <select name = \"doi["+i+"]\"" +  "class=\"validate\">\n" +
+                        "                                                <option id\"issue\" value=\"null\" selected><b>Date of issue</b></option>\n" +
+                            @for($d = date('Y'); $d >= 1930; $d--)
+                                "<option value=\"{{$d}}\">{{$d}}</option>"+
+                            @endfor
+                                "</select>\n" +
+                        "<label for=\"issue\"></label>"+
+                        "                                        </div>\n"+
+                        "                          </div>"+
+                        "                                <div style=\"margin-top: 10px;font-size: 20px;\" class=\"hb\">\n" +
+                        "                                <i class=\"material-icons tiny\">location_on</i>\n" +
+                        "                                <b>Location:</b></div>\n" +
+                        "                            <div class=\"row\">\n" +
+                        "                                <div class=\"input-field col l4 m6 s12 bSelectCountry\" style=\"\">\n" +
+                        "                                    <select name=\"country["+i+"]\" class=\"validate\">\n" +
+                        "                                        <option id=\"con\"  value=\"null\" selected><b>Select your Country*</b></option>\n" +
+                        "                                        @foreach($countries as $country)\n" +
+                        "                                            <option value=\"{{$country['name']}}\">{{$country['name']}}</option>\n" +
+                        "                                        @endforeach\n" +
+                        "                                    </select>\n" +
+                        "<label for=\"con\"></label>"+
+                        "                                </div>\n" +
+                        "                                <div class=\"input-field col l3 m6 s12 bState\" style=\"\">\n" +
+                        "                                    <input name=\"state["+i+"]\" type=\"text\" class=\"validate\">\n" +
+                        "                                    <label><b>State / Province (Optional)</b></label>\n" +
+                        "                                </div>\n" +
+                        "                                <div class=\"input-field col l4 m6 s12 bTown\" style=\"\">\n" +
+                        "                                    <input name=\"town["+i+"]\" type=\"text\" class=\"validate\">\n" +
+                        "                                    <label><b>Town (Optional)</b></label>\n" +
+                        "                                </div>\n" +
+                        "                                <div class=\"input-field col l4 m6 s12 bPermaAddress\" style=\"\">\n" +
+                        "                                    <input name=\"paddress["+i+"]\" type=\"text\" class=\"validate\">\n" +
+                        "                                    <label><b>Permanant Address*</b></label>\n" +
+                        "                                </div>\n" +
+                        "                                <div class=\"input-field col l4 m6 s12 bTempoAddress\" style=\"\">\n" +
+                        "                                    <input name=\"taddress["+i+"]\" type=\"text\" class=\"validate\">\n" +
+                        "                                    <label><b>Temporary Address (Optional)</b></label>\n" +
+                        "                                </div>\n" +
+                        "                            </div>\n" +
+                        "                            <div style=\"margin-top: 10px;font-size: 20px;\" class=\"hb\">\n" +
+                        "                                <i class=\"material-icons tiny\">info</i>\n" +
+                        "                                <b>General:</b></div>\n" +
+                        "                            <div class=\"row\">\n" +
+                        "                                <div class=\"input-field col l9 m12 s12\">\n" +
+                        "                                    <div class=\"row\">\n" +
+                        "                                        <div class=\"insurance-show\">\n" +
+                        "                                            <div class=\"input-field col l4 m6 s11\">\n" +
+                        "                                                <input id=\"ic\" name=\"ic["+i+"]\" type=\"text\" class=\"validate\">\n" +
+                        "                                                <label for=\"ic\"><b>Insurance Company</b></label>\n" +
+                        "                                            </div>\n" +
+                        "                                            <div class=\"input-field col l4 m6 s11\">\n" +
+                        "                                                <input id=\"ipn\" name=\"ipn["+i+"]\" type=\"number\" class=\"validate\">\n" +
+                        "                                                <label for=\"ipn\"><b>Insurance Policy Number </b></label>\n" +
+                        "                                            </div>\n" +
+                        "                                            <div class=\"input-field col l4 m6 s11\">\n" +
+                        "                                                <input id=\"icn\" name=\"icn["+i+"]\" type=\"number\" class=\"validate\">\n" +
+                        "                                                <label for=\"icn\"><b>Contact</b></label>\n" +
+                        "                                            </div>\n" +
+                        "                                        </div>\n" +
+                        "                                    </div>\n" +
+                        "                                    <strong style=\"font-size: 14px;\">\n" +
+                        "                                        Note: <span style=\"padding: 2px;\"> Insurance</span> is mandatory for the trips. You must be covered for both medical\n" +
+                        "                                        issues & emergency evacuation - minimum coverage US$100,000.(For high altitude adventures) *\n" +
+                        "                                    </strong>\n" +
+                        "                                </div>\n" +
+                        "                                <div class=\"input-field col l3 m12 s12\">\n" +
+                        "                                    <div class=\"input-field col l12 m12 s12\">\n" +
+                        "                                        <select id=\"feedback\" name=\"feedback["+i+"]\" class=\"validate\">\n" +
+                        "                                            <option value=\"null\" selected>How did you hear about us</option>\n" +
+                        "                                            <option value=\"Previous Client\" id=\"previousclient\">I am a previous client</option>\n" +
+                        "                                            <option value=\"Internet\" id=\"internet\">Internet Search</option>\n" +
+                        "                                            <option value=\"Facebook\" id=\"facebook\">Facebook</option>\n" +
+                        "                                            <option value=\"Twitter\" id=\"twitter\">Twitter</option>\n" +
+                        "                                            <option value=\"Recommendation\" id=\"recommendation\">Friend Recommendation</option>\n" +
+                        "                                            <option value=\"Tripadvisor\" id=\"tripadvisor\">Trip Advisor</option>\n" +
+                        "                                            <option value=\"Lonelyplanet\" id=\"lonelyplanet\">Lonely Planet</option>\n" +
+                        "                                            <option value=\"Others\" id=\"others\">Others</option>\n" +
+                        "                                        </select>\n" +
+                        "<label for=\"feedback\"></label>"+
+                        "                                    </div>\n" +
+                        "                                </div>\n" +
+                        "                            </div>"+
+                        " </div>\n" +
+                        "  </li>\n" +
+                        "  </ul>";
+
+                    document.getElementById('extraform').appendChild(newdiv);
+                }
+            }
+            $(document).ready(function () {
+                $('select').material_select();
+                $('.collapsible').collapsible();
+            });
+
+            var m = checkminperson();
+            if(m === true) {
+                var person = formnum;
+                var triprice = "{{$trips->price}}";
+                var newprice = (person * triprice);
+                $('.pax').html(person);
+                $('.triptotal').html(newprice);
+
+                $.ajax({
+                    type: 'post',
+                    async: false,
+                    url: '/changetripgroupdiscount',
+                    data: {
+                        '_token': $('input[name=_token]').val(),
+                        'person': person,
+                        'tripid': "{{$trips->id}}"
+                    },
+
+                    success: function (data) {
+                        if (data[0] != 0) {
+                            $('#gdiscount').html("Group Discount(" + data[0] + "%)");
+                            $('.gdiscount').val(data[0]);
+                            calculateAllDiscount();
+                        } else {
+                            $('#gdiscount').empty();
+                            $('.gdiscount').val(0);
+                            calculateAllDiscount();
+                        }
+
+                    }
+                });
+            }
+
+        });
+
+        $(document).ready(function(){
+            var m = checkminperson();
+            if(m === true) {
+                var person = $('#not').val();
+                console.log('total people:' + person);
+                var triprice = "{{$trips->price}}";
+                var newprice = (person * triprice);
+                $('.pax').html(person);
+                $('.triptotal').html(newprice);
+
+                $.ajax({
+                    type: 'post',
+                    async: false,
+                    url: '/changetripgroupdiscount',
+                    data: {
+                        '_token': $('input[name=_token]').val(),
+                        'person': person,
+                        'tripid': "{{$trips->id}}"
+                    },
+
+                    success: function (data) {
+                        if (data[0] != 0) {
+                            $('#gdiscount').html("Group Discount(" + data[0] + "%)");
+                            $('.gdiscount').val(data[0]);
+                            calculateAllDiscount();
+                        } else {
+                            $('#gdiscount').empty();
+                            $('.gdiscount').val(0);
+                            calculateAllDiscount();
+                        }
+
+                    }
+                });
+            }
+
+        });
+
+    
+        function calculateGrandtotal() {
+            var sabaipaisa = [];
+            all = $('#grandtotal > tbody > tr');
+            var count = 0; 
+            all.each(function () {
+                if (count < 4){
+                    var dollar = ($('td:eq(3)', this).text());
+                    var str = dollar.replace(/[^0-9.]/g, "") + '';
+                    var s = Number(str.split(',').join(''));
+                    sabaipaisa.push(s);
+                }
+
+                if (count === 4){
+                    var dollar = ($('td:eq(1)', this).text());
+                    var str = dollar.replace(/[^0-9.]/g, "") + '';
+                    var s = Number(str.split(',').join(''));
+                    sabaipaisa.push(s);
+                }
+
+                count++;
+            });
+
+            var grandytotal = parseInt(Math.round(sabaipaisa[0] + sabaipaisa[1] + sabaipaisa[2] - sabaipaisa[3] - sabaipaisa[4]));
+            
+            // console.log(sabaipaisa[4]);
+
+            $('#grandytotal0').html(grandytotal);
+            $('#grandytotal1').html(grandytotal);
+        }
+
+        function checkminperson(){
+            var ailekomanche = $('#not').val();
+            var minmanche = "{{$trips->min_group_size}}";
+            // if (ailekomanche < minmanche){
+            //     // swal({
+            //     //     html: "To book this trip, minimum "+minmanche +" (Pax) are required",
+            //     //     showCloseButton: true,
+            //     //     showCancelButton: false,
+            //     //     showConfirmButton: false,
+            //     //     animation: false,
+            //     //     customClass: 'animated tada',
+            //     //     focusConfirm: false,
+            //     //     background: '#008eb0'
+            //     // });
+            //     return false;
+            // }else{
+            //     return true;
+            // }
+
+            return true;
+
+        }
+
+        function paybank() {
+            // alert('fdsfds');
+            var m = checkminperson();
+            if(m === true) {
+                var sabaiinfo = [];
+                var sabaipaisa = [];
+                var count = 0;
+                all = $('#grandtotal > tbody > tr');
+                all.each(function () {
+                    if(count < 4) {
+                        var dollar = ($('td:eq(3)', this).text());
+                        var str = dollar.replace(/[^0-9.]/g, "") + '';
+                        var s = Number(str.split(',').join(''));
+                        sabaipaisa.push(s);
+                    }
+
+                    if(count === 4){
+                        var dollar = ($('td:eq(1)', this).text());
+                        var str = dollar.replace(/[^0-9.]/g, "") + '';
+                        var s = Number(str.split(',').join(''));
+                        sabaipaisa.push(s);
+                    }
+
+                    if(count === 5){
+                        var dollar = ($('td:eq(2)', this).text());
+                        var str = dollar.replace(/[^0-9.]/g, "") + '';
+                        var s = Number(str.split(',').join(''));
+                        sabaipaisa.push(s);
+                    }
+                    count++;
+                });
+                sabaiinfo.push(sabaipaisa);
+                var moin = null;
+                $(".payoption:checked").each(function () {
+                    moin = $(this).val();
+                });
+
+                sabaiinfo.push(moin);
+                var advancepay = $('#advanced').text();
+                sabaiinfo.push(advancepay);
+
+                $.ajax({
+                    type: 'post',
+                    async: false,
+                    url: '/savealltripdata',
+                    data: {
+                        '_token': $('input[name=_token]').val(),
+                        'formData': sabaiinfo
+                    },
+                    success: function (data) {
+                        // alert(data.join('----'));
+                        $("#merosubmit").trigger("click");
+                    }
+                });
+            }
+
+        }
+
+        function payonline(){
+            var m = checkminperson();
+            if(m === true) {
+                var sabaiinfo = [];
+                var sabaipaisa = [];
+                var count = 0;
+                all = $('#grandtotal > tbody > tr');
+                all.each(function () {
+                    if(count < 4) {
+                        var dollar = ($('td:eq(3)', this).text());
+                        var str = dollar.replace(/[^0-9.]/g, "") + '';
+                        var s = Number(str.split(',').join(''));
+                        sabaipaisa.push(s);
+                    }
+
+                    if(count === 4){
+                        var dollar = ($('td:eq(1)', this).text());
+                        var str = dollar.replace(/[^0-9.]/g, "") + '';
+                        var s = Number(str.split(',').join(''));
+                        sabaipaisa.push(s);
+                    }
+
+                    if(count === 5){
+                        var dollar = ($('td:eq(2)', this).text());
+                        var str = dollar.replace(/[^0-9.]/g, "") + '';
+                        var s = Number(str.split(',').join(''));
+                        sabaipaisa.push(s);
+                    }
+                    count++;
+                });
+
+                sabaiinfo.push(sabaipaisa);
+                var moin = null;
+                $(".payoption:checked").each(function () {
+                    moin = $(this).val();
+                });
+
+                sabaiinfo.push(moin);
+                var advancepay = $('#advanced').text();
+                sabaiinfo.push(advancepay);
+                $.ajax({
+                    type: 'post',
+                    async: false,
+                    url: '/savealldata',
+                    data: {
+                        '_token': $('input[name=_token]').val(),
+                        'formData': sabaiinfo
+                    },
+                    success: function (data) {
+                        // alert(data.join('----'));
+
+                        $('#firstform')[0].setAttribute('action', '/tripproceedonline');
+                        $("#merosubmit").trigger("click");
+                        // alert(m);
+                        // alert(s);
+                    }
+                });
+            }
+
+        }
+
+        $(document).ready(function(){
+            $('.noOfTravellers input').attr('required',true);
+            $('.tripDepartureDate input').attr('required',true);
+//          $('.tripDepartureDate input').addClass('validate');
+        });
+
+        $(document).ready(function () {
+            var formnum = $('#not').val();
+            $("#extraform").empty();
+            for (var i = 2; i <= formnum; i++) {
+                document.getElementById('allother').style.display = "block";
+                if (formnum === 1) {
+                    break;
+                }
+                else {
+                    var newdiv = document.createElement('div');
+                    newdiv.innerHTML ="<ul class=\"collapsible\">\n" +
+                        "   <li>\n" +
+                        "      <div class=\"collapsible-header\"><i class=\"material-icons\">person_pin</i  >Traveller "+i+":  Details (Optional)</div>\n" +
+                        "      <div class=\"collapsible-body\">" +
+                        "                                    <div style=\"margin-top: 10px;font-size: 20px;\" class=\"hb\">\n" +
+                        "                                        <i class=\"material-icons tiny\">person</i>\n" +
+                        "                                        <b>Personal Information:</b>\n" +
+                        "                                    </div>\n" +
+                        "                                    <div class=\"row\">\n" +
+                        "                                        <div class=\"col l1 m6 s12\">\n" +
+                        "                                            <div class=\"input-field\">\n" +
+                        "                                                <select  name = \"title["+i+"]\""+
+                        "                                                 >\n" +
+                        "                                                    <option value=\"null\" selected><b>Title*</b></option>\n" +
+                        "                                                    <option value = \"mr\">Mr</option>\n" +
+                        "                                                    <option value = \"mrs\">Mrs</option>\n" +
+                        "                                                    <option value = \"ms\">Ms</option>\n" +
+                        "                                                    <option value = \"miss\">Miss</option>\n" +
+                        "                                                </select>\n" +
+                        "                                           <label for=\"not\"></label>"+
+                        "                                            </div>\n" +
+                        "                                        </div>\n" +
+                        "                                        <div class=\"input-field col l4 m6 s12 fName\" style=\"\">\n" +
+                        "                                            <input  name = \"fname["+i+"]\""+ " type=\"text\" class=\"validate\">\n" +
+                        "                                            <label ><b>First Name*</b></label>\n" +
+                        "                                        </div>\n" +
+                        "                                        <div class=\"input-field col l3 m6 s12 mName\" style=\"\">\n" +
+                        "                                            <input  name = \"mname["+i+"]\""+" type=\"text\" class=\"validate\">\n" +
+                        "                                            <label ><b>Middle Name (Optional)</b></label>\n" +
+                        "                                        </div>\n" +
+                        "                                        <div class=\"input-field col l4 m6 s12 lName\" style=\"\">\n" +
+                        "                                            <input  name = \"lname["+i+"]\""+" type=\"text\" class=\"validate\">\n" +
+                        "                                            <label ><b>Last Name*</b></label>\n" +
+                        "                                        </div>\n" +
+                        "                                    </div>\n" +
+                        "                                    <div class=\"row\">\n" +
+                        "                                        <div class=\"input-field col l5 m6 s12 bEmail\" style=\"\">\n" +
+                        "                                            <input id=\"name\" type=\"email\"  name  = \"email["+i+"]\"" + " class=\"validate\">\n" +
+                        "                                            <label for=\"name\"><b>Email*</b></label>\n" +
+                        "                                        </div>\n" +
+                        "                                        <div class=\"input-field col l3 m6 s12 bContactNo\" style=\"\">\n" +
+                        "                                            <input type=\"number\" id=\"contactno\" name = \"contactno["+i+"]\"" + " class=\"validate\">\n" +
+                        "                                            <label for=\"name\"><b>Contact number*</b></label>\n" +
+                        "                                        </div>\n" +
+                        "                                    </div>\n" +
+                        "                                    <div class=\"row\">\n" +
+                        "                                        <div>\n" +
+                        "                                            <div class=\"input-field col l1 m4 s12 \">\n" +
+                        "                                                <select id=\"dd\" class=\"validate\" name = \"dd["+i+"]\"" + ">\n" +
+                        "                                                    <option value=\"null\" selected><b>DOB*</b></option>\n" +
+                            @for($d = 1; $d <= 31; $d++)
+                                "<option value=\"{{$d}}\">{{$d}}</option>" +
+                            @endfor
+                                "                                                </select>\n" +
+                        "                                             <label for=\"dd\"></label>" +
+                        "                                            </div>\n" +
+                        "                                            <div class=\"input-field col l1 m4 s12\">\n" +
+                        "                                                <select id=\"mm\" class=\"validate\" name = \"mm["+i+"]\"" +">\n" +
+                        "                                                    <option value=\"null\" selected><b>Month*</b></option>\n" +
+                        "                                                    <option value=\"1\">Jan</option>\n" +
+                        "                                                    <option value=\"2\">Feb</option>\n" +
+                        "                                                    <option value=\"3\">Mar</option>\n" +
+                        "                                                    <option value=\"4\">Apr</option>\n" +
+                        "                                                    <option value=\"5\">May</option>\n" +
+                        "                                                    <option value=\"6\">Jun</option>\n" +
+                        "                                                    <option value=\"7\">Jul</option>\n" +
+                        "                                                    <option value=\"8\">Aug</option>\n" +
+                        "                                                    <option value=\"9\">Sep</option>\n" +
+                        "                                                    <option value=\"10\">Oct</option>\n" +
+                        "                                                    <option value=\"11\">Nov</option>\n" +
+                        "                                                    <option value=\"12\">Dec</option>\n" +
+                        "                                                </select>\n" +
+                        "<label for=\"mm\"></label>"+
+                        "                                            </div>\n" +
+                        "                                            <div class=\"input-field col l1 m4 s12\">\n" +
+                        "                                                <select class=\"validate\" name = \"year["+i+"]\"" + ">" +
+                        "                                                    <option id=\"year\" value=\"null\" selected><b>Year*</b></option>\n" +
+                            @for($d = date('Y'); $d >= 1930; $d--)
+                                "<option value=\"{{$d}}\">{{$d}}</option>"+
+                            @endfor
+                                "                                                </select>\n" +
+                        "<label for=\"year\"></label>"+
+                        "                                            </div>\n" +
+                        "                                        </div>\n" +
+                        "                                        <div class=\"input-field col l3 m6 s12 bZipCode\" style=\"\">\n" +
+                        "                                            <input  name = \"zip["+i+"]\"" + " type=\"number\" class=\"validate\">\n" +
+                        "                                            <label ><b>Postcode / Zip (Optional)</b></label>\n" +
+                        "                                        </div>\n" +
+                        "                                        <div class=\"input-field col l2 m6 s12 bPassportNo\" style=\"\">\n" +
+                        "                                            <input id=\"passn\" type=\"number\"  name = \"passportno["+i+"]\""+  " class=\"validate\">\n" +
+                        "                                            <label for=\"passn\" type=\"number\"><b>Passport number*</b></label>\n" +
+                        "                                        </div>\n" +
+                        "                                        <div class=\"input-field col l2 m12 s12 bDOI\" style=\"\">\n" +
+                        "                                            <select name = \"doi["+i+"]\"" +  "class=\"validate\">\n" +
+                        "                                                <option id\"issue\" value=\"null\" selected><b>Date of issue</b></option>\n" +
+                            @for($d = date('Y'); $d >= 1930; $d--)
+                                "<option value=\"{{$d}}\">{{$d}}</option>"+
+                            @endfor
+                                "</select>\n" +
+                        "<label for=\"issue\"></label>"+
+                        "                                        </div>\n"+
+                        "                          </div>"+
+                        "                                <div style=\"margin-top: 10px;font-size: 20px;\" class=\"hb\">\n" +
+                        "                                <i class=\"material-icons tiny\">location_on</i>\n" +
+                        "                                <b>Location:</b></div>\n" +
+                        "                            <div class=\"row\">\n" +
+                        "                                <div class=\"input-field col l4 m6 s12 bSelectCountry\" style=\"\">\n" +
+                        "                                    <select name=\"country["+i+"]\" class=\"validate\">\n" +
+                        "                                        <option id=\"con\"  value=\"null\" selected><b>Select your Country*</b></option>\n" +
+                        "                                        @foreach($countries as $country)\n" +
+                        "                                            <option value=\"{{$country['name']}}\">{{$country['name']}}</option>\n" +
+                        "                                        @endforeach\n" +
+                        "                                    </select>\n" +
+                        "<label for=\"con\"></label>"+
+                        "                                </div>\n" +
+                        "                                <div class=\"input-field col l3 m6 s12 bState\" style=\"\">\n" +
+                        "                                    <input name=\"state["+i+"]\" type=\"text\" class=\"validate\">\n" +
+                        "                                    <label><b>State / Province (Optional)</b></label>\n" +
+                        "                                </div>\n" +
+                        "                                <div class=\"input-field col l4 m6 s12 bTown\" style=\"\">\n" +
+                        "                                    <input name=\"town["+i+"]\" type=\"text\" class=\"validate\">\n" +
+                        "                                    <label><b>Town (Optional)</b></label>\n" +
+                        "                                </div>\n" +
+                        "                                <div class=\"input-field col l4 m6 s12 bPermaAddress\" style=\"\">\n" +
+                        "                                    <input name=\"paddress["+i+"]\" type=\"text\" class=\"validate\">\n" +
+                        "                                    <label><b>Permanant Address*</b></label>\n" +
+                        "                                </div>\n" +
+                        "                                <div class=\"input-field col l4 m6 s12 bTempoAddress\" style=\"\">\n" +
+                        "                                    <input name=\"taddress["+i+"]\" type=\"text\" class=\"validate\">\n" +
+                        "                                    <label><b>Temporary Address (Optional)</b></label>\n" +
+                        "                                </div>\n" +
+                        "                            </div>\n" +
+                        "                            <div style=\"margin-top: 10px;font-size: 20px;\" class=\"hb\">\n" +
+                        "                                <i class=\"material-icons tiny\">info</i>\n" +
+                        "                                <b>General:</b></div>\n" +
+                        "                            <div class=\"row\">\n" +
+                        "                                <div class=\"input-field col l9 m12 s12\">\n" +
+                        "                                    <div class=\"row\">\n" +
+                        "                                        <div class=\"insurance-show\">\n" +
+                        "                                            <div class=\"input-field col l4 m6 s11\">\n" +
+                        "                                                <input id=\"ic\" name=\"ic["+i+"]\" type=\"text\" class=\"validate\">\n" +
+                        "                                                <label for=\"ic\"><b>Insurance Company </b></label>\n" +
+                        "                                            </div>\n" +
+                        "                                            <div class=\"input-field col l4 m6 s11\">\n" +
+                        "                                                <input id=\"ipn\" name=\"ipn["+i+"]\" type=\"number\" class=\"validate\">\n" +
+                        "                                                <label for=\"ipn\"><b>Insurance Policy Number </b></label>\n" +
+                        "                                            </div>\n" +
+                        "                                            <div class=\"input-field col l4 m6 s11\">\n" +
+                        "                                                <input id=\"icn\" name=\"icn["+i+"]\" type=\"number\" class=\"validate\">\n" +
+                        "                                                <label for=\"icn\"><b>Contact</b></label>\n" +
+                        "                                            </div>\n" +
+                        "                                        </div>\n" +
+                        "                                    </div>\n" +
+                        "                                    <strong style=\"font-size: 14px;\">\n" +
+                        "                                        Note: <span style=\"padding: 2px;\"> Insurance</span> is mandatory for the trips. You must be covered for both medical\n" +
+                        "                                        issues & emergency evacuation - minimum coverage US$100,000.(For high altitude adventures) *\n" +
+                        "                                    </strong>\n" +
+                        "                                </div>\n" +
+                        "                                <div class=\"input-field col l3 m12 s12\">\n" +
+                        "                                    <div class=\"input-field col l12 m12 s12\">\n" +
+                        "                                        <select id=\"feedback\" name=\"feedback["+i+"]\" class=\"validate\">\n" +
+                        "                                            <option value=\"null\" selected>How did you hear about us</option>\n" +
+                        "                                            <option value=\"Previous Client\" id=\"previousclient\">I am a previous client</option>\n" +
+                        "                                            <option value=\"Internet\" id=\"internet\">Internet Search</option>\n" +
+                        "                                            <option value=\"Facebook\" id=\"facebook\">Facebook</option>\n" +
+                        "                                            <option value=\"Twitter\" id=\"twitter\">Twitter</option>\n" +
+                        "                                            <option value=\"Recommendation\" id=\"recommendation\">Friend Recommendation</option>\n" +
+                        "                                            <option value=\"Tripadvisor\" id=\"tripadvisor\">Trip Advisor</option>\n" +
+                        "                                            <option value=\"Lonelyplanet\" id=\"lonelyplanet\">Lonely Planet</option>\n" +
+                        "                                            <option value=\"Others\" id=\"others\">Others</option>\n" +
+                        "                                        </select>\n" +
+                        "<label for=\"feedback\"></label>"+
+                        "                                    </div>\n" +
+                        "                                </div>\n" +
+                        "                            </div>"+
+                        " </div>\n" +
+                        "  </li>\n" +
+                        "  </ul>";
+
+                    document.getElementById('extraform').appendChild(newdiv);
+                }
+            }
+        });
+        $(document).ready(function () {
+            $('select').material_select();
+            $('.collapsible').collapsible();
+        });
+    </script>
+
+    <script type="text/javascript">
+
+        function termsnconditionModal(){
+            var checkedValue = $('.termsncondnvalue').val();
+            var checkedValue = null; 
+            var inputElements = document.getElementsByClassName('termsncondnvalue');
+            for(var i=0; inputElements[i]; ++i){
+                  if(inputElements[i].checked){
+                        $(".payonlinebtn").removeAttr("disabled");
+                        $(".paybank").removeAttr("disabled");
+                       checkedValue = inputElements[i].value;
+                       break;
+                  }else{
+                        $('.payonlinebtn').attr("disabled", "disabled");
+                        $('.paybank').attr("disabled", "disabled");
+                  }
+            }
+        }
+
+        function disagreeTermsCondition(){
+             $('.termsncondnvalue').prop('checked', false);
+             termsnconditionModal();
+        }
+
+        function agreeTermsCondition(){
+             $('.termsncondnvalue').prop('checked', true);
+             termsnconditionModal();
+        }
+    </script>
+
+@endsection

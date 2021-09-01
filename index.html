@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<style>
+    html,
+    body {
+        color: #333333;
+        font-family: 'Roboto', sans-serif;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 25px;
+        margin: 0;
+        padding: 0;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    img {
+        max-width: 100%;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        margin: 0;
+        padding: 0;
+    }
+
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    a,
+    a:hover {
+        text-decoration: none;
+        transition: 0.4s all ease-in-out;
+        -moz-transition: 0.4s all ease-in-out;
+        -ms-transition: 0.4s all ease-in-out;
+        -webkit-transition: 0.4s all ease-in-out;
+    }
+
+    fig {
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        display: block;
+    }
+
+    /*section {
+        float: left;
+        width: 100%;
+    }*/
+
+    .row {
+        margin-bottom: 0px;
+    }
+
+    .brand-logo img{
+        padding: 5px;
+        width: 100px;
+    }
+
+    nav{
+        background-color: #008eb0;
+    }
+
+    .defaultImg{
+        position: relative;
+    }
+
+    .upload{
+        position: absolute;
+        bottom: 20px;
+        right: 10px;
+
+    }
+
+    .bannerImg{
+        background: url(../img/pic3.jpg) no-repeat;
+        background-size: cover;
+        background-position: center center;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        align-content: center;
+        justify-content: center;
+    }
+
+    .bannertitle{
+        width: 50%;
+        background-color: rgba(0,0,0,0.4);
+        padding: 25px;
+    }
+
+    .bannertitle h1{
+        font-size: 30px;
+        color: #fff;
+        text-align: center;
+        line-height: 35px;
+        font-weight: 300;
+    }
+
+    .slider .indicators {
+        position: absolute;
+        text-align: center;
+        left: 0;
+        right: 0;
+        bottom: 50px;
+        margin: 0;
+        z-index: 999;
+    }
+
+    .downBtn{
+        text-align: center;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 20px;
+    }
+
+    .galleryImg{
+        padding: 0!important;
+        margin-bottom: -7px;
+        position: relative;
+        transition: all .2s ease-in-out
+    }
+
+    .galleryImg img{
+        width: 100%;
+    }
+
+    .galleryImg:hover{
+        transform: scale(1.04);
+        z-index: 999;
+        border-radius: 10px;
+    }
+
+    .galleryImg .text{
+        position: absolute;
+        bottom: 15px;
+        left: 15px;
+    }
+
+    .galleryImg .text h3{
+        color: #fff;
+        font-weight: 300;
+        font-size: 22px;
+    }
+
+    .card .card-title {
+        font-size: 18px;
+        font-weight: 300;
+    }
+
+    .sectionWrapper {
+        margin-bottom: 70px;
+    }
+
+    .title {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .title h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        position: relative;
+        padding-bottom: 10px;
+        display: inline-block;
+    }
+
+    .title h1:after {
+        position: absolute;
+        content: '';
+        background: #F44336;
+        width: 50%;
+        margin: 0 auto;
+        height: 2px;
+        bottom: 0;
+        right: 0;
+        left: 0;
+    }
+
+    .title h2 {
+        font-size: 16px;
+        width: 50%;
+        margin: 0 auto;
+        font-weight: 300;
+    }
+
+    .card-title {
+        font-size: 12px;
+    }
+
+    .viewAllBtn {
+        text-align: center;
+    }
+
+    .tooltipped {
+        font-size: 12px;
+    }
+
+    .parallax-container {
+        height: 300px;
+    }
+
+    .parallax{
+        position: relative;
+        z-index: -1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .parallax .content{
+        background-color: rgba(0,0,0,0.5);
+        padding: 13px;
+        position: absolute;
+        z-index: 999;
+    }
+
+    .parallax .content .title h1,
+    .parallax .content .title h2{
+        color: #ffffff;
+    }
+
+    .parallax .content .title h2{
+        width: 80%;
+        font-size: 24px;
+    }
+
+    .parallax .findTravellingPartner{
+        text-align: center;
+    }
+
+    .card-content h1{
+        font-size: 18px;
+        font-weight: 700;
+        margin:0px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    .card-content p{
+        font-size: 16px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+    }
+
+    .showAllBtn{
+        text-align: center;
+    }
+
+    .submit{
+        text-align: center;
+    }
+
+    .footerWrapper{
+        background-color: #23334b;
+        color: #fff;
+        display: block;
+    }
+
+    .footerWrapper{
+        padding:50px 0;
+    }
+
+    .footer .title{
+        text-align: left;
+    }
+
+    .footer .title h1{
+        font-size: 16px;
+    }
+
+    .footerItems{
+        margin-bottom: 20px;
+    }
+
+    .footer .title h1:after{
+        left: 0;
+        margin: 0;
+    }
+
+    .footer ul li{
+        font-weight: 300;
+        font-size: 16px;
+        line-height: 30px;
+
+    }
+
+    .footer ul li a{
+        color: #ffffff;
+    }
+
+    .footer ul li a:hover{
+        text-decoration: underline;
+    }
+
+    .association img{
+        width: 50px;
+        background-color: #fff;
+        border-radius: 3px;
+    }
+
+
+    .lowerFooter{
+        padding-bottom: 20px;
+        border-bottom: 2px solid #fff;
+        margin-bottom: 20px;
+    }
+
+    .website ul li{
+        display: inline-block;
+        margin-right: 20px;
+        font-size: 14px;
+    }
+
+    .website p{
+        font-size: 14px;
+        font-weight: 400;
+    }
+</style>
+<body>
+<header>
+    <nav>
+        <div class="nav-wrapper">
+            <div class="container">
+                <a href="#!" class="brand-logo">
+                    <img src="https://res.cloudinary.com/images-swotahtravel-com/image/upload/v1531014592/static_images/logo.png" alt="">
+                </a>
+                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Destinations <i class="material-icons right">arrow_drop_down</i></a></li>
+                    <ul id="dropdown1" class="dropdown-content">
+                        <li><a href="#!">Nepal</a></li>
+                        <li><a href="#!">Tibet</a></li>
+                        <li><a href="#!">Bhutan</a></li>
+                        <li><a href="#!">Myanmar</a></li>
+                    </ul>
+                    <li><a class="dropdown-button" href="#!" data-activates="dropdown2">Activities <i class="material-icons right">arrow_drop_down</i></a></li>
+                    <ul id="dropdown2" class="dropdown-content">
+                        <li><a href="#!">Mountaineering</a></li>
+                        <li><a href="#!">Peak Climbing</a></li>
+                        <li><a href="#!">Trekking</a></li>
+                        <li><a href="#!">Spiritual Journey</a></li>
+                        <li><a href="#!">Mountain Biking</a></li>
+                        <li><a href="#!">Cultural Tours</a></li>
+                        <li><a href="#!">Adventure Sports</a></li>
+                    </ul>
+                    <li><a class="dropdown-button" href="#!" data-activates="dropdown3">Special Offers <i class="material-icons right">arrow_drop_down</i></a></li>
+                    <ul id="dropdown3" class="dropdown-content">
+                        <li><a href="#!">Millennium Treak</a></li>
+                        <li><a href="#!">Paragliding Pokhara</a></li>
+                        <li><a href="#!">Panchase Village Treak</a></li>
+                        <li><a href="#!">Nepal Exploration</a></li>
+                        <li><a href="#!">Langtang Valley Treak</a></li>
+                        <li><a href="#!">Upper Mustang-Teeji Festival</a></li>
+                        <li><a href="#!">Everest Yoga Treak</a></li>
+                        <li><a href="#!">Nar Phu Valley</a></li>
+                    </ul>
+                    <li><a class="dropdown-button" href="#!" data-activates="dropdown4">About Us <i class="material-icons right">arrow_drop_down</i></a></li>
+                    <ul id="dropdown4" class="dropdown-content">
+                        <li><a href="#!">Our Team</a></li>
+                        <li><a href="#!">Why Swotah?</a></li>
+                        <li><a href="#!">Company History</a></li>
+                        <li><a href="#!">Mission Statement</a></li>
+                        <li><a href="#!">Booking and Cancellation</a></li>
+                        <li><a href="#!">Diffeculty Level</a></li>
+                        <li><a href="#!">Corporate social Responsibility</a></li>
+                        <li><a href="#!">Volunteerism</a></li>
+                    </ul>
+                    <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Login</a></li>
+                </ul>
+                <ul class="side-nav" id="mobile-demo">
+                    <li><a class="dropdown-button" href="#!" data-activates="dropdown5">Destinations <i class="material-icons right">arrow_drop_down</i></a></li>
+                    <ul id="dropdown5" class="dropdown-content">
+                        <li><a href="#!">Nepal</a></li>
+                        <li><a href="#!">Tibet</a></li>
+                        <li><a href="#!">Bhutan</a></li>
+                        <li><a href="#!">Myanmar</a></li>
+                    </ul>
+                    <li><a href="#">Activities</a></li>
+                    <li><a href="#">Special Offers</a></li>
+                    <li><a href="#">About Us</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<main>
+    <section class="sectionWrapper">
+        <!-- <div class="top-slider">
+            <div class="slider">
+                <ul class="slides">
+                    <li>
+                        <img src="img/pic1.jpeg">
+                        <div class="caption center-align">
+                            <h3>This is our big Tagline!</h3>
+                            <h5 class="light grey-text text-lighten-3">A JOURNEY INTO THE HIMALAYAS, A JOURNEY INTO ONESELF.</h5>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="img/pic2.jpg">
+                        <div class="caption left-align">
+                            <h3>Left Aligned Caption</h3>
+                            <h5 class="light grey-text text-lighten-3">IF NEPAL IS YOUR NEXT DESTINATION, THEN LET US GUIDE YOU FOR YOUR NEXT ADVENTURE..</h5>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="img/pic4.jpg">
+                        <div class="caption right-align">
+                            <h3>Right Aligned Caption</h3>
+                            <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div> -->
+        <div class="bannerImg valign-wrapper">
+            <div class="bannertitle">
+                <h1>If Nepal is your next destination, then let us guide you for your next adventure.</h1>
+            </div>
+        </div>
+        <div class="downBtn">
+            <a class="btn btn-floating btn-large cyan pulse" id="goDown"><i class="material-icons">arrow_downward</i></a>
+        </div>
+    </section>
+    <section class="sectionWrapper activities" id="activities">
+        <div>
+            <div class="title">
+                <h1>Activities</h1>
+                <h2>Authentic and intimate in our aims, we keep profuse knowledge, experience and expertise of all aspects of the Himalayas.</h2>
+            </div>
+            <div class="row">
+                <div class="col s12 m3 l3 xl3 galleryImg">
+                    <a href="#"><img src=" http://res.cloudinary.com/images-swotahtravel-com/image/upload/v1532007193/thumbnail/Trekking.jpg "></a>
+                    <div class="text">
+                        <h3>Trekking</h3>
+                    </div>
+                </div>
+                <div class="col s12 m3 l3 xl3 galleryImg">
+                    <a href="#"><img src="  http://res.cloudinary.com/images-swotahtravel-com/image/upload/v1532006877/thumbnail/Peak-Climbing.jpg  "></a>
+                    <div class="text">
+                        <h3>Peak Climbing</h3>
+                    </div>
+                </div>
+                <div class="col s12 m3 l3 xl3 galleryImg">
+                    <a href="#"><img src="  http://res.cloudinary.com/images-swotahtravel-com/image/upload/v1532007231/thumbnail/Mountaineering.jpg  "></a>
+                    <div class="text">
+                        <h3>Mountaineering</h3>
+                    </div>
+                </div>
+                <div class="col s12 m3 l3 xl3 galleryImg">
+                    <a href="#"><img src=" http://res.cloudinary.com/images-swotahtravel-com/image/upload/v1532007250/thumbnail/Hiking-in-Nepal.jpg  "></a>
+                    <div class="text">
+                        <h3>Hiking in Nepal</h3>
+                    </div>
+                </div>
+                <div class="col s12 m3 l3 xl3 galleryImg">
+                    <a href="#"><img src="  http://res.cloudinary.com/images-swotahtravel-com/image/upload/v1532007319/thumbnail/Camping-in-Nepal.jpg  "></a>
+                    <div class="text">
+                        <h3>Camping in Nepal</h3>
+                    </div>
+                </div>
+                <div class="col s12 m3 l3 xl3 galleryImg">
+                    <a href="#"><img src="  http://res.cloudinary.com/images-swotahtravel-com/image/upload/v1532007356/thumbnail/Cultural-Tours.jpg  "></a>
+                    <div class="text">
+                        <h3>Cultural Tours</h3>
+                    </div>
+                </div>
+                <div class="col s12 m3 l3 xl3 galleryImg">
+                    <a href="#"><img src="  http://res.cloudinary.com/images-swotahtravel-com/image/upload/v1532007418/thumbnail/Most-Popular-Tours.jpg  "></a>
+                    <div class="text">
+                        <h3>Most Popular Tours</h3>
+                    </div>
+                </div>
+                <div class="col s12 m3 l3 xl3 galleryImg">
+                    <a href="#"><img src="  http://res.cloudinary.com/images-swotahtravel-com/image/upload/v1532007436/thumbnail/Short-Duration-Trips.jpg  "></a>
+                    <div class="text">
+                        <h3>Short Duration trips</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="sectionWrapper packages" id="packages">
+        <div class="container">
+            <div class="title">
+                <h1>Our Trip Packages And Programs</h1>
+                <h2>More than 100 adventure destinations are now within your reach. Compare and Explore the trips that best suit your timing and your traveling style.</h2>
+            </div>
+            <div class="row">
+                <div class="col s12 m4 l3 xl3">
+                    <div class="card hoverable">
+                        <div class="card-image">
+                            <img src="img/Short-Duration-Trips.jpg">
+                            <a class="btn-floating halfway-fab waves-effect waves-light red tooltipped" data-position="top" data-delay="50" data-tooltip="Compare"><i class="material-icons">add</i></a>
+                        </div>
+                        <div class="card-content">
+                            <p>Nepal Exploration.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m4 l3 xl3">
+                    <div class="card hoverable">
+                        <div class="card-image">
+                            <img src="https://www.swotahtravel.com/images/trips/thumbnail/white-water-rafting-new.jpg">
+                            <a class="btn-floating halfway-fab waves-effect waves-light red tooltipped" data-position="top" data-delay="50" data-tooltip="Compare"><i class="material-icons">add</i></a>
+                        </div>
+                        <div class="card-content">
+                            <p>White Water Rafting.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m4 l3 xl3">
+                    <div class="card hoverable">
+                        <div class="card-image">
+                            <img src="https://www.swotahtravel.com/images/trips/thumbnail/island peak.jpg">
+                            <a class="btn-floating halfway-fab waves-effect waves-light red tooltipped" data-position="top" data-delay="50" data-tooltip="Compare"><i class="material-icons">add</i></a>
+                        </div>
+                        <div class="card-content">
+                            <p>Island Peak.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m4 l3 xl3">
+                    <div class="card hoverable">
+                        <div class="card-image">
+                            <img src="https://www.swotahtravel.com/images/trips/thumbnail/Mera Peak.jpg">
+                            <a class="btn-floating halfway-fab waves-effect waves-light red tooltipped" data-position="top" data-delay="50" data-tooltip="Compare"><i class="material-icons">add</i></a>
+                        </div>
+                        <div class="card-content">
+                            <p>Mera Peak.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m4 l3 xl3">
+                    <div class="card hoverable">
+                        <div class="card-image">
+                            <img src="https://www.swotahtravel.com/images/trips/thumbnail/Yala-Peak-Climbing-new.jpg">
+                            <a class="btn-floating halfway-fab waves-effect waves-light red tooltipped" data-position="top" data-delay="50" data-tooltip="Compare"><i class="material-icons">add</i></a>
+                        </div>
+                        <div class="card-content">
+                            <p>Yala Peak Climbing.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m4 l3 xl3">
+                    <div class="card hoverable">
+                        <div class="card-image">
+                            <img src="https://www.swotahtravel.com/images/trips/thumbnail/lower-dolpo-trek-new.jpg">
+                            <a class="btn-floating halfway-fab waves-effect waves-light red tooltipped" data-position="top" data-delay="50" data-tooltip="Compare"><i class="material-icons">add</i></a>
+                        </div>
+                        <div class="card-content">
+                            <p>Lower Dolpa Treak.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m4 l3 xl3">
+                    <div class="card hoverable">
+                        <div class="card-image">
+                            <img src="https://www.swotahtravel.com/images/trips/thumbnail/eastern-nepal-trip-new.jpg">
+                            <a class="btn-floating halfway-fab waves-effect waves-light red tooltipped" data-position="top" data-delay="50" data-tooltip="Compare"><i class="material-icons">add</i></a>
+                        </div>
+                        <div class="card-content">
+                            <p>Eastern Nepal Trip.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m4 l3 xl3">
+                    <div class="card hoverable">
+                        <div class="card-image">
+                            <img src="img/Short-Duration-Trips.jpg">
+                            <a class="btn-floating halfway-fab waves-effect waves-light red tooltipped" data-position="top" data-delay="50" data-tooltip="Compare"><i class="material-icons">add</i></a>
+                        </div>
+                        <div class="card-content">
+                            <p>Nepal Exploration.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="viewAllBtn">
+                    <button class="btn waves-effect waves-light">View All</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="sectionWrapper parallaxWrapper" id="parallaxWrapper">
+        <div class="parallax-container">
+            <div class="parallax">
+                <img src="img/paralax.jpeg">
+                <div class="content">
+                    <div class="title">
+                        <h1>Traveling SOLO?</h1>
+                        <h2>Meet like-minded fellow travellers, trekking partners and other solo adventureres like you.</h2>
+                    </div>
+                    <div class="findTravellingPartner">
+                        <button class="waves-effect waves-light btn">Find Travelling Partner</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="sectionWrapper deals" id="deals">
+        <div class="title">
+            <h1>Guaranteed Departures & Last minute Deals</h1>
+            <h2>Hold the seats or Book some of our popular fixed departure trips and be the first one of the firsts to grab the deals.</h2>
+        </div>
+    </section>
+    <section class="sectionWrapper blogs" id="blogs">
+        <div class="title">
+            <h1>Blogs</h1>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col s12 m6">
+                    <div class="card horizontal hoverable">
+                        <div class="card-image">
+                            <img src="img/cycling.jpg">
+                        </div>
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <h1>Top 5 Cycling Routes in and around Kathmandu Valley</h1>
+                                <p>I am a very simple card. I am good at containing small bits of information.</p>
+                            </div>
+                            <div class="card-action">
+                                <button class="btn waves-effect waves-light">Read More</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6">
+                    <div class="card horizontal hoverable">
+                        <div class="card-image">
+                            <img src="img/guide.jpg">
+                        </div>
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <h1>Why you should take a guide while travelling in Nepal.</h1>
+                                <p>I am a very simple card. I am good at containing small bits of information.</p>
+                            </div>
+                            <div class="card-action">
+                                <button class="btn waves-effect waves-light">Read More</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6">
+                    <div class="card horizontal hoverable">
+                        <div class="card-image">
+                            <img src="img/rara.jpg">
+                        </div>
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <h1>Inland Seas of Nepal</h1>
+                                <p>I am a very simple card. I am good at containing small bits of information.</p>
+                            </div>
+                            <div class="card-action">
+                                <button class="btn waves-effect waves-light">Read More</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6">
+                    <div class="card horizontal hoverable">
+                        <div class="card-image">
+                            <img src="img/sherpa.jpg">
+                        </div>
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <h1>5 facts about Stupendous Sherpas.</h1>
+                                <p>I am a very simple card. I am good at containing small bits of information.</p>
+                            </div>
+                            <div class="card-action">
+                                <button class="btn waves-effect waves-light">Read More</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="showAllBtn">
+                    <button class="btn waves-effect waves-light">View All</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="sectionWrapper review" id="review">
+        <div class="container">
+            <div class="title">
+                <h1>Share Your Experience</h1>
+                <h2>On a scale of 1 to 10, how likely are you to recommend Swotah to your friends or acquaintances?</h2>
+            </div>
+            <div class="row">
+                <div class="col s12 m2">
+                    <div class="defaultImg">
+                        <img src="img/default.png" alt="" class="circle responsive-img">
+                        <a class="btn btn-floating upload pulse"><i class="material-icons">cloud_upload</i></a>
+                    </div>
+                </div>
+                <div class="col s12 m10">
+                    <div class="input-field col s12">
+                        <input id="last_name" type="text" class="validate">
+                        <label for="last_name">FullName</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input id="email" type="text" class="validate">
+                        <label for="email">Email</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <select>
+                            <option value="" disabled selected>Choose your Nationality</option>
+                            <option value="1">Option 1</option>
+                            <option value="2">Option 2</option>
+                            <option value="3">Option 3</option>
+                        </select>
+                        <label>Your Nationality</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <textarea id="textarea1" class="materialize-textarea"></textarea>
+                        <label for="textarea1">Textarea</label>
+                    </div>
+                    <button class="btn waves-effect waves-light">Submit</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- <section class="sectionWrapper testimonials">
+        <div class="title">
+            <h1>Testimonials</h1>
+        </div>
+    </section> -->
+</main>
+<footer class="footer">
+    <div class="footerWrapper">
+        <div class="container">
+            <div class="row footerItems">
+                <div class="col s12 m3">
+                    <div class="title">
+                        <h1>Trips</h1>
+                    </div>
+                    <ul>
+                        <li><a href="#">Travel Insurance</a></li>
+                        <li><a href="#">Before you come</a></li>
+                        <li><a href="#">Find Trip Partner</a></li>
+                    </ul>
+                </div>
+                <div class="col s12 m3">
+                    <div class="title">
+                        <h1>About Us</h1>
+                    </div>
+                    <ul>
+                        <li><a href="#">CSR</a></li>
+                        <li><a href="#">Volunteer</a></li>
+                        <li><a href="#">Why Swotah?</a></li>
+                        <li><a href="#">Swotah Team</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col s12 m3">
+                    <div class="title">
+                        <h1>General</h1>
+                    </div>
+                    <ul>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Blogs</a></li>
+                        <li><a href="#">Visa Information</a></li>
+                        <li><a href="#">Difficulty Level</a></li>
+                        <li><a href="#">Nepal at Glance</a></li>
+                        <li><a href="#">Request a Brochure</a></li>
+                    </ul>
+                </div>
+                <div class="col s12 m3">
+                    <div class="title">
+                        <h1>Contact Us</h1>
+                    </div>
+                    <ul>
+                        <li>PO Box: 612
+                            <br> GPO: 44600, Sundhara, Kathmandu</li>
+                        <li>Gairidhara-2, Kathmandu, Nepal</li>
+                        <li>info@swotahtravel.com
+                            <br> b2b@swotahtravel.com</li>
+                        <li>+977 9801095962, +977-1-4004750</li>
+                        <li>swotahtravel</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row lowerFooter">
+                <div class="col s12 m3">
+                    <img src="https://res.cloudinary.com/images-swotahtravel-com/image/upload/v1531016168/static_images/footer_icons/exce-newly.png" alt="More than a Decade in the mountains">
+                </div>
+                <div class="col s12 m3">
+                    <div class="title">
+                        <h1>Our Association</h1>
+                    </div>
+                    <div class="association">
+                        <a href="#"><img src="img/gon.png" alt="Government of Neapal"></a>
+                        <a href="#"><img src="img/ntb.png" alt="Nepal Tourism Board"></a>
+                        <a href="#"><img src="img/nma.png" alt="Nepal Mountaineering Association"></a>
+                        <a href="#"><img src="img/taan.png" alt="Trekking Agencies' Association of Nepal"></a>
+                    </div>
+                </div>
+                <div class="col s12 m3">
+                    <div class="title">
+                        <h1>Let's Get Social</h1>
+                    </div>
+                    <div class="social">
+                        <a href="#" target="_blank"><img src="https://res.cloudinary.com/images-swotahtravel-com/image/upload/v1531016168/static_images/footer_icons/facebook.png" alt=""></a>
+                        <a href="#" target="_blank"><img src="https://res.cloudinary.com/images-swotahtravel-com/image/upload/v1531016158/static_images/footer_icons/twitter.png" alt=""></a>
+                        <a href="#" target="_blank"><img src="https://res.cloudinary.com/images-swotahtravel-com/image/upload/v1531016167/static_images/footer_icons/instagram.png" alt=""></a>
+                        <a href="#" target="_blank"><img src="https://res.cloudinary.com/images-swotahtravel-com/image/upload/v1531016165/static_images/footer_icons/merol.png" alt=""></a>
+                        <a href="#" target="_blank"><img src="https://res.cloudinary.com/images-swotahtravel-com/image/upload/v1531015589/static_images/footer_icons/youtube.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="col s12 m3">
+                    <div class="title">
+                        <h1>Find us on</h1>
+                    </div>
+                    <div class="tripadvisor">
+                        <a href="#" target="_blank"><img src="img/tripadvisor.png" alt="Tripadvisor"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m6">
+                    <div class="title">
+                        <h1>Payment Method</h1>
+                    </div>
+                    <div class="payment">
+                        <img src="https://res.cloudinary.com/images-swotahtravel-com/image/upload/v1531016157/static_images/footer_icons/visacard.png" alt="">
+                        <img src="https://res.cloudinary.com/images-swotahtravel-com/image/upload/v1531016164/static_images/footer_icons/meromaster.png" alt="">
+                        <img src="https://res.cloudinary.com/images-swotahtravel-com/image/upload/v1531016169/static_images/footer_icons/americanexpress.png" alt="">
+                        <img src="https://res.cloudinary.com/images-swotahtravel-com/image/upload/v1531016165/static_images/footer_icons/maestrocard.png" alt="">
+                        <img src="https://res.cloudinary.com/images-swotahtravel-com/image/upload/v1531016885/static_images/payonline.jpg" alt="">
+                    </div>
+                </div>
+                <div class="col s12 m6">
+                    <div class="website">
+                        <ul>
+                            <li><a href="#">Deposit and Cancellation Policy</a></li>
+                            <li><a href="#">Terms and Condition</a></li>
+                            <li><a href="#">Sitemap</a></li>
+                            <li>Total Visitor: 1254567</li>
+                        </ul>
+                        <p>Copyright © Swotah Travel and Adventure Pvt. Ltd 2018. All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!--JavaScript at end of body for optimized loading-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+<script src="js/script.js"></script>
+<script>
+    $(document).ready(function() {
+
+        //slider//
+        $('.slider').slider();
+
+        $(".dropdown-button").dropdown();
+
+        $(".button-collapse").sideNav();
+
+        $(".dropdown-button").dropdown();
+
+        $('.tooltipped').tooltip({ delay: 50 });
+
+        $('.parallax').parallax();
+
+        $('select').material_select();
+
+        $("#goDown").click(function() {
+            $('html, body').animate({
+                scrollTop: $("#activities").offset().top
+            }, 1000);
+        });
+    });
+</script>
+</body>
+
+</html>

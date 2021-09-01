@@ -1,0 +1,18 @@
+User-agent: *
+Disallow:
+
+#Begin Attracta SEO Tools Sitemap. Do not remove
+sitemap: http://cdn.attracta.com/sitemap/5149172.xml.gz
+#End Attracta SEO Tools Sitemap. Do not remove
+Disallow: /trip/best-of-south-vietnam
+Disallow: /price/days
+Disallow: /partner/destination/16
+Disallow: /about/corporate-social-resposibility
+Disallow: /trip/tilicho-lake-and-annapurna-circuit
+Disallow: /blogs/show/15-reasons-to-be-in-nepal-in-2018
+Disallow: /about/insurance
+Disallow: /trip/manaslu-circuit?page=1&_escaped_fragment_=
+Disallow: /trip/kailash-manasarovar-heli-tour
+Disallow: /blogs/show/everest-base-camp-trek-in-april
+Disallow: /trip/chitlang-khulekhani-hiking
+Disallow: /trip/helambu-trek

@@ -1,0 +1,82 @@
+{
+
+    "name": "laravel/laravel",
+    "description": "The Laravel Framework.",
+    "keywords": ["framework", "laravel"],
+    "license": "MIT",
+    "type": "project",
+    "require": {
+        "php": ">=7.0.0",
+        "ext-pdo": "*",
+        "algolia/algoliasearch-client-php": "^1.16",
+        "anhskohbo/no-captcha": "^3.0",
+        "artesaos/seotools": "^0.11.1",
+        "barryvdh/laravel-debugbar": "~2.4",
+        "barryvdh/laravel-dompdf": "^0.8.0",
+        "barryvdh/laravel-snappy": "^0.4.1",
+        "fico7489/laravel-eloquent-join": "*",
+        "guzzlehttp/guzzle": "^6.2",
+        "h4cc/wkhtmltoimage-amd64": "0.12.x",
+        "h4cc/wkhtmltopdf-amd64": "0.12.x",
+        "htmlmin/htmlmin": "^5.0",
+        "intervention/image": "^2.3",
+        "jrm2k6/cloudder": "0.4.*",
+        "laracasts/flash": "^3.0",
+        "laravel/framework": "5.5.*",
+        "laravel/scout": "^3.0",
+        "laravel/socialite": "^3.0",
+        "laravel/tinker": "~1.0",
+        "magentron/laravel-blade-lint": "^1.0",
+        "mostafaznv/recaptcha": "^1.1",
+        "nesbot/carbon": "^1.22",
+        "renatomarinho/laravel-page-speed": "^1.8",
+        "spatie/laravel-image-optimizer": "^1.1",
+        "unisharp/laravel-filemanager": "^1.7"
+    },
+    "require-dev": {
+    "fzaninotto/faker": "~1.4",
+    "mockery/mockery": "0.9.*",
+    "phpunit/phpunit": "~5.7"
+},
+    "autoload": {
+    "classmap": [
+        "database"
+    ],
+    "psr-4": {
+        "App\\": "app/"
+    },
+        "files": [
+            "app/Helper/PasswordChecker.php"
+        ]
+},
+    "autoload-dev": {
+    "psr-4": {
+        "Tests\\": "tests/"
+    }
+},
+    "scripts": {
+    "post-root-package-install": [
+        "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+    ],
+    "post-create-project-cmd": [
+        "php artisan key:generate"
+    ],
+    "post-install-cmd": [
+        "Illuminate\\Foundation\\ComposerScripts::postInstall",
+        "php artisan optimize"
+    ],
+    "post-update-cmd": [
+        "Illuminate\\Foundation\\ComposerScripts::postUpdate",
+        "php artisan optimize"
+    ]
+},
+    "config": {
+    "preferred-install": "dist",
+    "sort-packages": true
+},
+    "repositories": {
+    "packagist": { "url": "https://packagist.org", "type": "composer" }
+}
+
+
+}

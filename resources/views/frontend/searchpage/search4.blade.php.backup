@@ -1,0 +1,263 @@
+@extends('layouts.master')
+@section('title')
+    <title>Search Trips</title>
+@endsection
+@section('metatags')
+    <link rel="shortcut icon" href="{{{ asset('images/favicon.ico') }}}">
+@endsection
+@section('styles')
+    <link rel="stylesheet" type="text/css" href="{{url('css/frontend/instantsearch.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url('css/frontend/search.css')}}">
+    <link rel="stylesheet" href="{{url('css/frontend/index.min.css')}}">
+    <style>
+
+        #hits{
+            font-size: 10px;
+        }
+        .reviewAllPagination li{
+            background: #00B1FF;
+            color: white;
+            height: 30px;
+            width:30px;
+        }
+
+        .reviewAllPagination li.active{
+            background: tomato;
+            padding: 1px 10px;
+            color: white;
+            height: 30px;
+            width:30px;
+        }
+
+        .reviewAllPagination li a{
+            color: white;
+        }
+
+
+
+        .formContent:hover .searchBtn{
+            background: tomato!important;
+            padding:3px 40px;
+            transition-timing-function:ease-in-out;
+            transition: 0.6s;
+        }
+
+        .searchBtn{
+            padding:3px 20px;
+        }
+
+        #search1-text::placeholder {
+            font-weight: bolder;
+            font-family: 'Merriweather', serif;
+            color:gray;
+        }
+        
+        #search1-text:-ms-input-placeholder { /* Internet Explorer 10-11 */
+            font-weight: bolder;
+            font-family: 'Merriweather', serif;
+            color:#4B4B4B;
+        }
+
+        #search1-text::-ms-input-placeholder { /* Microsoft Edge */
+            font-weight: bolder;
+            font-family: 'Merriweather', serif;
+            color:gray;
+        }
+
+        @media only screen and (min-width: 768px) {
+            .slider .caption h3{
+                font-size:140%;
+                margin-top:15%;
+            }
+
+
+            #search1-text::placeholder {
+                font-size:12px;
+            }
+            
+            #search1-text:-ms-input-placeholder { /* Internet Explorer 10-11 */
+                font-size:12px;
+            }
+
+            #search1-text::-ms-input-placeholder { /* Microsoft Edge */
+                font-size:12px;
+            }
+
+            .slide-grp{
+                top:55%!important;
+            }
+        }
+
+        @media (max-width: 767px) and (min-width: 600px) {
+            .slider .caption h3{
+                font-size:120%;
+                margin-top:22%;
+            }
+
+
+            #search1-text::placeholder {
+                font-size:10px;
+            }
+            
+            #search1-text:-ms-input-placeholder { /* Internet Explorer 10-11 */
+                font-size:10px;
+            }
+
+            #search1-text::-ms-input-placeholder { /* Microsoft Edge */
+                font-size:10px;
+            }
+
+            .slide-grp{
+                top:52%!important;
+            }
+        }
+
+        @media only screen and (max-width: 600px) {
+            .slider .caption h3{
+                font-size:100%;
+                margin-top:32%;
+            }
+
+
+            #search1-text::placeholder {
+                font-size:6px;
+                padding: 0px;
+            }
+            
+            #search1-text:-ms-input-placeholder { /* Internet Explorer 10-11 */
+                font-size:6px;
+                padding: 0px;
+            }
+
+            #search1-text::-ms-input-placeholder { /* Microsoft Edge */
+                font-size:6px;
+                padding: 0px;
+            }
+
+            .slide-grp{
+                top:60%!important;
+            }
+        }
+
+        .panelHead{
+            background: #e0e0e0;
+            color: black;
+            padding: 10px;
+        }
+
+        #search1-form .searchAlgoinput{
+            border: none;
+        }
+
+        #search1-box .searchAlgoinput:focus{
+            border: none!important;
+        }
+
+        .facet{
+            font-size: 14px;
+            padding: 0px;
+            margin-top: -10px;
+        }
+
+        #articleSideNav .side-nav {
+            background-color:#607D8B!important;
+        }
+    </style>
+@endsection
+@section('content')
+    @include('layouts.navbar2')
+    <article id="articleSideNav">
+        <a href="#" id = "searchmenu" data-activates="nav-mobile"
+           class="button-collapse top-nav waves-effect waves-light circle hide-on-large-only">
+            <i id = "searchmenuicon" class="material-icons">menu</i></a>
+
+        <div id="nav-mobile" class="side-nav fixed" style="height: 100%;">
+            <br>
+            <div id="clear-all"></div><br>
+            <div class="facet" id="price"></div>
+            <div class="facet" id="days"></div>
+            <div class="facet" id="altitude"></div>
+            <div class="facet" id="physical_rating"></div>
+            <div class="facet" id="poplularity"></div>
+            <div class="facet" id="traveldeal"></div>
+            <div class="facet" id="special_discount"></div>
+            <div class="facet" id="ratings">
+            </div>
+            <div class="facet" id="style">
+            </div>
+            <div class="facet" id="start_location">
+            </div>
+            <div class="facet" id="dates">
+            </div>
+            <div class="facet" id="venture">
+            </div>
+            <div class="facet" id="regions">
+            </div>
+            <div class="facet" id="country">
+            </div>
+        </div>
+
+    </article>
+    <main style="margin-top: 15px;">
+        <div class="row" id="results">
+            <div class="search-wrapper" style="padding: 40px 0px 20px 0px;">
+                <!-- <h2  class="titleHeadtwo"> <span class="reviewTitle"> Search </span> </h2> -->
+                <div id='search1-box' >
+                        <div class="formContent homesearchBox">
+                            <input id="q" value="{{$query}}"  placeholder="Search more trips" class="searchAlgoinput" style="border:1px solid gray!important;border-radius: 10px;">
+                        </div>
+                </div>  
+
+                <img height="30px" style="float: right; top: 30px; margin-top: -66px;" width="30px" src="{{url('images/algolia.svg')}}" alt="algolia">
+
+
+            </div>
+
+            <div class="card-panel panelHead" style="margin-top: -20px;">
+                <div class="row">
+                    <div class="col l3 m3 s12" id="stats"></div>
+                    <div class="col l6 m3 s12"></div>
+                    <div class="col l1 m2 s4" id="sort-by-price"></div>
+                    <div class="col l1 m2 s4" id="sort-by-day"></div>
+                    <div class="col l1 m2 s4" id="sort-by-rating"></div>
+                </div>
+            </div>
+
+            {{--yaha chai results haru aaucha search ko--}}
+            <div id="hits"></div>
+        </div>
+
+        <div id="pagination"></div>
+        @include('layouts.footer1')
+    </main>
+@endsection
+@section('scripts')
+    <script src="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.js"></script>
+    <script src="{{url('js/search.js')}}"></script>
+@endsection
+
+<!-- Modal Structure -->
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <a class="modal-action modal-close waves-effect waves-light btn center">Select Another Trip </a>
+    </div>
+</div>
+
+<div id="modal2" class="modal">
+    <div class="modal-content">
+        You have selected two trips. You can compare these trips or add another.
+        <a class="modal-action modal-close waves-effect waves-light btn center">Add another trip</a>
+        <span class="CompareOr">OR</span>
+        <a href="javascript:ViewComparison();" class="modal-action modal-close waves-effect waves-light btn center">Compare Trips</a>
+    </div>
+</div>
+
+<!-- Modal Structure -->
+<div id="modal3" class="modal">
+    <div class="modal-content">
+        <h5>You have already checked trips.You can compare 2 or 3 trips only</h5>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="modal-action modal-close waves-effect waves-light center">Okay</a>
+    </div>
+</div>

@@ -1,0 +1,7 @@
+User-agent: *
+Disallow:
+Disallow: /wish*
+Disallow: /book*
+Disallow: /trip/book*
+Disallow: /trip/custom*
+Sitemap: https://www.swotahtravel.com/sitemap.xml

@@ -1,0 +1,589 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+textarea{
+    outline:0;
+}
+html {
+    scroll-behavior: smooth;
+}
+
+a {
+    text-decoration: none !important;
+    display: inline-block;
+    font-family: 'Verdana', sans-serif;
+
+}
+
+span, small, strong {
+    display: inline-block;
+    margin: 0px;
+    font-family: 'Verdana', sans-serif;
+
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    overflow: hidden;
+}
+
+th {
+    font-family: 'Verdana', sans-serif;
+
+}
+
+td {
+    font-family: 'Verdana', sans-serif;
+
+}
+
+p {
+    margin: 0px;
+    font-family: 'Verdana', sans-serif;
+
+}
+
+ul, ol {
+    margin: 0px;
+    padding: 0px;
+}
+
+li, ol {
+    list-style: none;
+    font-family: 'Verdana', sans-serif;
+
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    font-family: 'Open Sans', sans-serif !important;
+
+}
+
+.bo {
+    display: block;
+    overflow: hidden;
+}
+
+.red {
+    color: #D8343D;
+}
+
+.bg-ddd {
+    background: #ddd;
+}
+
+.height-450 {
+    height: 450px;
+}
+
+.height-225 {
+    height: 225px;
+}
+
+.pl-0 {
+    padding-left: 0px !important;
+}
+
+.pr-0 {
+    padding-right: 0px !important;
+}
+
+.ml-0 {
+    margin-left: 0 !important;
+}
+
+.mr-0 {
+    margin-right: 0 !important;
+}
+
+.container {
+    max-width: 98% !important;
+}
+
+.flex-box {
+    display: flex;
+}
+
+.flex {
+    flex: 1;
+}
+
+select, button {
+    font-family: 'Open Sans', sans-serif;
+}
+
+
+.pt-10 {
+    padding-top: 10px;
+}
+
+.pt-15 {
+    padding-top: 15px;
+}
+
+.pt-20 {
+    padding-top: 20px;
+}
+
+.pt-25 {
+    padding-top: 25px;
+}
+
+.pt-30 {
+    padding-top: 30px;
+}
+
+.pt-35 {
+    padding-top: 35px;
+}
+
+.pt-40 {
+    padding-top: 40px;
+}
+
+.pt-45 {
+    padding-top: 45px;
+}
+
+.pt-50 {
+    padding-top: 50px;
+}
+
+.pt-60 {
+    padding-top: 60px;
+}
+
+
+.pb-10 {
+    padding-bottom: 10px;
+}
+
+.pb-15 {
+    padding-bottom: 15px;
+}
+
+.pb-20 {
+    padding-bottom: 20px;
+}
+
+.pb-25 {
+    padding-bottom: 25px;
+}
+
+.pb-30 {
+    padding-bottom: 30px;
+}
+
+.pb-35 {
+    padding-bottom: 35px;
+}
+
+.pb-40 {
+    padding-bottom: 40px;
+}
+
+.pb-45 {
+    padding-bottom: 45px;
+}
+
+.pb-50 {
+    padding-bottom: 50px;
+}
+
+.pb-60 {
+    padding-bottom: 60px;
+}
+
+.pb-150 {
+    padding-bottom: 150px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mt-16 {
+    margin-top: 16px;
+}
+
+.mt-10 {
+    margin-top: 10px;
+}
+
+.mt-30 {
+    margin-top: 30px;
+}
+
+.mb-10 {
+    margin-bottom: 10px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.mb-30 {
+    margin-bottom: 30px;
+}
+
+.bg-ddd {
+    background: #f1f1f1;
+}
+
+.bg-fafafa {
+    background: #fafafa;
+}
+
+.dropdown {
+    z-index: 11;
+}
+
+.width-200 {
+    width: 200px;
+}
+
+.width-300 {
+    width: 300px;
+}
+
+.height-300 {
+    height: 300px;
+}
+
+.height-200 {
+    height: 200px;
+}
+
+.height-500 {
+    height: 500px;
+
+}
+
+#header {
+    display: block;
+    width: 100%;
+    z-index: 5555;
+}
+
+.fixed-header {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+}
+
+.fixed-sidebar {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 150px;
+}
+
+.fixed-booksidebar {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 110px;
+}
+
+.fixed-trip-nav {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 80px;
+    z-index: 1;
+}
+
+span.morecontent {
+    line-height: 10px;
+}
+
+.morecontent span {
+    display: none;
+    line-height: 25px;
+}
+
+.morelink {
+    display: block;
+    font-size: 12px;
+}
+
+[data-title] {
+
+    position: relative;
+    cursor: pointer;
+    transition: all 0.25s ease-in;
+}
+
+[data-title]:hover::before {
+    content: attr(data-title);
+    position: absolute;
+    top: -40px;
+    left: 0;
+    display: inline-block;
+    padding: 8px 6px;
+    border-radius: 2px;
+    background: #000;
+    color: #fff;
+    font-size: 12px;
+    font-family: sans-serif;
+    white-space: nowrap;
+    transition: all 0.25s ease-in;
+    z-index:1111111111111;
+
+}
+
+[data-in] {
+
+    position: relative;
+    cursor: pointer;
+    transition: all 0.25s ease-in;
+}
+
+[data-in]:hover::before {
+    content: attr(data-in);
+    position: absolute;
+    top: -40px;
+    left: 0;
+    display: inline-block;
+    padding: 8px 6px;
+    border-radius: 2px;
+    background: #000;
+    color: #fff;
+    font-size: 12px;
+    font-family: sans-serif;
+    white-space: nowrap;
+    transition: all 0.25s ease-in;
+    z-index:1111111111111;
+
+}
+
+
+.btn-arrow-right {
+    position: relative;
+    padding-left: 18px;
+    padding-right: 18px;
+}
+
+.btn-arrow-right {
+    padding-left: 36px;
+}
+
+
+.btn-arrow-right:before {
+    /* make two squares (before and after), looking similar to the button */
+
+    content: "";
+    position: absolute;
+    top: 4px;
+    /* move it down because of rounded corners */
+
+    width: 40px;
+    /* same as height */
+
+    height: 40px;
+    /* button_outer_height / sqrt(2) */
+
+    background: inherit;
+    /* use parent background */
+
+    border: inherit;
+    /* use parent border */
+
+    border-left-color: transparent;
+    /* hide left border */
+
+    border-bottom-color: transparent;
+    /* hide bottom border */
+
+    border-radius: 0px 4px 0px 0px;
+    /* round arrow corner, the shorthand property doesn't accept "inherit" so it is set to 4px */
+
+    -webkit-border-radius: 0px 4px 0px 0px;
+    -moz-border-radius: 0px 4px 0px 0px;
+}
+
+.btn-arrow-right:before {
+    transform: rotate(45deg);
+    /* rotate right arrow squares 45 deg to point right */
+
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+}
+
+
+.btn-arrow-right:before {
+    /* align the "before" square to the left */
+
+    left: -21px;
+}
+
+.btn-arrow-right:after {
+    /* align the "after" square to the right */
+
+    right: -11px;
+}
+
+
+.btn-arrow-right:before {
+    /* hide arrow tails background */
+
+    background-color: white;
+}
+
+
+.btn-arrow-left {
+    position: relative;
+    padding-left: 18px;
+    padding-right: 18px;
+}
+
+.btn-arrow-left {
+    padding-left: 36px;
+}
+
+
+.btn-arrow-left:before {
+    /* make two squares (before and after), looking similar to the button */
+
+    content: "";
+    position: absolute;
+    top: 4px;
+    /* move it down because of rounded corners */
+
+    width: 40px;
+    /* same as height */
+
+    height: 40px;
+    /* button_outer_height / sqrt(2) */
+
+    background: inherit;
+    /* use parent background */
+
+    border: inherit;
+    /* use parent border */
+
+    border-left-color: transparent;
+    /* hide left border */
+
+    border-bottom-color: transparent;
+    /* hide bottom border */
+
+    border-radius: 0px 4px 0px 0px;
+    /* round arrow corner, the shorthand property doesn't accept "inherit" so it is set to 4px */
+
+    -webkit-border-radius: 0px 4px 0px 0px;
+    -moz-border-radius: 0px 4px 0px 0px;
+}
+
+.btn-arrow-left:before {
+    transform: rotate(45deg);
+    /* rotate right arrow squares 45 deg to point right */
+
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+}
+
+.package_sticky {
+    position: fixed;
+    top: 80px;
+    background: #111111;
+    z-index: 1111111111;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    transition: all 1s ease;
+    display: block;
+    width: 100%;
+
+}
+
+
+.btn-arrow-left:before {
+    /* align the "before" square to the left */
+
+    right: -21px;
+}
+
+.btn-arrow-left:after {
+    /* align the "after" square to the right */
+
+    right: -11px;
+}
+
+
+.btn-arrow-left:before {
+    /* hide arrow tails background */
+
+    background-color: white;
+}
+input, select:focus, textarea {
+
+    font-size: 16px !important;
+
+}
+
+.date-haru {
+    cursor: pointer;
+}
+.star-content {
+    margin-top: 15px;
+}
+
+.so-icon li {
+    line-height: 30px !important;
+    padding: 0px 7px;
+    margin-right: 5px;
+}
+
+.facebook {
+    background: #4267B2;
+
+}
+
+.twitter {
+    background: #00acee;
+
+}
+
+.instagram {
+    background: #f2003c;
+}
+
+.youtube {
+    background: #ff0000;
+}
+
+.linkdin {
+    background: #0E76A8;
+}
+
+.pinterest {
+    background: #E60023;
+}
+
+.foot-img img {
+    height: 30px;
+}
+
+.foot-img a {
+    margin-right: 5px;
+}
